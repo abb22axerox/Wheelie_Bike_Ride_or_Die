@@ -318,8 +318,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1938280081}
-  - component: {fileID: 1938280080}
-  - component: {fileID: 1938280082}
   m_Layer: 0
   m_Name: RoadManager
   m_TagString: Untagged
@@ -327,26 +325,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1938280080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938280079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95578cdade10a4aa59925eb79774f458, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  numLanes: 2
-  positionsPerLane: 50
-  laneWidth: 2
-  positionCheckFrequncy: 1
-  playerScript: {fileID: 2030339488}
-  tempBool: 1
-  truckPrefab: {fileID: 1563066021955330464, guid: 5d08151c0da2f4764a70ec21b37132dd, type: 3}
-  spawnPos: {x: 0, y: 0, z: 0}
 --- !u!4 &1938280081
 Transform:
   m_ObjectHideFlags: 0
@@ -362,21 +340,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1938280082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938280079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 648837c2b65334e4fa33d3fa62149515, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridPanel: {fileID: 0}
-  textPrefab: {fileID: 0}
-  roadManager: {fileID: 1938280080}
 --- !u!1 &2030339487
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2030339489}
-  - component: {fileID: 2030339488}
+  - component: {fileID: 2030339490}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -394,22 +357,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2030339488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2030339487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae426c5cec66c4b52a82db3b8d5ec5fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  laneChangeCooldown: 0.5
-  laneChangeSpeed: 5
-  forwardSpeed: 5
-  roadManager: {fileID: 1938280080}
 --- !u!4 &2030339489
 Transform:
   m_ObjectHideFlags: 0
@@ -425,6 +372,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2030339490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030339487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7401921822ec24b00a59f5f376a9c8cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfLanes: 3
+  laneWidth: 2
+  laneChangeCooldown: 0.5
+  laneChangeDuration: 0.5
+  forwardSpeed: 10
 --- !u!1001 &2080328582
 PrefabInstance:
   m_ObjectHideFlags: 0
