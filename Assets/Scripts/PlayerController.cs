@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Splines;
+using Unity.Mathematics;  // For float3
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [Header("Wheelie Settings")]
     public float maxWheelieAngle = 45.0f;      // Maximum wheelie angle in degrees
     public float wheelieSmoothTime = 0.1f;     // Time it takes to smooth the wheelie angle
-    public bool demandWheelie = false;         // Allow negative wheelie angles (leaning forward)
+    public bool demandWheelie = false;         // Require wheelie within tolerance
 
     [Header("Tilt Settings")]
     public float maxTiltAngle = 30.0f;         // Maximum tilt angle when changing lanes
@@ -40,58 +42,77 @@ public class PlayerController : MonoBehaviour
     public float rocketOscillationAmplitude = 0.5f; // Amplitude of the vertical oscillation
     public float rocketOscillationFrequency = 1.0f; // Frequency of the vertical oscillation
 
+    [Header("Spline Settings")]
+    public SplineContainer splineContainer;        // Reference to the SplineContainer
+
     [Header("References")]
     public RoadSettings roadSettings;
-    public Transform modelPivot;               // Reference to the modelPivot child object
+    public Transform modelPivot;                   // Reference to the modelPivot child object
 
-    private int currentLane;                   // Current lane index (0 is the leftmost lane)
-    private float targetXPosition;             // Target X position after lane change
-    private float startXPosition;              // Starting X position before lane change
-    private bool isChangingLane = false;       // Is the player currently changing lanes
-    private float laneChangeTimer = 0.0f;      // Timer for lane change interpolation
-    private float cooldownTimer = 0.0f;        // Timer for lane change cooldown
+    private int currentLane;                       // Current lane index (0 is the leftmost lane)
+    private float targetSideOffset;                // Target side offset after lane change
+    private float startSideOffset;                 // Starting side offset before lane change
+    private bool isChangingLane = false;           // Is the player currently changing lanes
+    private float laneChangeTimer = 0.0f;          // Timer for lane change interpolation
+    private float cooldownTimer = 0.0f;            // Timer for lane change cooldown
 
-    private float currentSpeed;                // Current forward speed
-    private float targetSpeed;                 // Target forward speed
+    private float currentSpeed;                    // Current forward speed
+    private float targetSpeed;                     // Target forward speed
 
-    private float currentWheelieAngle = 0.0f;  // Current wheelie angle
-    private float targetWheelieAngle = 0.0f;   // Target wheelie angle
-    private float wheelieAngleVelocity = 0.0f; // Velocity reference for SmoothDamp
+    private float currentWheelieAngle = 0.0f;      // Current wheelie angle
+    private float targetWheelieAngle = 0.0f;       // Target wheelie angle
+    private float wheelieAngleVelocity = 0.0f;     // Velocity reference for SmoothDamp
 
-    private float currentTiltAngle = 0.0f;     // Current tilt angle
-    private float targetTiltAngle = 0.0f;      // Target tilt angle
-    private float tiltAngleVelocity = 0.0f;    // Velocity reference for SmoothDamp
+    private float currentTiltAngle = 0.0f;         // Current tilt angle
+    private float targetTiltAngle = 0.0f;          // Target tilt angle
+    private float tiltAngleVelocity = 0.0f;        // Velocity reference for SmoothDamp
 
-    private Quaternion initialModelRotation;   // Initial rotation of the modelPivot
+    private Quaternion initialModelRotation;       // Initial rotation of the modelPivot
 
     // Speed-Up Effect Variables
-    private float speedUpEffectTimer = 0.0f;   // Timer for the speed-up effect
-    private bool isSpeedUpActive = false;      // Is the speed-up effect active
-    private float currentSpeedMultiplier = 1.0f; // Current speed-up multiplier
+    private float speedUpEffectTimer = 0.0f;       // Timer for the speed-up effect
+    private bool isSpeedUpActive = false;          // Is the speed-up effect active
+    private float currentSpeedMultiplier = 1.0f;   // Current speed-up multiplier
 
     // Slow-Down Effect Variables
-    private float slowDownEffectTimer = 0.0f;   // Timer for the slow-down effect
-    private bool isSlowDownActive = false;      // Is the slow-down effect active
-    private float currentSlowMultiplier = 1.0f; // Current slow-down multiplier
+    private float slowDownEffectTimer = 0.0f;      // Timer for the slow-down effect
+    private bool isSlowDownActive = false;         // Is the slow-down effect active
+    private float currentSlowMultiplier = 1.0f;    // Current slow-down multiplier
 
     // Rocket Effect Variables
-    private bool isRocketActive = false;         // Is the rocket effect active
-    private float rocketEffectTimer = 0.0f;      // Timer for the rocket effect
-    private float initialYPosition;              // Initial Y position before rocket effect
-    private float currentRocketHeight = 0.0f;    // Current height offset due to rocket effect
+    private bool isRocketActive = false;           // Is the rocket effect active
+    private float rocketEffectTimer = 0.0f;        // Timer for the rocket effect
+    private float currentRocketHeight = 0.0f;      // Current height offset due to rocket effect
+
+    // Spline Variables
+    private Spline spline;
+    public float distanceTraveled = 0f;           // Total distance traveled along the spline
+    private float splineLength;                    // Total length of the spline
+    private float sideOffset = 0f;                 // Current side offset in the XZ-plane
 
     void Start()
     {
+        // Ensure the spline container is assigned
+        if (splineContainer == null)
+        {
+            Debug.LogError("SplineContainer is not assigned in PlayerController.");
+            return;
+        }
+
+        // Get the spline from the container
+        spline = splineContainer.Spline;
+
+        // Calculate the total length of the spline in world space
+        splineLength = SplineUtility.CalculateLength(spline, splineContainer.transform.localToWorldMatrix);
+
         // Initialize the player in the middle lane
         currentLane = roadSettings.numLanes / 2;
-        targetXPosition = transform.position.x;
+        sideOffset = GetLaneSideOffset(currentLane);
+        targetSideOffset = sideOffset;
 
         // Initialize speeds
         currentSpeed = baseSpeed;
         targetSpeed = baseSpeed;
-
-        // Store the initial Y position
-        initialYPosition = transform.position.y;
 
         if (modelPivot == null)
         {
@@ -132,9 +153,8 @@ public class PlayerController : MonoBehaviour
             float t = laneChangeTimer / laneChangeDuration;
             t = Mathf.Clamp01(t); // Ensure t doesn't go beyond 1
 
-            // Smoothly interpolate between the start and target positions
-            float newX = Mathf.Lerp(startXPosition, targetXPosition, t);
-            transform.position = new Vector3(newX, transform.position.y, transform.position.z);
+            // Smoothly interpolate between the start and target side offsets
+            sideOffset = Mathf.Lerp(startSideOffset, targetSideOffset, t);
 
             // Reset lane change when complete
             if (t >= 1.0f)
@@ -149,23 +169,54 @@ public class PlayerController : MonoBehaviour
         HandleSpeedUp();
         HandleSlowDown();
 
-        // Handle rocket effect
-        HandleRocket();
-
         // Handle wheelie input and speed adjustments
         HandleWheelieAndSpeed();
 
+        // Increase the distance traveled based on current speed
+        distanceTraveled += currentSpeed * Time.deltaTime;
+
+        // Handle looping or clamping at the end of the spline
+        if (distanceTraveled > splineLength)
+        {
+            // For now, loop back to start
+            distanceTraveled %= splineLength; // Loop back to the start
+        }
+
+        // Get the position along the spline with side offset
+        Vector3 position = SplineUtilityExtension.GetPositionAtDistance(
+            distanceTraveled,
+            spline,
+            splineContainer.transform,
+            sideOffset
+        );
+
+        // Handle rocket effect (modify Y position)
+        position = HandleRocketPosition(position);
+
+        // Set the player's position
+        transform.position = position;
+
+        // Optionally, set the player's rotation to face along the spline
+        // Evaluate the tangent at the current distance
+        float tRotation = distanceTraveled / splineLength;
+        tRotation = Mathf.Repeat(tRotation, 1f); // Ensure t is between 0 and 1
+
+        SplineUtility.Evaluate(spline, tRotation, out _, out float3 tangent, out _);
+        Vector3 worldTangent = splineContainer.transform.TransformDirection((Vector3)tangent);
+
+        if (worldTangent != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(worldTangent);
+        }
+
         // Handle tilt during lane changes
         HandleTilt();
-
-        // Move the player forward
-        transform.Translate(0, 0, currentSpeed * Time.deltaTime);
 
         // Apply wheelie and tilt angles to modelPivot rotation
         if (modelPivot != null)
         {
             Quaternion wheelieRotation = Quaternion.Euler(0, 0, -currentWheelieAngle);
-            Quaternion tiltRotation = Quaternion.Euler(currentTiltAngle, 0, 0);
+            Quaternion tiltRotation = Quaternion.Euler(-currentTiltAngle, 0, 0);
             modelPivot.localRotation = initialModelRotation * wheelieRotation * tiltRotation;
         }
     }
@@ -175,7 +226,7 @@ public class PlayerController : MonoBehaviour
         if (currentLane > 0)
         {
             currentLane--;
-            targetTiltAngle = -maxTiltAngle; // Tilt to the left
+            targetTiltAngle = maxTiltAngle; // Tilt to the left
             StartLaneChange();
         }
     }
@@ -185,31 +236,78 @@ public class PlayerController : MonoBehaviour
         if (currentLane < roadSettings.numLanes - 1)
         {
             currentLane++;
-            targetTiltAngle = maxTiltAngle; // Tilt to the right
+            targetTiltAngle = -maxTiltAngle; // Tilt to the right
             StartLaneChange();
         }
     }
 
     void StartLaneChange()
     {
-        startXPosition = transform.position.x;
-        targetXPosition = GetLaneXPosition(currentLane);
+        startSideOffset = sideOffset;
+        targetSideOffset = GetLaneSideOffset(currentLane);
         isChangingLane = true;
         laneChangeTimer = 0.0f;
     }
 
-    float GetLaneXPosition(int laneIndex)
+    float GetLaneSideOffset(int laneIndex)
     {
-        // Calculate X position based on lane index
+        // Calculate side offset based on lane index
         float centerLane = (roadSettings.numLanes - 1) / 2.0f;
         return (laneIndex - centerLane) * roadSettings.laneWidth;
+    }
+
+    Vector3 HandleRocketPosition(Vector3 position)
+    {
+        if (isRocketActive)
+        {
+            // Increment the rocket effect timer
+            rocketEffectTimer += Time.deltaTime;
+
+            float totalDuration = rocketRampUpTime + rocketDuration + rocketRampDownTime;
+
+            if (rocketEffectTimer < rocketRampUpTime)
+            {
+                // Ascending phase
+                float t = rocketEffectTimer / rocketRampUpTime;
+                currentRocketHeight = Mathf.Lerp(0.0f, rocketHeight, t);
+            }
+            else if (rocketEffectTimer < rocketRampUpTime + rocketDuration)
+            {
+                // Full height phase
+                currentRocketHeight = rocketHeight;
+            }
+            else if (rocketEffectTimer < totalDuration)
+            {
+                // Descending phase
+                float t = (rocketEffectTimer - rocketRampUpTime - rocketDuration) / rocketRampDownTime;
+                currentRocketHeight = Mathf.Lerp(rocketHeight, 0.0f, t);
+            }
+            else
+            {
+                // Rocket effect has ended
+                currentRocketHeight = 0.0f;
+                isRocketActive = false;
+            }
+
+            // Apply vertical oscillation during the rocket effect
+            float oscillation = 0.0f;
+            if (currentRocketHeight > 0.0f)
+            {
+                oscillation = rocketOscillationAmplitude * Mathf.Sin(rocketOscillationFrequency * rocketEffectTimer * Mathf.PI * 2);
+            }
+
+            // Update the player's Y position by adding to the spline's Y position
+            position.y += currentRocketHeight + oscillation;
+        }
+
+        return position;
     }
 
     void CheckWheelieAngle(float wheelieAngle)
     {
         const float errorTol = 5f;
         bool doKillPlayer = wheelieAngle > maxWheelieAngle - errorTol || wheelieAngle <= errorTol;
-        if (doKillPlayer) Debug.Log("Killed by failing the wheelie");
+        // if (doKillPlayer) Debug.Log("Killed by failing the wheelie");
     }
 
     void HandleWheelieAndSpeed()
@@ -350,66 +448,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void HandleRocket()
-    {
-        if (isRocketActive)
-        {
-            // Increment the rocket effect timer
-            rocketEffectTimer += Time.deltaTime;
-
-            float totalDuration = rocketRampUpTime + rocketDuration + rocketRampDownTime;
-
-            if (rocketEffectTimer < rocketRampUpTime)
-            {
-                // Ascending phase
-                float t = rocketEffectTimer / rocketRampUpTime;
-                currentRocketHeight = Mathf.Lerp(0.0f, rocketHeight, t);
-            }
-            else if (rocketEffectTimer < rocketRampUpTime + rocketDuration)
-            {
-                // Full height phase
-                currentRocketHeight = rocketHeight;
-            }
-            else if (rocketEffectTimer < totalDuration)
-            {
-                // Descending phase
-                float t = (rocketEffectTimer - rocketRampUpTime - rocketDuration) / rocketRampDownTime;
-                currentRocketHeight = Mathf.Lerp(rocketHeight, 0.0f, t);
-            }
-            else
-            {
-                // Rocket effect has ended
-                currentRocketHeight = 0.0f;
-                isRocketActive = false;
-            }
-
-            // Apply vertical oscillation during the rocket effect
-            float oscillation = 0.0f;
-            if (currentRocketHeight > 0.0f)
-            {
-                oscillation = rocketOscillationAmplitude * Mathf.Sin(rocketOscillationFrequency * rocketEffectTimer * Mathf.PI * 2);
-            }
-
-            // Update the player's Y position
-            float newYPosition = initialYPosition + currentRocketHeight + oscillation;
-            Vector3 position = transform.position;
-            position.y = newYPosition;
-            transform.position = position;
-        }
-        else
-        {
-            // Ensure the player's Y position is reset to initialYPosition
-            Vector3 position = transform.position;
-            position.y = initialYPosition;
-            transform.position = position;
-        }
-    }
-
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Obstacle"))
         {
             Debug.Log("Killed by crashing into an obstacle");
+            // Implement player death logic here
         }
     }
 
@@ -432,6 +476,5 @@ public class PlayerController : MonoBehaviour
         // Activate the rocket effect
         isRocketActive = true;
         rocketEffectTimer = 0.0f;
-        initialYPosition = transform.position.y; // Store the initial Y position
     }
 }

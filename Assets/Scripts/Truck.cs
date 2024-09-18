@@ -1,15 +1,26 @@
-using System;
 using UnityEngine;
+using UnityEngine.Splines;
+using Unity.Mathematics;  // For float3
 
 public class Truck : MonoBehaviour
 {
-    [Header("Movement Settings")]
-    public float speed = 10.0f;          // Speed at which the truck moves toward the player
-    public float despawnDistance = 20.0f; // Distance behind the player at which the truck will be destroyed
-    [Range(-1, 1)] public int despawnDirection = -1; // sign value
+    [Header("Spline Settings")]
+    private SplineContainer splineContainer;     // Reference to the SplineContainer
+    public float speed = 10f;                   // Speed at which the truck moves along the spline
+    public bool loop = false;                   // Whether the truck should loop back to the start
+
+    [Header("Offset Settings")]
+    public float sideOffset = 0f;               // Side offset in the XZ-plane
+
+    [Header("Despawn Settings")]
+    public float despawnDistance = 20.0f;       // Distance behind the player at which the truck will be destroyed
 
     [Header("References")]
     private Transform playerTransform;
+
+    private Spline spline;
+    private float distanceTraveled = 0f;        // Total distance traveled along the spline
+    private float splineLength;                 // Total length of the spline
 
     void Start()
     {
@@ -18,22 +29,76 @@ public class Truck : MonoBehaviour
         if (player != null)
         {
             playerTransform = player.transform;
+
+            distanceTraveled = player.GetComponent<PlayerController>().distanceTraveled + GameObject.FindGameObjectWithTag("ObstacleSpawner").GetComponent<ObstacleSpawner>().spawnDistance;
         }
-        else
+        else Debug.Log("Player Not found");
+
+        // Find the player in the scene (assuming it has the "Player" tag)
+        splineContainer = GameObject.FindGameObjectWithTag("RoadSpline").GetComponent<SplineContainer>();
+        if (player != null)
         {
-            Debug.LogError("Player object with tag 'Player' not found!");
+            spline = splineContainer.Spline;
+
+            splineLength = SplineUtility.CalculateLength(spline, splineContainer.transform.localToWorldMatrix);
         }
+        else Debug.Log("Spline container Not found");
     }
 
     void Update()
     {
-        // Move the truck towards the player
-        transform.Translate(0, 0, speed * Time.deltaTime);
+        if (spline == null)
+            return;
+
+        // Increase the distance traveled based on speed
+        distanceTraveled += speed * Time.deltaTime;
+
+        // Handle looping or clamping at the end of the spline
+        if (distanceTraveled > splineLength)
+        {
+            if (loop)
+            {
+                distanceTraveled %= splineLength; // Loop back to the start
+            }
+            else
+            {
+                Destroy(gameObject); // Destroy the truck when it reaches the end
+                return;
+            }
+        }
+
+        // Get the position along the spline with side offset
+        Vector3 position = SplineUtilityExtension.GetPositionAtDistance(
+            distanceTraveled,
+            spline,
+            splineContainer.transform,
+            sideOffset
+        );
+
+        // Set the truck's position
+        transform.position = position;
+
+        // Optionally, set the truck's rotation to face along the spline
+        // Evaluate the tangent at the current distance
+        float t = distanceTraveled / splineLength;
+        t = Mathf.Repeat(t, 1f); // Ensure t is between 0 and 1
+
+        SplineUtility.Evaluate(spline, t, out _, out float3 tangent, out _);
+        Vector3 worldTangent = splineContainer.transform.TransformDirection((Vector3)tangent);
+
+        if (worldTangent != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(worldTangent);
+        }
 
         // Destroy the truck when it is behind the player by despawnDistance
-        if (playerTransform != null && Mathf.Abs(transform.position.z - playerTransform.position.z) > despawnDistance && Mathf.Sign(transform.position.z - playerTransform.position.z) == despawnDirection)
+        if (playerTransform != null)
         {
-            Destroy(gameObject);
+            float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+            if (distanceToPlayer > despawnDistance)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

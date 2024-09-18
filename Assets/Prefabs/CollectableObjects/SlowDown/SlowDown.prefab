@@ -69,12 +69,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bc459aafa6184c0cab6e9d20060b923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 10
+  loop: 0
+  sideOffset: 0
   rotationSpeed: 100
   bobbingAmplitude: 0.2
   bobbingFrequency: 5
-  speed: 10
-  despawnDistance: 100
-  despawnDirection: -1
+  despawnDistance: 100000
 --- !u!54 &-4916403150733179189
 Rigidbody:
   m_ObjectHideFlags: 0
