@@ -1,5 +1,3 @@
-
-
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -16,11 +14,31 @@ public class PlayerController : MonoBehaviour
     [Header("Wheelie Settings")]
     public float maxWheelieAngle = 45.0f;      // Maximum wheelie angle in degrees
     public float wheelieSmoothTime = 0.1f;     // Time it takes to smooth the wheelie angle
-    public bool demandWheelie = true;
+    public bool demandWheelie = false;         // Allow negative wheelie angles (leaning forward)
 
     [Header("Tilt Settings")]
     public float maxTiltAngle = 30.0f;         // Maximum tilt angle when changing lanes
     public float tiltSmoothTime = 0.1f;        // Time it takes to smooth the tilt angle
+
+    [Header("Speed-Up Settings")]
+    public float speedUpMultiplier = 2.0f;     // Multiplier for the speed-up effect
+    public float speedUpDuration = 5.0f;       // Duration of the speed-up effect at full strength
+    public float speedUpRampUpTime = 1.0f;     // Time to ramp up to full speed-up
+    public float speedUpRampDownTime = 1.0f;   // Time to ramp down from full speed-up
+
+    [Header("Slow-Down Settings")]
+    public float slowDownMultiplier = 0.5f;     // Multiplier for the slow-down effect
+    public float slowDownDuration = 5.0f;       // Duration of the slow-down effect at full strength
+    public float slowDownRampUpTime = 1.0f;     // Time to ramp down to full slow-down
+    public float slowDownRampDownTime = 1.0f;   // Time to ramp up from full slow-down
+
+    [Header("Rocket Effect Settings")]
+    public float rocketHeight = 5.0f;              // Height to which the player moves up during the rocket effect
+    public float rocketDuration = 5.0f;            // Duration of the rocket effect at full height
+    public float rocketRampUpTime = 1.0f;          // Time to ascend to full height
+    public float rocketRampDownTime = 1.0f;        // Time to descend back to original height
+    public float rocketOscillationAmplitude = 0.5f; // Amplitude of the vertical oscillation
+    public float rocketOscillationFrequency = 1.0f; // Frequency of the vertical oscillation
 
     [Header("References")]
     public RoadSettings roadSettings;
@@ -35,7 +53,6 @@ public class PlayerController : MonoBehaviour
 
     private float currentSpeed;                // Current forward speed
     private float targetSpeed;                 // Target forward speed
-    private float speedVelocity = 0.0f;        // Velocity reference for SmoothDamp
 
     private float currentWheelieAngle = 0.0f;  // Current wheelie angle
     private float targetWheelieAngle = 0.0f;   // Target wheelie angle
@@ -47,6 +64,22 @@ public class PlayerController : MonoBehaviour
 
     private Quaternion initialModelRotation;   // Initial rotation of the modelPivot
 
+    // Speed-Up Effect Variables
+    private float speedUpEffectTimer = 0.0f;   // Timer for the speed-up effect
+    private bool isSpeedUpActive = false;      // Is the speed-up effect active
+    private float currentSpeedMultiplier = 1.0f; // Current speed-up multiplier
+
+    // Slow-Down Effect Variables
+    private float slowDownEffectTimer = 0.0f;   // Timer for the slow-down effect
+    private bool isSlowDownActive = false;      // Is the slow-down effect active
+    private float currentSlowMultiplier = 1.0f; // Current slow-down multiplier
+
+    // Rocket Effect Variables
+    private bool isRocketActive = false;         // Is the rocket effect active
+    private float rocketEffectTimer = 0.0f;      // Timer for the rocket effect
+    private float initialYPosition;              // Initial Y position before rocket effect
+    private float currentRocketHeight = 0.0f;    // Current height offset due to rocket effect
+
     void Start()
     {
         // Initialize the player in the middle lane
@@ -56,6 +89,9 @@ public class PlayerController : MonoBehaviour
         // Initialize speeds
         currentSpeed = baseSpeed;
         targetSpeed = baseSpeed;
+
+        // Store the initial Y position
+        initialYPosition = transform.position.y;
 
         if (modelPivot == null)
         {
@@ -108,6 +144,13 @@ public class PlayerController : MonoBehaviour
                 cooldownTimer = laneChangeCooldown;
             }
         }
+
+        // Handle speed-up and slow-down effects
+        HandleSpeedUp();
+        HandleSlowDown();
+
+        // Handle rocket effect
+        HandleRocket();
 
         // Handle wheelie input and speed adjustments
         HandleWheelieAndSpeed();
@@ -164,51 +207,57 @@ public class PlayerController : MonoBehaviour
 
     void CheckWheelieAngle(float wheelieAngle)
     {
-        bool doKillPlayer = wheelieAngle != Mathf.Clamp(wheelieAngle, 0, maxWheelieAngle);
+        const float errorTol = 5f;
+        bool doKillPlayer = wheelieAngle > maxWheelieAngle - errorTol || wheelieAngle <= errorTol;
         if (doKillPlayer) Debug.Log("Killed by failing the wheelie");
     }
 
     void HandleWheelieAndSpeed()
     {
-        // Determine target speed and wheelie angle based on input
+        // Determine target wheelie angle based on input
         if (Input.GetKey(KeyCode.W))
         {
-            // Increase speed and wheelie angle
-            targetSpeed = baseSpeed + maxSpeedBoost;
+            // Increase wheelie angle
             targetWheelieAngle = maxWheelieAngle;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            // Decrease speed and wheelie angle
-            targetSpeed = baseSpeed - maxSpeedBoost;
+            // Decrease wheelie angle (lean forward)
             targetWheelieAngle = -maxWheelieAngle;
         }
         else
         {
-            // Return to base speed and level wheelie angle
-            targetSpeed = baseSpeed;
+            // Return to level wheelie angle
             targetWheelieAngle = 0.0f;
         }
-
-        // Smoothly adjust current speed towards target speed
-        currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedVelocity, speedAcceleration);
-
-        // Clamp current speed
-        currentSpeed = Mathf.Clamp(currentSpeed, baseSpeed - maxSpeedBoost, baseSpeed + maxSpeedBoost);
 
         // Smoothly adjust wheelie angle towards target angle
         currentWheelieAngle = Mathf.SmoothDamp(currentWheelieAngle, targetWheelieAngle, ref wheelieAngleVelocity, wheelieSmoothTime);
 
         // Clamp wheelie angle
-        if (demandWheelie)
-        {
-            CheckWheelieAngle(currentWheelieAngle);
-            currentWheelieAngle = Mathf.Clamp(currentWheelieAngle, 0, maxWheelieAngle);
-        }
-        else
-        {
-            currentWheelieAngle = Mathf.Clamp(currentWheelieAngle, -maxWheelieAngle, maxWheelieAngle);
-        }
+        if (demandWheelie) CheckWheelieAngle(currentWheelieAngle);
+
+        currentWheelieAngle = Mathf.Clamp(currentWheelieAngle, 0, maxWheelieAngle);
+
+        // Compute wheelie factor (-1 to 1)
+        float wheelieFactor = currentWheelieAngle / maxWheelieAngle;
+
+        // Compute speed boost based on wheelie angle
+        float speedBoost = wheelieFactor * maxSpeedBoost;
+
+        // Set target speed
+        targetSpeed = baseSpeed + speedBoost;
+
+        // Apply speed-up and slow-down multipliers to targetSpeed
+        float adjustedTargetSpeed = targetSpeed * currentSpeedMultiplier * currentSlowMultiplier;
+
+        // Smoothly adjust current speed towards adjusted target speed
+        currentSpeed = Mathf.MoveTowards(currentSpeed, adjustedTargetSpeed, speedAcceleration * Time.deltaTime);
+
+        // Clamp current speed
+        float minSpeed = (baseSpeed - maxSpeedBoost) * currentSpeedMultiplier * currentSlowMultiplier;
+        float maxSpeed = (baseSpeed + maxSpeedBoost) * currentSpeedMultiplier * currentSlowMultiplier;
+        currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed);
     }
 
     void HandleTilt()
@@ -221,5 +270,168 @@ public class PlayerController : MonoBehaviour
 
         // Clamp tilt angle
         currentTiltAngle = Mathf.Clamp(currentTiltAngle, -maxTiltAngle, maxTiltAngle);
+    }
+
+    void HandleSpeedUp()
+    {
+        if (isSpeedUpActive)
+        {
+            // Increment the speed-up effect timer
+            speedUpEffectTimer += Time.deltaTime;
+
+            float totalDuration = speedUpRampUpTime + speedUpDuration + speedUpRampDownTime;
+
+            if (speedUpEffectTimer < speedUpRampUpTime)
+            {
+                // Ramp up phase
+                float t = speedUpEffectTimer / speedUpRampUpTime;
+                currentSpeedMultiplier = Mathf.Lerp(1.0f, speedUpMultiplier, t);
+            }
+            else if (speedUpEffectTimer < speedUpRampUpTime + speedUpDuration)
+            {
+                // Full speed-up phase
+                currentSpeedMultiplier = speedUpMultiplier;
+            }
+            else if (speedUpEffectTimer < totalDuration)
+            {
+                // Ramp down phase
+                float t = (speedUpEffectTimer - speedUpRampUpTime - speedUpDuration) / speedUpRampDownTime;
+                currentSpeedMultiplier = Mathf.Lerp(speedUpMultiplier, 1.0f, t);
+            }
+            else
+            {
+                // Speed-up effect has ended
+                currentSpeedMultiplier = 1.0f;
+                isSpeedUpActive = false;
+            }
+        }
+        else
+        {
+            currentSpeedMultiplier = 1.0f;
+        }
+    }
+
+    void HandleSlowDown()
+    {
+        if (isSlowDownActive)
+        {
+            // Increment the slow-down effect timer
+            slowDownEffectTimer += Time.deltaTime;
+
+            float totalDuration = slowDownRampUpTime + slowDownDuration + slowDownRampDownTime;
+
+            if (slowDownEffectTimer < slowDownRampUpTime)
+            {
+                // Ramp down phase (decrease speed)
+                float t = slowDownEffectTimer / slowDownRampUpTime;
+                currentSlowMultiplier = Mathf.Lerp(1.0f, slowDownMultiplier, t);
+            }
+            else if (slowDownEffectTimer < slowDownRampUpTime + slowDownDuration)
+            {
+                // Full slow-down phase
+                currentSlowMultiplier = slowDownMultiplier;
+            }
+            else if (slowDownEffectTimer < totalDuration)
+            {
+                // Ramp up phase (return to normal speed)
+                float t = (slowDownEffectTimer - slowDownRampUpTime - slowDownDuration) / slowDownRampDownTime;
+                currentSlowMultiplier = Mathf.Lerp(slowDownMultiplier, 1.0f, t);
+            }
+            else
+            {
+                // Slow-down effect has ended
+                currentSlowMultiplier = 1.0f;
+                isSlowDownActive = false;
+            }
+        }
+        else
+        {
+            currentSlowMultiplier = 1.0f;
+        }
+    }
+
+    void HandleRocket()
+    {
+        if (isRocketActive)
+        {
+            // Increment the rocket effect timer
+            rocketEffectTimer += Time.deltaTime;
+
+            float totalDuration = rocketRampUpTime + rocketDuration + rocketRampDownTime;
+
+            if (rocketEffectTimer < rocketRampUpTime)
+            {
+                // Ascending phase
+                float t = rocketEffectTimer / rocketRampUpTime;
+                currentRocketHeight = Mathf.Lerp(0.0f, rocketHeight, t);
+            }
+            else if (rocketEffectTimer < rocketRampUpTime + rocketDuration)
+            {
+                // Full height phase
+                currentRocketHeight = rocketHeight;
+            }
+            else if (rocketEffectTimer < totalDuration)
+            {
+                // Descending phase
+                float t = (rocketEffectTimer - rocketRampUpTime - rocketDuration) / rocketRampDownTime;
+                currentRocketHeight = Mathf.Lerp(rocketHeight, 0.0f, t);
+            }
+            else
+            {
+                // Rocket effect has ended
+                currentRocketHeight = 0.0f;
+                isRocketActive = false;
+            }
+
+            // Apply vertical oscillation during the rocket effect
+            float oscillation = 0.0f;
+            if (currentRocketHeight > 0.0f)
+            {
+                oscillation = rocketOscillationAmplitude * Mathf.Sin(rocketOscillationFrequency * rocketEffectTimer * Mathf.PI * 2);
+            }
+
+            // Update the player's Y position
+            float newYPosition = initialYPosition + currentRocketHeight + oscillation;
+            Vector3 position = transform.position;
+            position.y = newYPosition;
+            transform.position = position;
+        }
+        else
+        {
+            // Ensure the player's Y position is reset to initialYPosition
+            Vector3 position = transform.position;
+            position.y = initialYPosition;
+            transform.position = position;
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Obstacle"))
+        {
+            Debug.Log("Killed by crashing into an obstacle");
+        }
+    }
+
+    public void DoSpeedUp()
+    {
+        // Apply speed up temporarily
+        isSpeedUpActive = true;
+        speedUpEffectTimer = 0.0f;
+    }
+
+    public void DoSlowDown()
+    {
+        // Apply slow down temporarily
+        isSlowDownActive = true;
+        slowDownEffectTimer = 0.0f;
+    }
+
+    public void DoRocket()
+    {
+        // Activate the rocket effect
+        isRocketActive = true;
+        rocketEffectTimer = 0.0f;
+        initialYPosition = transform.position.y; // Store the initial Y position
     }
 }

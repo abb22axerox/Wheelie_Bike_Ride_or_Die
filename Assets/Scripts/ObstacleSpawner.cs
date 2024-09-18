@@ -1,6 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[System.Serializable]
+public struct PrefabInput
+{
+    public GameObject prefab;
+    public float weight;
+}
+
 public class ObstacleSpawner : MonoBehaviour
 {
     [Header("Spawner Settings")]
@@ -12,12 +19,12 @@ public class ObstacleSpawner : MonoBehaviour
     [Header("Truck Settings")]
     public int minTrucksPerLine = 1;            // Minimum number of trucks per line
     public int maxTrucksPerLine = 2;            // Maximum number of trucks per line
-    public GameObject[] truckPrefabs;           // Array of truck prefabs
+    public InputPrefab[] truckPrefabs;          // Array of truck prefabs with weights
 
     [Header("Collectable Settings")]
     public int minCollectablesPerLine = 1;      // Minimum number of collectables per line
     public int maxCollectablesPerLine = 3;      // Maximum number of collectables per line
-    public GameObject[] collectablePrefabs;     // Array of collectable prefabs
+    public InputPrefab[] collectablePrefabs;    // Array of collectable prefabs with weights
 
     [Header("References")]
     public RoadSettings roadSettings;
@@ -122,14 +129,39 @@ public class ObstacleSpawner : MonoBehaviour
 
     GameObject RandomTruck()
     {
-        int randomIndex = Random.Range(0, truckPrefabs.Length);
-        return truckPrefabs[randomIndex];
+        return GetRandomPrefab(truckPrefabs);
     }
 
     GameObject RandomCollectable()
     {
-        int randomIndex = Random.Range(0, collectablePrefabs.Length);
-        return collectablePrefabs[randomIndex];
+        return GetRandomPrefab(collectablePrefabs);
+    }
+
+    GameObject GetRandomPrefab(InputPrefab[] prefabInputs)
+    {
+        // Calculate total weight
+        float totalWeight = 0f;
+        foreach (InputPrefab prefabInput in prefabInputs)
+        {
+            totalWeight += prefabInput.weight;
+        }
+
+        // Get a random value between 0 and totalWeight
+        float randomValue = Random.Range(0f, totalWeight);
+
+        // Iterate through the prefabs and select based on the weights
+        float cumulativeWeight = 0f;
+        foreach (InputPrefab prefabInput in prefabInputs)
+        {
+            cumulativeWeight += prefabInput.weight;
+            if (randomValue <= cumulativeWeight)
+            {
+                return prefabInput.prefab;
+            }
+        }
+
+        // Fallback in case of floating-point inaccuracies
+        return prefabInputs[prefabInputs.Length - 1].prefab;
     }
 
     void ShuffleList(List<int> list)

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Collectable : MonoBehaviour
 {
     [Header("Rotation Settings")]
     public float rotationSpeed = 100f;    // Rotation speed in degrees per second
@@ -42,16 +42,5 @@ public class Coin : MonoBehaviour
         // Bobbing motion
         float newY = startPosition.y + Mathf.Sin(Time.time * bobbingFrequency) * bobbingAmplitude;
         transform.position = new Vector3(transform.position.x, newY, transform.position.z);
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player")) CollectCoin();
-    }
-
-    void CollectCoin()
-    {
-        Debug.Log("Coin collected");
-        Destroy(gameObject);
     }
 }
