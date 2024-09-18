@@ -3,14 +3,14 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     [Header("Rotation Settings")]
-    public float rotationSpeed = 100f;   // Rotation speed in degrees per second
+    public float rotationSpeed = 100f;    // Rotation speed in degrees per second
 
     [Header("Bobbing Settings")]
-    public float bobbingAmplitude = 0.5f;   // How high the coin moves up and down
-    public float bobbingFrequency = 1f;     // How fast the coin moves up and down
+    public float bobbingAmplitude = 0.5f; // How high the coin moves up and down
+    public float bobbingFrequency = 1f;   // How fast the coin moves up and down
 
     [Header("Movement Settings")]
-    public float speed = 10.0f;          // Speed at which the truck moves toward the player
+    public float speed = 10.0f;           // Speed at which the truck moves toward the player
     public float despawnDistance = 20.0f; // Distance behind the player at which the truck will be destroyed
     [Range(-1, 1)] public int despawnDirection = -1; // sign value
 
@@ -46,7 +46,7 @@ public class Coin : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        CollectCoin();
+        if (other.CompareTag("Player")) CollectCoin();
     }
 
     void CollectCoin()
