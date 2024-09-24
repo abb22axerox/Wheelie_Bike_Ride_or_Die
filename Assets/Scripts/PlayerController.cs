@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour
     public float distanceTraveled = 0f;           // Total distance traveled along the spline
     private float splineLength;                    // Total length of the spline
     private float sideOffset = 0f;                 // Current side offset in the XZ-plane
+    private string InputBuffer = "None";
 
     void Start()
     {
@@ -133,18 +134,24 @@ public class PlayerController : MonoBehaviour
             cooldownTimer -= Time.deltaTime;
         }
 
+        if (Input.GetKeyDown(KeyCode.A)) InputBuffer = "Left";
+        else if (Input.GetKeyDown(KeyCode.D)) InputBuffer = "Right";
+
         // Handle lane change input
         if (!isChangingLane && cooldownTimer <= 0)
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            if (InputBuffer == "Left")
             {
                 MoveLeft();
+                InputBuffer = "None";
             }
-            else if (Input.GetKeyDown(KeyCode.D))
+            else if (InputBuffer == "Right")
             {
                 MoveRight();
+                InputBuffer = "None";
             }
         }
+
 
         // Handle lane changing movement
         if (isChangingLane)
@@ -305,9 +312,11 @@ public class PlayerController : MonoBehaviour
 
     void CheckWheelieAngle(float wheelieAngle)
     {
+        if (!demandWheelie) return;
+        
         const float errorTol = 5f;
         bool doKillPlayer = wheelieAngle > maxWheelieAngle - errorTol || wheelieAngle <= errorTol;
-        // if (doKillPlayer) Debug.Log("Killed by failing the wheelie");
+        if (doKillPlayer) Debug.Log("Killed by failing the wheelie");
     }
 
     void HandleWheelieAndSpeed()
@@ -333,7 +342,7 @@ public class PlayerController : MonoBehaviour
         currentWheelieAngle = Mathf.SmoothDamp(currentWheelieAngle, targetWheelieAngle, ref wheelieAngleVelocity, wheelieSmoothTime);
 
         // Clamp wheelie angle
-        if (demandWheelie) CheckWheelieAngle(currentWheelieAngle);
+        CheckWheelieAngle(currentWheelieAngle);
 
         currentWheelieAngle = Mathf.Clamp(currentWheelieAngle, 0, maxWheelieAngle);
 
@@ -453,7 +462,6 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Obstacle"))
         {
             Debug.Log("Killed by crashing into an obstacle");
-            // Implement player death logic here
         }
     }
 

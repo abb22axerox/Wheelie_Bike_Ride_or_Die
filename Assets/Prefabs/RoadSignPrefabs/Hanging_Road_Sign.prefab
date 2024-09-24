@@ -493,11 +493,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 50832179427995939}
-  - component: {fileID: -7592910967965661645}
   - component: {fileID: 2207887675881220238}
   - component: {fileID: -7209945440173392891}
+  - component: {fileID: -7405461656667099995}
   m_Layer: 0
-  m_Name: Blue_Truck
+  m_Name: Hanging_Road_Sign
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -513,7 +513,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4791762408139030115}
@@ -528,22 +528,6 @@ Transform:
   - {fileID: 5323130092201233292}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &-7592910967965661645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3958609379848094512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ed2fea69d82d4d98ac66274df7e846b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  loop: 1
-  sideOffset: 0
-  despawnDistance: 100
 --- !u!65 &2207887675881220238
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -592,6 +576,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-7405461656667099995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3958609379848094512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d39601c0e4f940548e68d7ed2e6c858, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loop: 1
+  heightOffset: 5
+  despawnTime: 10
 --- !u!1 &5652376282014860881
 GameObject:
   m_ObjectHideFlags: 0

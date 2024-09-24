@@ -1,23 +1,24 @@
 using UnityEngine;
 using UnityEngine.Splines;
-using Unity.Mathematics;  // For float3
+using Unity.Mathematics;
+using System;  // For float3
 
-public class Truck : MonoBehaviour
+public class HangingRoadSign : MonoBehaviour
 {
     [Header("Spline Settings")]
     private SplineContainer splineContainer;     // Reference to the SplineContainer
-    public float speed = 10f;                   // Speed at which the truck moves along the spline
     public bool loop = false;                   // Whether the truck should loop back to the start
 
     [Header("Offset Settings")]
-    public float sideOffset = 0f;               // Side offset in the XZ-plane
+    public float heightOffset = 0f;
+    [NonSerialized] public float sideOffset = 0f;               // Side offset in the XZ-plane
 
     [Header("Despawn Settings")]
-    public float despawnDistance = 20.0f;       // Distance behind the player at which the truck will be destroyed
+    public float despawnTime = 20.0f;       // Distance behind the player at which the truck will be destroyed
 
     private Spline spline;
     private float distanceTraveled = 0f;        // Total distance traveled along the spline
-    private float distanceTraveledFromStart = 0f;
+    private float timer = 0f;
     private float splineLength;                 // Total length of the spline
 
     void Start()
@@ -49,10 +50,6 @@ public class Truck : MonoBehaviour
         if (spline == null)
             return;
 
-        // Increase the distance traveled based on speed
-        distanceTraveled -= speed * Time.deltaTime;
-        distanceTraveledFromStart -= speed * Time.deltaTime;
-
         // Handle looping or clamping at the end of the spline
         if (distanceTraveled > splineLength)
         {
@@ -77,6 +74,7 @@ public class Truck : MonoBehaviour
 
         // Set the truck's position
         transform.position = position;
+        transform.position = new Vector3(transform.position.x, transform.position.y + heightOffset, transform.position.z);
 
         // Optionally, set the truck's rotation to face along the spline
         // Evaluate the tangent at the current distance
@@ -91,6 +89,7 @@ public class Truck : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(worldTangent);
         }
 
-        if (Mathf.Abs(distanceTraveledFromStart) > despawnDistance) Destroy(gameObject);
+        timer += Time.deltaTime;
+        if (timer > despawnTime) Destroy(gameObject);
     }
 }
