@@ -14,7 +14,9 @@ public class ObstacleSpawner : MonoBehaviour
     public float spawnDistance = 50.0f;         // Distance ahead of the player to start spawning obstacles
     public float minSpawnInterval = 15.0f;      // Minimum distance between lines
     public float maxSpawnInterval = 25.0f;      // Maximum distance between lines
+    public float BaseSpawnInterval = 5.0f;
     public int numberOfLinesAhead = 5;          // How many lines ahead to keep spawned
+    [Range(0.0f, 0.5f)] public float Difficulty;
 
     [Header("Truck Settings")]
     public int minTrucksPerLine = 1;            // Minimum number of trucks per line
@@ -29,23 +31,16 @@ public class ObstacleSpawner : MonoBehaviour
     [Header("References")]
     public RoadSettings roadSettings;
 
-    private Transform playerTransform;          // Reference to the player's transform
+    private PlayerController player;          // Reference to the player's transform
     private float nextSpawnZ;                   // Z position where the next line should be spawned
     private List<float> lanePositions = new List<float>(); // X positions of each lane
     private bool spawnTruckLine = true;         // Toggle to alternate between truck and collectable lines
+    private float DifficultySpeedIncrease = 1.0f;
 
     void Start()
     {
         // Find the player in the scene (assuming it has the "Player" tag)
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            playerTransform = player.transform;
-        }
-        else
-        {
-            Debug.LogError("Player object with tag 'Player' not found!");
-        }
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         // Calculate lane positions based on number of lanes and lane width
         float centerLane = (roadSettings.numLanes - 1) / 2.0f;
@@ -56,16 +51,18 @@ public class ObstacleSpawner : MonoBehaviour
         }
 
         // Initialize nextSpawnZ to start spawning ahead of the player
-        nextSpawnZ = playerTransform.position.z + spawnDistance;
+        nextSpawnZ = player.distanceTraveled + spawnDistance;
     }
 
     void Update()
     {
         // Check if we need to spawn the next line
-        if (playerTransform.position.z + spawnDistance >= nextSpawnZ)
+        DifficultySpeedIncrease -= DifficultySpeedIncrease * Time.deltaTime * Difficulty;
+
+        if (player.distanceTraveled + spawnDistance >= nextSpawnZ)
         {
             SpawnNextLine(nextSpawnZ);
-            float spawnInterval = Random.Range(minSpawnInterval, maxSpawnInterval);
+            float spawnInterval = BaseSpawnInterval + DifficultySpeedIncrease * Random.Range(minSpawnInterval, maxSpawnInterval);
             nextSpawnZ += spawnInterval;
         }
     }

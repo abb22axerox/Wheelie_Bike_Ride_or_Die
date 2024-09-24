@@ -75,7 +75,7 @@ MonoBehaviour:
   rotationSpeed: 100
   bobbingAmplitude: 0.2
   bobbingFrequency: 5
-  despawnDistance: 100000
+  despawnDistance: 100
 --- !u!54 &-4916403150733179189
 Rigidbody:
   m_ObjectHideFlags: 0

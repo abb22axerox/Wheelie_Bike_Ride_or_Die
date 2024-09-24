@@ -21,19 +21,20 @@ public class Collectable : MonoBehaviour
 
     [Header("Despawn Settings")]
     public float despawnDistance = 20.0f;        // Distance behind the player at which the object will be destroyed
-    private Transform playerTransform;           // Reference to the player's transform
 
     private Spline spline;
     private float distanceTraveled = 0f;         // Total distance traveled along the spline
+    private float distanceTraveledFromStart = 0f;
     private float splineLength;                  // Total length of the spline
 
     void Start()
     {
+        sideOffset = transform.position.x;
+
         // Find the player in the scene (assuming it has the "Player" tag)
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
-            playerTransform = player.transform;
             distanceTraveled = player.GetComponent<PlayerController>().distanceTraveled + GameObject.FindGameObjectWithTag("ObstacleSpawner").GetComponent<ObstacleSpawner>().spawnDistance;
         }
         else
@@ -68,7 +69,8 @@ public class Collectable : MonoBehaviour
             return;
 
         // Increase the distance traveled based on speed
-        distanceTraveled += speed * Time.deltaTime;
+        distanceTraveled -= speed * Time.deltaTime;
+        distanceTraveledFromStart -= speed * Time.deltaTime;
 
         // Handle looping or clamping at the end of the spline
         if (distanceTraveled > splineLength)
@@ -105,7 +107,7 @@ public class Collectable : MonoBehaviour
         t = Mathf.Repeat(t, 1f); // Ensure t is between 0 and 1
 
         SplineUtility.Evaluate(spline, t, out _, out float3 tangent, out _);
-        Vector3 worldTangent = splineContainer.transform.TransformDirection((Vector3)tangent);
+        Vector3 worldTangent = -splineContainer.transform.TransformDirection((Vector3)tangent);
 
         if (worldTangent != Vector3.zero)
         {
@@ -115,14 +117,6 @@ public class Collectable : MonoBehaviour
         // Rotate the object around its Y-axis
         transform.Rotate(0, rotationSpeed * Time.deltaTime, 0, Space.World);
 
-        // Destroy the object when it is beyond despawnDistance from the player
-        if (playerTransform != null)
-        {
-            float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
-            if (distanceToPlayer > despawnDistance)
-            {
-                Destroy(gameObject);
-            }
-        }
+        if (Mathf.Abs(distanceTraveledFromStart) > despawnDistance) Destroy(gameObject);
     }
 }

@@ -944,10 +944,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f7e6e0b66ed44440adf58dead04f90e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnDistance: 100
-  minSpawnInterval: 8
-  maxSpawnInterval: 10
+  spawnDistance: 150
+  minSpawnInterval: 20
+  maxSpawnInterval: 30
+  BaseSpawnInterval: 5
   numberOfLinesAhead: 5
+  Difficulty: 0.02
   minTrucksPerLine: 1
   maxTrucksPerLine: 2
   truckPrefabs:
