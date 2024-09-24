@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  loop: 0
+  loop: 1
   sideOffset: 0
   rotationSpeed: 100
   bobbingAmplitude: 0.2

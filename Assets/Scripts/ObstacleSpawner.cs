@@ -28,6 +28,12 @@ public class ObstacleSpawner : MonoBehaviour
     public int maxCollectablesPerLine = 3;      // Maximum number of collectables per line
     public InputPrefab[] collectablePrefabs;    // Array of collectable prefabs with weights
 
+    [Header("Road Sign Settings")]
+    public int minRoadSignsPerLine = 1;      // Minimum number of collectables per line
+    public int maxRoadSignsPerLine = 3;      // Maximum number of collectables per line
+    [Range(0.0f, 1.0f)] public float roadSignSpawnProbability = 0.3f;
+    public InputPrefab[] roadSignPrefabs;    // Array of collectable prefabs with weights
+
     [Header("References")]
     public RoadSettings roadSettings;
 
@@ -78,6 +84,11 @@ public class ObstacleSpawner : MonoBehaviour
             SpawnCollectableLine(zPos);
         }
         spawnTruckLine = !spawnTruckLine; // Alternate between truck and collectable lines
+
+        if (Random.value <= roadSignSpawnProbability)
+        {
+            SpawnRoadSignLine(zPos);
+        }
     }
 
     void SpawnTruckLine(float zPos)
@@ -124,6 +135,29 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
+    void SpawnRoadSignLine(float zPos)
+    {
+        // Determine the lanes to spawn road signs in
+        List<int> laneIndices = new List<int>();
+        for (int i = 0; i < roadSettings.numLanes; i++)
+        {
+            laneIndices.Add(i);
+        }
+
+        // Shuffle the lane indices
+        ShuffleList(laneIndices);
+
+        // Random number of road signs to spawn
+        int roadSignsToSpawn = Random.Range(minRoadSignsPerLine, maxRoadSignsPerLine + 1);
+        for (int i = 0; i < roadSignsToSpawn && i < laneIndices.Count; i++)
+        {
+            int laneIndex = laneIndices[i];
+            Vector3 spawnPosition = new Vector3(lanePositions[laneIndex], 0, zPos);
+            Instantiate(RandomRoadSign(), spawnPosition, Quaternion.identity);
+        }
+    }
+
+
     GameObject RandomTruck()
     {
         return GetRandomPrefab(truckPrefabs);
@@ -132,6 +166,11 @@ public class ObstacleSpawner : MonoBehaviour
     GameObject RandomCollectable()
     {
         return GetRandomPrefab(collectablePrefabs);
+    }
+
+    GameObject RandomRoadSign()
+    {
+        return GetRandomPrefab(roadSignPrefabs);
     }
 
     GameObject GetRandomPrefab(InputPrefab[] prefabInputs)

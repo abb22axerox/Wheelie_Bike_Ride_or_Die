@@ -970,6 +970,12 @@ MonoBehaviour:
     weight: 1
   - prefab: {fileID: 9050626087183496456, guid: 45b837da925734eaaa1d162e0817e8bb, type: 3}
     weight: 1
+  minRoadSignsPerLine: 1
+  maxRoadSignsPerLine: 3
+  roadSignSpawnProbability: 0.3
+  roadSignPrefabs:
+  - prefab: {fileID: 3958609379848094512, guid: 4372630c9dde94b948f28119849491d0, type: 3}
+    weight: 1
   roadSettings: {fileID: 400575420}
 --- !u!1 &2030339487
 GameObject:
