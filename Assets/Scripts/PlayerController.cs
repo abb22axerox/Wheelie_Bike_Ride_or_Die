@@ -313,7 +313,7 @@ public class PlayerController : MonoBehaviour
     void CheckWheelieAngle(float wheelieAngle)
     {
         if (!demandWheelie) return;
-        
+
         const float errorTol = 5f;
         bool doKillPlayer = wheelieAngle > maxWheelieAngle - errorTol || wheelieAngle <= errorTol;
         if (doKillPlayer) Debug.Log("Killed by failing the wheelie");
