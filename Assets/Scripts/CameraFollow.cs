@@ -13,30 +13,45 @@ public class CameraFollow : MonoBehaviour
     [Header("References")]
     public Transform target;
 
-
     void Start()
     {
         if (target == null)
         {
             Debug.LogError("Target not assigned in CameraFollow script.");
+            return;
         }
 
-        // Apply initial rotation to the camera
-        transform.eulerAngles = rotation;
-
-        // Move the camera to the exact correct position at the start
-        if (target != null) transform.position = target.position + offset;
+        // Apply initial rotation to the camera relative to the target
+        // and set the initial position
+        UpdateCameraPositionAndRotation(true);
     }
 
     void LateUpdate()
     {
         if (target != null && !staticCamera)
         {
-            // Smoothly interpolate the camera's position
-            transform.position = Vector3.Lerp(transform.position, target.position + offset, Time.deltaTime * smoothingSpeed);
+            // Update the camera's position and rotation
+            UpdateCameraPositionAndRotation(false);
+        }
+    }
 
-            // Maintain the specified rotation
-            transform.eulerAngles = rotation;
+    void UpdateCameraPositionAndRotation(bool instantUpdate)
+    {
+        // Calculate desired position and rotation based on the target's position and rotation
+        Vector3 desiredPosition = target.position + target.rotation * offset;
+        Quaternion desiredRotation = target.rotation * Quaternion.Euler(rotation);
+
+        if (instantUpdate)
+        {
+            // Immediately set the position and rotation
+            transform.position = desiredPosition;
+            transform.rotation = desiredRotation;
+        }
+        else
+        {
+            // Smoothly interpolate the camera's position and rotation
+            transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * smoothingSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, Time.deltaTime * smoothingSpeed);
         }
     }
 }
