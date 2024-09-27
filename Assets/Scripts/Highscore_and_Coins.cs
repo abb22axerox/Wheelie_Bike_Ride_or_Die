@@ -1,4 +1,4 @@
-using System.Collections
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +10,7 @@ public class ScoreManager : MonoBehaviour {
     public Text scoreText;
     public Text highscoreText;
 
-    int score = 0;
+    [NonSerialized] public int score = 0;
     int highscore = 0;
 
     private void Awake() {
@@ -18,14 +18,12 @@ public class ScoreManager : MonoBehaviour {
     }
 
     void Start () {
-        scoreText.text = score.ToString() + ' POINTS';
-        highscoreText.text = 'HIGHSCORE' + highscore.ToString();
+        scoreText.text = score.ToString() + " POINTS";
+        highscoreText.text = "HIGHSCORE" + highscore.ToString();
     }
 
     public void AddPoints (int newPoints) {
         score += newPoints;
-        scoreText.text = score.ToString() + ' POINTS';
+        scoreText.text = score.ToString() + " POINTS";
     }
-
-
 }
