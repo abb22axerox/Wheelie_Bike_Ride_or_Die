@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028373, g: 0.22571398, b: 0.30692294, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1460,7 +1460,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 17
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1535,6 +1535,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 0}
   highscoreText: {fileID: 0}
+  coinText: {fileID: 0}
 --- !u!4 &912300407
 Transform:
   m_ObjectHideFlags: 0
@@ -1870,7 +1871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b7da3fd045214f4994c66cff83ad845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointText: {fileID: 0}
+  pointText: {fileID: 845607647}
 --- !u!114 &1036706144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3657,6 +3658,7 @@ MonoBehaviour:
   crashSound: {fileID: 8300000, guid: 7cfa93eb1f3f08944b52a66910f6a3b5, type: 3}
   laneChangeCooldown: 0
   laneChangeDuration: 0.3
+  startInvulnerabilityTime: 5
   maxWheelieAngle: 80
   wheelieSmoothTime: 0.5
   demandWheelie: 1

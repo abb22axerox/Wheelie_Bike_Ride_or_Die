@@ -1,10 +1,11 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+using System.Collections;
+// using UnityEngine.UI;
+using TMPro;
 
 public class GameOverScreen : MonoBehaviour
 {
-    public Text pointText;
+    public TextMeshProUGUI pointText;
 
     public void Setup(int score)
     {
