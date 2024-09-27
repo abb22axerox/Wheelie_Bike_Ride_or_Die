@@ -67,6 +67,13 @@ public class PlayerController : MonoBehaviour
     public RoadSettings roadSettings;
     public Transform modelPivot;                    // Reference to the modelPivot child object
 
+    // New Falling Animation Settings
+    [Header("Falling Animation Settings")]
+    public float fallOverDuration = 1.0f;           // Duration of the falling over animation
+    public float fallOverAngle = 90.0f;             // Angle to rotate around X-axis when falling
+    public float spinSpeed = 360.0f;                // Spin speed around Y-axis in degrees per second
+    public float fallDownSpeed = 5.0f;              // Speed at which the bike falls down along Y-axis
+
     private int currentLane;                        // Current lane index (0 is the leftmost lane)
     private float targetSideOffset;                 // Target side offset after lane change
     private float startSideOffset;                  // Starting side offset before lane change
@@ -105,7 +112,6 @@ public class PlayerController : MonoBehaviour
     // Falling Over Variables
     private bool isFallingOver = false;             // Is the bike currently falling over
     private float fallOverTimer = 0.0f;             // Timer for the falling over animation
-    public float fallOverDuration = 1.0f;           // Duration of the falling over animation
 
     // Spline Variables
     private Spline spline;
@@ -565,9 +571,6 @@ public class PlayerController : MonoBehaviour
         isFallingOver = true;
         fallOverTimer = 0.0f;
 
-        // Optionally, you can disable the collider to prevent further collisions
-        // GetComponent<Collider>().enabled = false;
-
         // Stop engine sound
         if (engineAudioSource != null && engineAudioSource.isPlaying)
         {
@@ -580,15 +583,25 @@ public class PlayerController : MonoBehaviour
         fallOverTimer += Time.deltaTime;
         float t = fallOverTimer / fallOverDuration;
 
-        // Rotate the bike to simulate falling over
+        // Rotate the bike to simulate falling over while spinning around Y-axis
         if (modelPivot != null)
         {
-            float fallAngle = Mathf.Lerp(0.0f, 90.0f, t); // Rotate up to 90 degrees
-            modelPivot.localRotation = initialModelRotation * Quaternion.Euler(fallAngle, 0, 0);
-        }
+            // Rotate around X-axis to fall over
+            float fallAngle = Mathf.Lerp(0.0f, fallOverAngle, t);
 
-        // Optionally, you can move the bike downwards to simulate falling to the ground
-        // transform.position += Vector3.down * Time.deltaTime * fallSpeed;
+            // Spin around Y-axis
+            float spinAngle = spinSpeed * Time.deltaTime;
+
+            // Move down along Y-axis
+            float fallDownDistance = fallDownSpeed * Time.deltaTime;
+
+            // Apply rotations and translations
+            modelPivot.localRotation = initialModelRotation * Quaternion.Euler(fallAngle, 0, 0);
+            modelPivot.Rotate(0, spinAngle, 0, Space.Self);
+
+            // Move the model down
+            modelPivot.localPosition -= new Vector3(0, fallDownDistance, 0);
+        }
 
         if (t >= 1.0f)
         {

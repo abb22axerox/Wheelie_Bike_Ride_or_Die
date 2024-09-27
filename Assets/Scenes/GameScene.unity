@@ -1048,7 +1048,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 771ce407ce807b74885ec23ebd1e6647, type: 3}
     maxSpeedSoundValue: 20
   engineAudioSource: {fileID: 0}
-  crashSound: {fileID: 8300000, guid: f23ceccd940d95340b5d6167e337c468, type: 3}
+  crashSound: {fileID: 8300000, guid: f632e2ace80a32e47a2c531f64901a50, type: 3}
   laneChangeCooldown: 0
   laneChangeDuration: 0.3
   maxWheelieAngle: 80
@@ -1073,7 +1073,10 @@ MonoBehaviour:
   splineContainer: {fileID: 1849874455}
   roadSettings: {fileID: 400575420}
   modelPivot: {fileID: 476692129}
-  fallOverDuration: 1
+  fallOverDuration: 10
+  fallOverAngle: 90
+  spinSpeed: 360
+  fallDownSpeed: 1
   distanceTraveled: 0
 --- !u!65 &2030339491
 BoxCollider:
