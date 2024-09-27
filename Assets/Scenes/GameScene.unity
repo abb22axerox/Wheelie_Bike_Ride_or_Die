@@ -3441,7 +3441,7 @@ MonoBehaviour:
     weight: 1
   - prefab: {fileID: 9050626087183496456, guid: 45b837da925734eaaa1d162e0817e8bb, type: 3}
     weight: 1
-  minRoadSignsPerLine: 1
+  minRoadSignsPerLine: 2
   maxRoadSignsPerLine: 3
   roadSignSpawnProbability: 0.3
   roadSignPrefabs:
@@ -3461,6 +3461,10 @@ MonoBehaviour:
     weight: 1
   - prefab: {fileID: 4325591669789988947, guid: a624251ecfb4447b9bb6423543cfe82d, type: 3}
     weight: 1
+  - prefab: {fileID: 9050626087183496456, guid: 1d8f25a15a5041047b4c6073b9f5b74b, type: 3}
+    weight: 6
+  - prefab: {fileID: 9050626087183496456, guid: 2c875c5e9a27e794d88df75effd8b7bf, type: 3}
+    weight: 6
   signGantryPrefab: {fileID: 6789761841828727552, guid: 713572365ff024071ae8f2e4adc1274c, type: 3}
   roadSettings: {fileID: 400575420}
 --- !u!1 &2021174591
