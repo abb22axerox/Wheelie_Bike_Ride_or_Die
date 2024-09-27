@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028373, g: 0.22571398, b: 0.30692294, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1535,6 +1535,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 0}
   highscoreText: {fileID: 0}
+  coinText: {fileID: 0}
 --- !u!4 &912300407
 Transform:
   m_ObjectHideFlags: 0
@@ -3440,7 +3441,7 @@ MonoBehaviour:
     weight: 1
   - prefab: {fileID: 9050626087183496456, guid: 45b837da925734eaaa1d162e0817e8bb, type: 3}
     weight: 1
-  minRoadSignsPerLine: 1
+  minRoadSignsPerLine: 2
   maxRoadSignsPerLine: 3
   roadSignSpawnProbability: 0.3
   roadSignPrefabs:
@@ -3460,6 +3461,10 @@ MonoBehaviour:
     weight: 1
   - prefab: {fileID: 4325591669789988947, guid: a624251ecfb4447b9bb6423543cfe82d, type: 3}
     weight: 1
+  - prefab: {fileID: 9050626087183496456, guid: 1d8f25a15a5041047b4c6073b9f5b74b, type: 3}
+    weight: 6
+  - prefab: {fileID: 9050626087183496456, guid: 2c875c5e9a27e794d88df75effd8b7bf, type: 3}
+    weight: 6
   signGantryPrefab: {fileID: 6789761841828727552, guid: 713572365ff024071ae8f2e4adc1274c, type: 3}
   roadSettings: {fileID: 400575420}
 --- !u!1 &2021174591
@@ -3657,6 +3662,7 @@ MonoBehaviour:
   crashSound: {fileID: 8300000, guid: 7cfa93eb1f3f08944b52a66910f6a3b5, type: 3}
   laneChangeCooldown: 0
   laneChangeDuration: 0.3
+  startInvulnerabilityTime: 5
   maxWheelieAngle: 80
   wheelieSmoothTime: 0.5
   demandWheelie: 1
