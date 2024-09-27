@@ -66,6 +66,8 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     public RoadSettings roadSettings;
     public Transform modelPivot;                    // Reference to the modelPivot child object
+    public GameOverScreen gameOverScreen;
+    public ScoreManager scoreManager;
 
     // New Falling Animation Settings
     [Header("Falling Animation Settings")]
@@ -368,7 +370,21 @@ public class PlayerController : MonoBehaviour
 
         const float errorTol = 5f;
         bool doKillPlayer = wheelieAngle > maxWheelieAngle - errorTol || wheelieAngle <= errorTol;
-        if (doKillPlayer) Debug.Log("Killed by failing the wheelie");
+        if (doKillPlayer)
+        {
+            Debug.Log("Killed by failing to wheelie");
+            StartFallingOver();
+
+            // Play the crash sound effect
+            if (crashSound != null)
+            {
+                AudioSource.PlayClipAtPoint(crashSound, transform.position);
+            }
+            else
+            {
+                Debug.LogWarning("Crash sound not assigned in the Inspector.");
+            }
+        }
     }
 
     void HandleWheelieAndSpeed()
@@ -584,7 +600,7 @@ public class PlayerController : MonoBehaviour
 
             // Spin around Y-axis
             float spinAngle = spinSpeed * Time.deltaTime;
-            
+
             // Apply rotations and translations
             modelPivot.localRotation = initialModelRotation * Quaternion.Euler(fallAngle, 0, 0);
             modelPivot.Rotate(0, spinAngle, 0, Space.Self);
@@ -595,8 +611,7 @@ public class PlayerController : MonoBehaviour
             // Falling animation completed
             isFallingOver = false;
 
-            // Optionally, trigger game over or restart
-            // GameOver();
+            gameOverScreen.Setup(scoreManager.score);
         }
     }
 
