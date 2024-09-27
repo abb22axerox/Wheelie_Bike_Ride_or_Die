@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Splines;
 using Unity.Mathematics;  // For float3
 using System.Collections.Generic;
+using System.Threading;
 
 [System.Serializable]
 public class VehicleSettings
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public float laneChangeDuration = 0.5f;      // Time it takes to move to a new lane
 
     [Header("Wheelie Settings")]
+    public float startInvulnerabilityTime = 5.0f;
     public float maxWheelieAngle = 45.0f;        // Maximum wheelie angle in degrees
     public float wheelieSmoothTime = 0.1f;       // Time it takes to smooth the wheelie angle
     public bool demandWheelie = false;           // Require wheelie within tolerance
@@ -66,6 +68,8 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     public RoadSettings roadSettings;
     public Transform modelPivot;                    // Reference to the modelPivot child object
+    public GameOverScreen gameOverScreen;
+    public ScoreManager scoreManager;
 
     // New Falling Animation Settings
     [Header("Falling Animation Settings")]
@@ -119,6 +123,7 @@ public class PlayerController : MonoBehaviour
     private float splineLength;                       // Total length of the spline
     private float sideOffset = 0f;                    // Current side offset in the XZ-plane
     private string InputBuffer = "None";
+    private float timer = 0;
 
     void Start()
     {
@@ -368,7 +373,21 @@ public class PlayerController : MonoBehaviour
 
         const float errorTol = 5f;
         bool doKillPlayer = wheelieAngle > maxWheelieAngle - errorTol || wheelieAngle <= errorTol;
-        if (doKillPlayer) Debug.Log("Killed by failing the wheelie");
+        if (doKillPlayer)
+        {
+            Debug.Log("Killed by failing to wheelie");
+            StartFallingOver();
+
+            // Play the crash sound effect
+            if (crashSound != null)
+            {
+                AudioSource.PlayClipAtPoint(crashSound, transform.position);
+            }
+            else
+            {
+                Debug.LogWarning("Crash sound not assigned in the Inspector.");
+            }
+        }
     }
 
     void HandleWheelieAndSpeed()
@@ -401,6 +420,9 @@ public class PlayerController : MonoBehaviour
 
             // Smoothly adjust wheelie angle towards target angle
             currentWheelieAngle = Mathf.SmoothDamp(currentWheelieAngle, targetWheelieAngle, ref wheelieAngleVelocity, wheelieSmoothTime);
+
+            timer += Time.deltaTime;
+            if (timer > startInvulnerabilityTime) CheckWheelieAngle(currentWheelieAngle);
 
             // Clamp wheelie angle between 0 and maxWheelieAngle
             currentWheelieAngle = Mathf.Clamp(currentWheelieAngle, 0.0f, maxWheelieAngle);
@@ -584,7 +606,7 @@ public class PlayerController : MonoBehaviour
 
             // Spin around Y-axis
             float spinAngle = spinSpeed * Time.deltaTime;
-            
+
             // Apply rotations and translations
             modelPivot.localRotation = initialModelRotation * Quaternion.Euler(fallAngle, 0, 0);
             modelPivot.Rotate(0, spinAngle, 0, Space.Self);
@@ -595,8 +617,7 @@ public class PlayerController : MonoBehaviour
             // Falling animation completed
             isFallingOver = false;
 
-            // Optionally, trigger game over or restart
-            // GameOver();
+            gameOverScreen.Setup(scoreManager.score);
         }
     }
 

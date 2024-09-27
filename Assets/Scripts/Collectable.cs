@@ -100,7 +100,7 @@ public class Collectable : MonoBehaviour
 
         // Set the object's position
         transform.position = position;
-        transform.position = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y + 1.6f, transform.position.z);
 
         // Optionally, set the object's rotation to face along the spline
         // Evaluate the tangent at the current distance
