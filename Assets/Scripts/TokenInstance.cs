@@ -1,15 +1,15 @@
-using UnityEngine;
+// using UnityEngine;
 
-public class TokenInstance : MonoBehaviour
-{
-    void OnPlayerEnter(PlayerController player)
-    {
-        RemoveToken(player);
+// public class TokenInstance : MonoBehaviour
+// {
+//     void OnPlayerEnter(PlayerController player)
+//     {
+//         RemoveToken(player);
 
-        ScoreManager.instance.AddPoint();
-    }
+//         ScoreManager.instance.AddPoint();
+//     }
 
-    void Awake();
-    void OnTriggerEnter2D(Collider2D other);
-    void RemoveToken(PlayerController player);
-}
+//     void Awake();
+//     void OnTriggerEnter2D(Collider2D other);
+//     void RemoveToken(PlayerController player);
+// }
