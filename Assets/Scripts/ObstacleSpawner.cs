@@ -1,13 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[System.Serializable]
-public struct PrefabInput
-{
-    public GameObject prefab;
-    public float weight;
-}
-
 public class ObstacleSpawner : MonoBehaviour
 {
     [Header("Spawner Settings")]
@@ -33,6 +26,7 @@ public class ObstacleSpawner : MonoBehaviour
     public int maxRoadSignsPerLine = 3;      // Maximum number of collectables per line
     [Range(0.0f, 1.0f)] public float roadSignSpawnProbability = 0.3f;
     public InputPrefab[] roadSignPrefabs;    // Array of collectable prefabs with weights
+    public GameObject signGantryPrefab;
 
     [Header("References")]
     public RoadSettings roadSettings;
@@ -155,6 +149,8 @@ public class ObstacleSpawner : MonoBehaviour
             Vector3 spawnPosition = new Vector3(lanePositions[laneIndex], 0, zPos);
             Instantiate(RandomRoadSign(), spawnPosition, Quaternion.identity);
         }
+
+        Instantiate(signGantryPrefab, new Vector3(0, 0, zPos), Quaternion.identity);
     }
 
 
