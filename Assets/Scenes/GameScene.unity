@@ -990,6 +990,7 @@ MonoBehaviour:
     weight: 1
   - prefab: {fileID: 4325591669789988947, guid: a624251ecfb4447b9bb6423543cfe82d, type: 3}
     weight: 1
+  signGantryPrefab: {fileID: 6789761841828727552, guid: 713572365ff024071ae8f2e4adc1274c, type: 3}
   roadSettings: {fileID: 400575420}
 --- !u!1 &2030339487
 GameObject:
@@ -1037,11 +1038,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7401921822ec24b00a59f5f376a9c8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentVehicle:
+    vehicleName: MotorBikeYEAH
+    baseSpeed: 10
+    canWheelie: 1
+    accelerationRate: 10
+    maxSpeed: 20
+    engineSounds:
+    - {fileID: 8300000, guid: 94abb01ef16674aefa3b5a38399b1547, type: 3}
+    - {fileID: 8300000, guid: 24f5c4a51b5dc4e70832b883730c4a59, type: 3}
+    maxSpeedSoundValue: 20
+  engineAudioSource: {fileID: 0}
   laneChangeCooldown: 0
   laneChangeDuration: 0.3
-  baseSpeed: 10
-  maxSpeedBoost: 30
-  speedAcceleration: 10
   maxWheelieAngle: 80
   wheelieSmoothTime: 0.5
   demandWheelie: 1
