@@ -73,7 +73,7 @@ MonoBehaviour:
   loop: 1
   sideOffset: 0
   rotationSpeed: 100
-  bobbingAmplitude: 0.2
+  bobbingAmplitude: 0.4
   bobbingFrequency: 5
   despawnDistance: 100
 --- !u!54 &-4916403150733179189
