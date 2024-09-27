@@ -393,11 +393,6 @@ public class PlayerController : MonoBehaviour
                 // Increase wheelie angle
                 targetWheelieAngle = maxWheelieAngle;
             }
-            else if (accelerationInput < 0)
-            {
-                // Decrease wheelie angle (lean forward)
-                targetWheelieAngle = -maxWheelieAngle;
-            }
             else
             {
                 // Return to level wheelie angle
@@ -407,16 +402,14 @@ public class PlayerController : MonoBehaviour
             // Smoothly adjust wheelie angle towards target angle
             currentWheelieAngle = Mathf.SmoothDamp(currentWheelieAngle, targetWheelieAngle, ref wheelieAngleVelocity, wheelieSmoothTime);
 
-            // Clamp wheelie angle
-            CheckWheelieAngle(currentWheelieAngle);
+            // Clamp wheelie angle between 0 and maxWheelieAngle
+            currentWheelieAngle = Mathf.Clamp(currentWheelieAngle, 0.0f, maxWheelieAngle);
 
-            currentWheelieAngle = Mathf.Clamp(currentWheelieAngle, -maxWheelieAngle, maxWheelieAngle);
-
-            // Compute wheelie factor (-1 to 1)
+            // Compute wheelie factor (0 to 1)
             float wheelieFactor = currentWheelieAngle / maxWheelieAngle;
 
             // Compute speed boost based on wheelie angle
-            float speedBoost = Mathf.Abs(wheelieFactor) * (currentVehicle.maxSpeed - currentVehicle.baseSpeed);
+            float speedBoost = wheelieFactor * (currentVehicle.maxSpeed - currentVehicle.baseSpeed);
 
             // Set target speed based on base speed and speed boost
             targetSpeed = currentVehicle.baseSpeed + speedBoost;
@@ -591,16 +584,10 @@ public class PlayerController : MonoBehaviour
 
             // Spin around Y-axis
             float spinAngle = spinSpeed * Time.deltaTime;
-
-            // Move down along Y-axis
-            float fallDownDistance = fallDownSpeed * Time.deltaTime;
-
+            
             // Apply rotations and translations
             modelPivot.localRotation = initialModelRotation * Quaternion.Euler(fallAngle, 0, 0);
             modelPivot.Rotate(0, spinAngle, 0, Space.Self);
-
-            // Move the model down
-            modelPivot.localPosition -= new Vector3(0, fallDownDistance, 0);
         }
 
         if (t >= 1.0f)
