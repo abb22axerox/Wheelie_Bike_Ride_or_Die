@@ -2396,6 +2396,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LockSymbol
       objectReference: {fileID: 0}
+    - target: {fileID: 846984096977930061, guid: 548576b6b8f4046e591b364fe7ba586f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7305113552008222113, guid: 548576b6b8f4046e591b364fe7ba586f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1

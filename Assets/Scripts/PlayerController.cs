@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Audio Settings")]
     public AudioSource engineAudioSource;         // AudioSource for engine sounds
+    public AudioClip crashSound;                  // Crash sound effect assigned through the Inspector
 
     [Header("Movement Settings")]
     public float laneChangeCooldown = 0.5f;      // Cooldown time between lane changes
@@ -101,6 +102,11 @@ public class PlayerController : MonoBehaviour
     private float rocketEffectTimer = 0.0f;         // Timer for the rocket effect
     private float currentRocketHeight = 0.0f;       // Current height offset due to rocket effect
 
+    // Falling Over Variables
+    private bool isFallingOver = false;             // Is the bike currently falling over
+    private float fallOverTimer = 0.0f;             // Timer for the falling over animation
+    public float fallOverDuration = 1.0f;           // Duration of the falling over animation
+
     // Spline Variables
     private Spline spline;
     public float distanceTraveled = 0f;              // Total distance traveled along the spline
@@ -157,6 +163,13 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // If the bike is falling over, handle the fall animation
+        if (isFallingOver)
+        {
+            HandleFallingOver();
+            return; // Skip the rest of the update to prevent player control
+        }
+
         // Update cooldown timer
         if (cooldownTimer > 0)
         {
@@ -391,7 +404,7 @@ public class PlayerController : MonoBehaviour
             // Clamp wheelie angle
             CheckWheelieAngle(currentWheelieAngle);
 
-            currentWheelieAngle = Mathf.Clamp(currentWheelieAngle, 0, maxWheelieAngle);
+            currentWheelieAngle = Mathf.Clamp(currentWheelieAngle, -maxWheelieAngle, maxWheelieAngle);
 
             // Compute wheelie factor (-1 to 1)
             float wheelieFactor = currentWheelieAngle / maxWheelieAngle;
@@ -533,6 +546,57 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Obstacle"))
         {
             Debug.Log("Killed by crashing into an obstacle");
+            StartFallingOver();
+
+            // Play the crash sound effect
+            if (crashSound != null)
+            {
+                AudioSource.PlayClipAtPoint(crashSound, transform.position);
+            }
+            else
+            {
+                Debug.LogWarning("Crash sound not assigned in the Inspector.");
+            }
+        }
+    }
+
+    void StartFallingOver()
+    {
+        isFallingOver = true;
+        fallOverTimer = 0.0f;
+
+        // Optionally, you can disable the collider to prevent further collisions
+        // GetComponent<Collider>().enabled = false;
+
+        // Stop engine sound
+        if (engineAudioSource != null && engineAudioSource.isPlaying)
+        {
+            engineAudioSource.Stop();
+        }
+    }
+
+    void HandleFallingOver()
+    {
+        fallOverTimer += Time.deltaTime;
+        float t = fallOverTimer / fallOverDuration;
+
+        // Rotate the bike to simulate falling over
+        if (modelPivot != null)
+        {
+            float fallAngle = Mathf.Lerp(0.0f, 90.0f, t); // Rotate up to 90 degrees
+            modelPivot.localRotation = initialModelRotation * Quaternion.Euler(fallAngle, 0, 0);
+        }
+
+        // Optionally, you can move the bike downwards to simulate falling to the ground
+        // transform.position += Vector3.down * Time.deltaTime * fallSpeed;
+
+        if (t >= 1.0f)
+        {
+            // Falling animation completed
+            isFallingOver = false;
+
+            // Optionally, trigger game over or restart
+            // GameOver();
         }
     }
 
