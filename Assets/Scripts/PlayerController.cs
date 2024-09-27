@@ -1,94 +1,123 @@
 using UnityEngine;
 using UnityEngine.Splines;
 using Unity.Mathematics;  // For float3
+using System.Collections.Generic;
+
+[System.Serializable]
+public class VehicleSettings
+{
+    [Header("Vehicle Configuration")]
+    public string vehicleName;                   // Name of the vehicle
+    public float baseSpeed = 10.0f;              // Base forward speed
+    public bool canWheelie = true;               // Ability to perform wheelies
+    public float accelerationRate = 0.5f;        // How quickly the vehicle can accelerate
+    public float maxSpeed = 20.0f;               // Maximum speed the vehicle can achieve
+
+    [Header("Engine Sound Settings")]
+    public List<AudioClip> engineSounds;         // Engine sounds ordered from quiet to loud
+    public float maxSpeedSoundValue = 20.0f;     // Speed at which the loudest sound plays at full volume
+}
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movement Settings")]
-    public float laneChangeCooldown = 0.5f;    // Cooldown time between lane changes
-    public float laneChangeDuration = 0.5f;    // Time it takes to move to a new lane
+    [Header("Vehicle Settings")]
+    public VehicleSettings currentVehicle;        // Current vehicle's settings
 
-    [Header("Speed Settings")]
-    public float baseSpeed = 10.0f;            // Base forward speed
-    public float maxSpeedBoost = 10.0f;        // Maximum additional speed during wheelie
-    public float speedAcceleration = 0.5f;     // Time it takes to reach target speed
+    [Header("Audio Settings")]
+    public AudioSource engineAudioSource;         // AudioSource for engine sounds
+    public AudioClip crashSound;                  // Crash sound effect assigned through the Inspector
+
+    [Header("Movement Settings")]
+    public float laneChangeCooldown = 0.5f;      // Cooldown time between lane changes
+    public float laneChangeDuration = 0.5f;      // Time it takes to move to a new lane
 
     [Header("Wheelie Settings")]
-    public float maxWheelieAngle = 45.0f;      // Maximum wheelie angle in degrees
-    public float wheelieSmoothTime = 0.1f;     // Time it takes to smooth the wheelie angle
-    public bool demandWheelie = false;         // Require wheelie within tolerance
+    public float maxWheelieAngle = 45.0f;        // Maximum wheelie angle in degrees
+    public float wheelieSmoothTime = 0.1f;       // Time it takes to smooth the wheelie angle
+    public bool demandWheelie = false;           // Require wheelie within tolerance
 
     [Header("Tilt Settings")]
-    public float maxTiltAngle = 30.0f;         // Maximum tilt angle when changing lanes
-    public float tiltSmoothTime = 0.1f;        // Time it takes to smooth the tilt angle
+    public float maxTiltAngle = 30.0f;           // Maximum tilt angle when changing lanes
+    public float tiltSmoothTime = 0.1f;          // Time it takes to smooth the tilt angle
 
     [Header("Speed-Up Settings")]
-    public float speedUpMultiplier = 2.0f;     // Multiplier for the speed-up effect
-    public float speedUpDuration = 5.0f;       // Duration of the speed-up effect at full strength
-    public float speedUpRampUpTime = 1.0f;     // Time to ramp up to full speed-up
-    public float speedUpRampDownTime = 1.0f;   // Time to ramp down from full speed-up
+    public float speedUpMultiplier = 2.0f;       // Multiplier for the speed-up effect
+    public float speedUpDuration = 5.0f;         // Duration of the speed-up effect at full strength
+    public float speedUpRampUpTime = 1.0f;       // Time to ramp up to full speed-up
+    public float speedUpRampDownTime = 1.0f;     // Time to ramp down from full speed-up
 
     [Header("Slow-Down Settings")]
-    public float slowDownMultiplier = 0.5f;     // Multiplier for the slow-down effect
-    public float slowDownDuration = 5.0f;       // Duration of the slow-down effect at full strength
-    public float slowDownRampUpTime = 1.0f;     // Time to ramp down to full slow-down
-    public float slowDownRampDownTime = 1.0f;   // Time to ramp up from full slow-down
+    public float slowDownMultiplier = 0.5f;      // Multiplier for the slow-down effect
+    public float slowDownDuration = 5.0f;        // Duration of the slow-down effect at full strength
+    public float slowDownRampUpTime = 1.0f;      // Time to ramp down to full slow-down
+    public float slowDownRampDownTime = 1.0f;    // Time to ramp up from full slow-down
 
     [Header("Rocket Effect Settings")]
-    public float rocketHeight = 5.0f;              // Height to which the player moves up during the rocket effect
-    public float rocketDuration = 5.0f;            // Duration of the rocket effect at full height
-    public float rocketRampUpTime = 1.0f;          // Time to ascend to full height
-    public float rocketRampDownTime = 1.0f;        // Time to descend back to original height
+    public float rocketHeight = 5.0f;               // Height to which the player moves up during the rocket effect
+    public float rocketDuration = 5.0f;             // Duration of the rocket effect at full height
+    public float rocketRampUpTime = 1.0f;           // Time to ascend to full height
+    public float rocketRampDownTime = 1.0f;         // Time to descend back to original height
     public float rocketOscillationAmplitude = 0.5f; // Amplitude of the vertical oscillation
     public float rocketOscillationFrequency = 1.0f; // Frequency of the vertical oscillation
 
     [Header("Spline Settings")]
-    public SplineContainer splineContainer;        // Reference to the SplineContainer
+    public SplineContainer splineContainer;         // Reference to the SplineContainer
 
     [Header("References")]
     public RoadSettings roadSettings;
-    public Transform modelPivot;                   // Reference to the modelPivot child object
+    public Transform modelPivot;                    // Reference to the modelPivot child object
 
-    private int currentLane;                       // Current lane index (0 is the leftmost lane)
-    private float targetSideOffset;                // Target side offset after lane change
-    private float startSideOffset;                 // Starting side offset before lane change
-    private bool isChangingLane = false;           // Is the player currently changing lanes
-    private float laneChangeTimer = 0.0f;          // Timer for lane change interpolation
-    private float cooldownTimer = 0.0f;            // Timer for lane change cooldown
+    // New Falling Animation Settings
+    [Header("Falling Animation Settings")]
+    public float fallOverDuration = 1.0f;           // Duration of the falling over animation
+    public float fallOverAngle = 90.0f;             // Angle to rotate around X-axis when falling
+    public float spinSpeed = 360.0f;                // Spin speed around Y-axis in degrees per second
+    public float fallDownSpeed = 5.0f;              // Speed at which the bike falls down along Y-axis
 
-    private float currentSpeed;                    // Current forward speed
-    private float targetSpeed;                     // Target forward speed
+    private int currentLane;                        // Current lane index (0 is the leftmost lane)
+    private float targetSideOffset;                 // Target side offset after lane change
+    private float startSideOffset;                  // Starting side offset before lane change
+    private bool isChangingLane = false;            // Is the player currently changing lanes
+    private float laneChangeTimer = 0.0f;           // Timer for lane change interpolation
+    private float cooldownTimer = 0.0f;             // Timer for lane change cooldown
 
-    private float currentWheelieAngle = 0.0f;      // Current wheelie angle
-    private float targetWheelieAngle = 0.0f;       // Target wheelie angle
-    private float wheelieAngleVelocity = 0.0f;     // Velocity reference for SmoothDamp
+    private float currentSpeed;                     // Current forward speed
+    private float targetSpeed;                      // Target forward speed
 
-    private float currentTiltAngle = 0.0f;         // Current tilt angle
-    private float targetTiltAngle = 0.0f;          // Target tilt angle
-    private float tiltAngleVelocity = 0.0f;        // Velocity reference for SmoothDamp
+    private float currentWheelieAngle = 0.0f;       // Current wheelie angle
+    private float targetWheelieAngle = 0.0f;        // Target wheelie angle
+    private float wheelieAngleVelocity = 0.0f;      // Velocity reference for SmoothDamp
 
-    private Quaternion initialModelRotation;       // Initial rotation of the modelPivot
+    private float currentTiltAngle = 0.0f;          // Current tilt angle
+    private float targetTiltAngle = 0.0f;           // Target tilt angle
+    private float tiltAngleVelocity = 0.0f;         // Velocity reference for SmoothDamp
+
+    private Quaternion initialModelRotation;        // Initial rotation of the modelPivot
 
     // Speed-Up Effect Variables
-    private float speedUpEffectTimer = 0.0f;       // Timer for the speed-up effect
-    private bool isSpeedUpActive = false;          // Is the speed-up effect active
-    private float currentSpeedMultiplier = 1.0f;   // Current speed-up multiplier
+    private float speedUpEffectTimer = 0.0f;        // Timer for the speed-up effect
+    private bool isSpeedUpActive = false;           // Is the speed-up effect active
+    private float currentSpeedMultiplier = 1.0f;    // Current speed-up multiplier
 
     // Slow-Down Effect Variables
-    private float slowDownEffectTimer = 0.0f;      // Timer for the slow-down effect
-    private bool isSlowDownActive = false;         // Is the slow-down effect active
-    private float currentSlowMultiplier = 1.0f;    // Current slow-down multiplier
+    private float slowDownEffectTimer = 0.0f;       // Timer for the slow-down effect
+    private bool isSlowDownActive = false;          // Is the slow-down effect active
+    private float currentSlowMultiplier = 1.0f;     // Current slow-down multiplier
 
     // Rocket Effect Variables
-    private bool isRocketActive = false;           // Is the rocket effect active
-    private float rocketEffectTimer = 0.0f;        // Timer for the rocket effect
-    private float currentRocketHeight = 0.0f;      // Current height offset due to rocket effect
+    private bool isRocketActive = false;            // Is the rocket effect active
+    private float rocketEffectTimer = 0.0f;         // Timer for the rocket effect
+    private float currentRocketHeight = 0.0f;       // Current height offset due to rocket effect
+
+    // Falling Over Variables
+    private bool isFallingOver = false;             // Is the bike currently falling over
+    private float fallOverTimer = 0.0f;             // Timer for the falling over animation
 
     // Spline Variables
     private Spline spline;
-    public float distanceTraveled = 0f;           // Total distance traveled along the spline
-    private float splineLength;                    // Total length of the spline
-    private float sideOffset = 0f;                 // Current side offset in the XZ-plane
+    public float distanceTraveled = 0f;              // Total distance traveled along the spline
+    private float splineLength;                       // Total length of the spline
+    private float sideOffset = 0f;                    // Current side offset in the XZ-plane
     private string InputBuffer = "None";
 
     void Start()
@@ -111,9 +140,9 @@ public class PlayerController : MonoBehaviour
         sideOffset = GetLaneSideOffset(currentLane);
         targetSideOffset = sideOffset;
 
-        // Initialize speeds
-        currentSpeed = baseSpeed;
-        targetSpeed = baseSpeed;
+        // Initialize speeds based on vehicle settings
+        currentSpeed = currentVehicle.baseSpeed;
+        targetSpeed = currentSpeed;
 
         if (modelPivot == null)
         {
@@ -124,16 +153,36 @@ public class PlayerController : MonoBehaviour
             // Store the initial rotation of the modelPivot
             initialModelRotation = modelPivot.localRotation;
         }
+
+        // Initialize AudioSource for engine sounds
+        if (engineAudioSource == null)
+        {
+            engineAudioSource = gameObject.AddComponent<AudioSource>();
+            engineAudioSource.loop = true;
+            engineAudioSource.playOnAwake = false;
+            engineAudioSource.spatialBlend = 0.0f; // 2D sound
+        }
+
+        // Start playing the initial engine sound
+        PlayEngineSound();
     }
 
     void Update()
     {
+        // If the bike is falling over, handle the fall animation
+        if (isFallingOver)
+        {
+            HandleFallingOver();
+            return; // Skip the rest of the update to prevent player control
+        }
+
         // Update cooldown timer
         if (cooldownTimer > 0)
         {
             cooldownTimer -= Time.deltaTime;
         }
 
+        // Handle input buffer
         if (Input.GetKeyDown(KeyCode.A)) InputBuffer = "Left";
         else if (Input.GetKeyDown(KeyCode.D)) InputBuffer = "Right";
 
@@ -152,7 +201,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-
         // Handle lane changing movement
         if (isChangingLane)
         {
@@ -169,6 +217,7 @@ public class PlayerController : MonoBehaviour
                 isChangingLane = false;
                 laneChangeTimer = 0.0f;
                 cooldownTimer = laneChangeCooldown;
+                targetTiltAngle = 0.0f; // Reset tilt after lane change
             }
         }
 
@@ -226,6 +275,9 @@ public class PlayerController : MonoBehaviour
             Quaternion tiltRotation = Quaternion.Euler(-currentTiltAngle, 0, 0);
             modelPivot.localRotation = initialModelRotation * wheelieRotation * tiltRotation;
         }
+
+        // Update engine sound based on current speed
+        UpdateEngineSound();
     }
 
     void MoveLeft()
@@ -312,7 +364,7 @@ public class PlayerController : MonoBehaviour
 
     void CheckWheelieAngle(float wheelieAngle)
     {
-        if (!demandWheelie) return;
+        if (!currentVehicle.canWheelie || !demandWheelie) return;
 
         const float errorTol = 5f;
         bool doKillPlayer = wheelieAngle > maxWheelieAngle - errorTol || wheelieAngle <= errorTol;
@@ -321,49 +373,87 @@ public class PlayerController : MonoBehaviour
 
     void HandleWheelieAndSpeed()
     {
-        // Determine target wheelie angle based on input
+        // Determine acceleration input based on key presses
+        float accelerationInput = 0.0f;
+
         if (Input.GetKey(KeyCode.W))
         {
-            // Increase wheelie angle
-            targetWheelieAngle = maxWheelieAngle;
+            accelerationInput = 1.0f; // Accelerate
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            // Decrease wheelie angle (lean forward)
-            targetWheelieAngle = -maxWheelieAngle;
+            accelerationInput = -1.0f; // Decelerate
+        }
+
+        // Handle wheelie if allowed
+        if (currentVehicle.canWheelie)
+        {
+            if (accelerationInput > 0)
+            {
+                // Increase wheelie angle
+                targetWheelieAngle = maxWheelieAngle;
+            }
+            else if (accelerationInput < 0)
+            {
+                // Decrease wheelie angle (lean forward)
+                targetWheelieAngle = -maxWheelieAngle;
+            }
+            else
+            {
+                // Return to level wheelie angle
+                targetWheelieAngle = 0.0f;
+            }
+
+            // Smoothly adjust wheelie angle towards target angle
+            currentWheelieAngle = Mathf.SmoothDamp(currentWheelieAngle, targetWheelieAngle, ref wheelieAngleVelocity, wheelieSmoothTime);
+
+            // Clamp wheelie angle
+            CheckWheelieAngle(currentWheelieAngle);
+
+            currentWheelieAngle = Mathf.Clamp(currentWheelieAngle, -maxWheelieAngle, maxWheelieAngle);
+
+            // Compute wheelie factor (-1 to 1)
+            float wheelieFactor = currentWheelieAngle / maxWheelieAngle;
+
+            // Compute speed boost based on wheelie angle
+            float speedBoost = Mathf.Abs(wheelieFactor) * (currentVehicle.maxSpeed - currentVehicle.baseSpeed);
+
+            // Set target speed based on base speed and speed boost
+            targetSpeed = currentVehicle.baseSpeed + speedBoost;
         }
         else
         {
-            // Return to level wheelie angle
+            // When wheelie is disabled, adjust target speed based on acceleration input
+            if (accelerationInput > 0)
+            {
+                // Accelerate towards max speed
+                targetSpeed = currentVehicle.maxSpeed;
+            }
+            else if (accelerationInput < 0)
+            {
+                // Decelerate towards a minimum speed
+                targetSpeed = currentVehicle.baseSpeed; // Or define a minimum speed
+            }
+            else
+            {
+                // Maintain current speed
+                targetSpeed = currentSpeed;
+            }
+
+            // Ensure wheelie angle is zero
+            currentWheelieAngle = 0.0f;
             targetWheelieAngle = 0.0f;
         }
-
-        // Smoothly adjust wheelie angle towards target angle
-        currentWheelieAngle = Mathf.SmoothDamp(currentWheelieAngle, targetWheelieAngle, ref wheelieAngleVelocity, wheelieSmoothTime);
-
-        // Clamp wheelie angle
-        CheckWheelieAngle(currentWheelieAngle);
-
-        currentWheelieAngle = Mathf.Clamp(currentWheelieAngle, 0, maxWheelieAngle);
-
-        // Compute wheelie factor (-1 to 1)
-        float wheelieFactor = currentWheelieAngle / maxWheelieAngle;
-
-        // Compute speed boost based on wheelie angle
-        float speedBoost = wheelieFactor * maxSpeedBoost;
-
-        // Set target speed
-        targetSpeed = baseSpeed + speedBoost;
 
         // Apply speed-up and slow-down multipliers to targetSpeed
         float adjustedTargetSpeed = targetSpeed * currentSpeedMultiplier * currentSlowMultiplier;
 
         // Smoothly adjust current speed towards adjusted target speed
-        currentSpeed = Mathf.MoveTowards(currentSpeed, adjustedTargetSpeed, speedAcceleration * Time.deltaTime);
+        currentSpeed = Mathf.MoveTowards(currentSpeed, adjustedTargetSpeed, currentVehicle.accelerationRate * Time.deltaTime);
 
         // Clamp current speed
-        float minSpeed = (baseSpeed - maxSpeedBoost) * currentSpeedMultiplier * currentSlowMultiplier;
-        float maxSpeed = (baseSpeed + maxSpeedBoost) * currentSpeedMultiplier * currentSlowMultiplier;
+        float minSpeed = currentVehicle.baseSpeed * currentSpeedMultiplier * currentSlowMultiplier;
+        float maxSpeed = currentVehicle.maxSpeed * currentSpeedMultiplier * currentSlowMultiplier;
         currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed);
     }
 
@@ -462,6 +552,64 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Obstacle"))
         {
             Debug.Log("Killed by crashing into an obstacle");
+            StartFallingOver();
+
+            // Play the crash sound effect
+            if (crashSound != null)
+            {
+                AudioSource.PlayClipAtPoint(crashSound, transform.position);
+            }
+            else
+            {
+                Debug.LogWarning("Crash sound not assigned in the Inspector.");
+            }
+        }
+    }
+
+    void StartFallingOver()
+    {
+        isFallingOver = true;
+        fallOverTimer = 0.0f;
+
+        // Stop engine sound
+        if (engineAudioSource != null && engineAudioSource.isPlaying)
+        {
+            engineAudioSource.Stop();
+        }
+    }
+
+    void HandleFallingOver()
+    {
+        fallOverTimer += Time.deltaTime;
+        float t = fallOverTimer / fallOverDuration;
+
+        // Rotate the bike to simulate falling over while spinning around Y-axis
+        if (modelPivot != null)
+        {
+            // Rotate around X-axis to fall over
+            float fallAngle = Mathf.Lerp(0.0f, fallOverAngle, t);
+
+            // Spin around Y-axis
+            float spinAngle = spinSpeed * Time.deltaTime;
+
+            // Move down along Y-axis
+            float fallDownDistance = fallDownSpeed * Time.deltaTime;
+
+            // Apply rotations and translations
+            modelPivot.localRotation = initialModelRotation * Quaternion.Euler(fallAngle, 0, 0);
+            modelPivot.Rotate(0, spinAngle, 0, Space.Self);
+
+            // Move the model down
+            modelPivot.localPosition -= new Vector3(0, fallDownDistance, 0);
+        }
+
+        if (t >= 1.0f)
+        {
+            // Falling animation completed
+            isFallingOver = false;
+
+            // Optionally, trigger game over or restart
+            // GameOver();
         }
     }
 
@@ -485,4 +633,74 @@ public class PlayerController : MonoBehaviour
         isRocketActive = true;
         rocketEffectTimer = 0.0f;
     }
+
+    // -------------------- Engine Sound Handling --------------------
+
+    void PlayEngineSound()
+    {
+        if (currentVehicle.engineSounds == null || currentVehicle.engineSounds.Count == 0)
+        {
+            Debug.LogWarning("No engine sounds assigned in VehicleSettings.");
+            return;
+        }
+
+        // Select the initial engine sound based on current speed
+        int soundIndex = GetEngineSoundIndex(currentSpeed);
+        if (soundIndex >= 0 && soundIndex < currentVehicle.engineSounds.Count)
+        {
+            engineAudioSource.clip = currentVehicle.engineSounds[soundIndex];
+            engineAudioSource.volume = CalculateEngineVolume(currentSpeed);
+            engineAudioSource.Play();
+        }
+    }
+
+    void UpdateEngineSound()
+    {
+        if (currentVehicle.engineSounds == null || currentVehicle.engineSounds.Count == 0)
+        {
+            return;
+        }
+
+        int desiredSoundIndex = GetEngineSoundIndex(currentSpeed);
+
+        if (desiredSoundIndex < 0 || desiredSoundIndex >= currentVehicle.engineSounds.Count)
+        {
+            return;
+        }
+
+        // If the desired sound is different from the current, switch it
+        if (engineAudioSource.clip != currentVehicle.engineSounds[desiredSoundIndex])
+        {
+            engineAudioSource.clip = currentVehicle.engineSounds[desiredSoundIndex];
+            engineAudioSource.volume = CalculateEngineVolume(currentSpeed);
+            engineAudioSource.Play();
+        }
+        else
+        {
+            // Adjust volume based on current speed
+            engineAudioSource.volume = CalculateEngineVolume(currentSpeed);
+        }
+    }
+
+    int GetEngineSoundIndex(float speed)
+    {
+        if (currentVehicle.engineSounds == null || currentVehicle.engineSounds.Count == 0)
+            return -1;
+
+        float speedRatio = Mathf.Clamp(speed / currentVehicle.maxSpeedSoundValue, 0f, 1f);
+        int totalSounds = currentVehicle.engineSounds.Count;
+        int index = Mathf.FloorToInt(speedRatio * (totalSounds));
+
+        // Clamp index to valid range
+        index = Mathf.Clamp(index, 0, totalSounds - 1);
+        return index;
+    }
+
+    float CalculateEngineVolume(float speed)
+    {
+        float speedRatio = Mathf.Clamp(speed / currentVehicle.maxSpeedSoundValue, 0f, 1f);
+        return speedRatio; // Volume ranges from 0 to 1 based on speed ratio
+    }
+
+    // -------------------- End of Engine Sound Handling --------------------
 }

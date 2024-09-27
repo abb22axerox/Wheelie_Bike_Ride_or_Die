@@ -2270,6 +2270,7 @@ MonoBehaviour:
     weight: 1
   - prefab: {fileID: 4325591669789988947, guid: a624251ecfb4447b9bb6423543cfe82d, type: 3}
     weight: 1
+  signGantryPrefab: {fileID: 6789761841828727552, guid: 713572365ff024071ae8f2e4adc1274c, type: 3}
   roadSettings: {fileID: 400575420}
 --- !u!1 &2021174591
 GameObject:
@@ -2449,11 +2450,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7401921822ec24b00a59f5f376a9c8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentVehicle:
+    vehicleName: MotorBikeYEAH
+    baseSpeed: 10
+    canWheelie: 1
+    accelerationRate: 10
+    maxSpeed: 20
+    engineSounds:
+    - {fileID: 8300000, guid: 771ce407ce807b74885ec23ebd1e6647, type: 3}
+    maxSpeedSoundValue: 20
+  engineAudioSource: {fileID: 0}
+  crashSound: {fileID: 8300000, guid: f632e2ace80a32e47a2c531f64901a50, type: 3}
   laneChangeCooldown: 0
   laneChangeDuration: 0.3
-  baseSpeed: 10
-  maxSpeedBoost: 30
-  speedAcceleration: 10
   maxWheelieAngle: 80
   wheelieSmoothTime: 0.5
   demandWheelie: 1
@@ -2476,6 +2485,10 @@ MonoBehaviour:
   splineContainer: {fileID: 1849874455}
   roadSettings: {fileID: 400575420}
   modelPivot: {fileID: 476692129}
+  fallOverDuration: 10
+  fallOverAngle: 90
+  spinSpeed: 360
+  fallDownSpeed: 1
   distanceTraveled: 0
 --- !u!65 &2030339491
 BoxCollider:
