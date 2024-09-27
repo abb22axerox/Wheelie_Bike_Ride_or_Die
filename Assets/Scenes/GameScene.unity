@@ -2457,10 +2457,14 @@ MonoBehaviour:
     accelerationRate: 10
     maxSpeed: 20
     engineSounds:
-    - {fileID: 8300000, guid: 771ce407ce807b74885ec23ebd1e6647, type: 3}
+    - {fileID: 8300000, guid: c502041826854664683f9914f63427b0, type: 3}
+    - {fileID: 8300000, guid: 75fa27e467267c74f91f1f6f4e74ff88, type: 3}
+    - {fileID: 8300000, guid: 22cd46996da3b624bb08935264560d8c, type: 3}
+    - {fileID: 8300000, guid: e9643d8581d235f45a62997cba851988, type: 3}
+    - {fileID: 8300000, guid: aa60e7347d433244fb6223eac9a95b85, type: 3}
     maxSpeedSoundValue: 20
   engineAudioSource: {fileID: 0}
-  crashSound: {fileID: 8300000, guid: f632e2ace80a32e47a2c531f64901a50, type: 3}
+  crashSound: {fileID: 8300000, guid: 7cfa93eb1f3f08944b52a66910f6a3b5, type: 3}
   laneChangeCooldown: 0
   laneChangeDuration: 0.3
   maxWheelieAngle: 80
