@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Splines;
 using Unity.Mathematics;  // For float3
 using System.Collections.Generic;
+using System.Threading;
 
 [System.Serializable]
 public class VehicleSettings
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public float laneChangeDuration = 0.5f;      // Time it takes to move to a new lane
 
     [Header("Wheelie Settings")]
+    public float startInvulnerabilityTime = 5.0f;
     public float maxWheelieAngle = 45.0f;        // Maximum wheelie angle in degrees
     public float wheelieSmoothTime = 0.1f;       // Time it takes to smooth the wheelie angle
     public bool demandWheelie = false;           // Require wheelie within tolerance
@@ -121,6 +123,7 @@ public class PlayerController : MonoBehaviour
     private float splineLength;                       // Total length of the spline
     private float sideOffset = 0f;                    // Current side offset in the XZ-plane
     private string InputBuffer = "None";
+    private float timer = 0;
 
     void Start()
     {
@@ -417,6 +420,9 @@ public class PlayerController : MonoBehaviour
 
             // Smoothly adjust wheelie angle towards target angle
             currentWheelieAngle = Mathf.SmoothDamp(currentWheelieAngle, targetWheelieAngle, ref wheelieAngleVelocity, wheelieSmoothTime);
+
+            timer += Time.deltaTime;
+            if (timer > startInvulnerabilityTime) CheckWheelieAngle(currentWheelieAngle);
 
             // Clamp wheelie angle between 0 and maxWheelieAngle
             currentWheelieAngle = Mathf.Clamp(currentWheelieAngle, 0.0f, maxWheelieAngle);
