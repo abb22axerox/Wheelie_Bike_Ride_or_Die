@@ -414,7 +414,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 125233621}
   SFXSource: {fileID: 1068928035}
-  background: {fileID: 8300000, guid: d27bc34519bf2aa4b8bdc6b5b6ec66bc, type: 3}
+  background: {fileID: 8300000, guid: dedbf19c1921d9f478b072a2746117a5, type: 3}
   death: {fileID: 0}
   wheelieGas: {fileID: 0}
 --- !u!4 &163024487
