@@ -616,6 +616,7 @@ public class PlayerController : MonoBehaviour
         {
             // Falling animation completed
             isFallingOver = false;
+            Time.timeScale = 0f;
  
             gameOverScreen.Setup(scoreManager.score);
         }
