@@ -1068,7 +1068,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   purchaseButton: {fileID: 497222594}
   playButton: {fileID: 2045480977}
-  resetPlayerDataOnStart: 0
+  resetPlayerDataOnStart: 1
   models:
   - {fileID: 1248598967819147742, guid: c4cad50aa03bbca42938fe318344950b, type: 3}
   - {fileID: 183330, guid: c495e6334bc726c4980c774b41d15ac7, type: 3}
