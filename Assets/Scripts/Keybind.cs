@@ -39,13 +39,13 @@ public class Keybind : MonoBehaviour
 
                     // Save the key to the corresponding PlayerPrefs based on which button is being changed
                     if (currentButton == button1)
-                        PlayerPrefs.SetString("CustomKey1", keycode.ToString());
+                        PlayerPrefs.SetString("W", keycode.ToString());
                     else if (currentButton == button2)
-                        PlayerPrefs.SetString("CustomKey2", keycode.ToString());
+                        PlayerPrefs.SetString("S", keycode.ToString());
                     else if (currentButton == button3)
-                        PlayerPrefs.SetString("CustomKey3", keycode.ToString());
+                        PlayerPrefs.SetString("A", keycode.ToString());
                     else if (currentButton == button4)
-                        PlayerPrefs.SetString("CustomKey4", keycode.ToString());
+                        PlayerPrefs.SetString("D", keycode.ToString());
 
                     PlayerPrefs.Save();
                     currentButton = null; // Reset after a key is assigned
