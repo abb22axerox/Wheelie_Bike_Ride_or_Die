@@ -2,15 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
  
 public class ScoreManager : MonoBehaviour {
  
     public static ScoreManager instance;
     public bool loadDataOnStart;
-    public Text scoreText;
-    public Text highscoreText;
-    public Text coinText;  // New Text component for displaying the coin count
+    public TMP_Text scoreText;
+    public TMP_Text highscoreText;
+    public TMP_Text coinText;  // New Text component for displaying the coin count
  
     [NonSerialized] public int score = 0;
     int highscore = 0;
@@ -28,11 +28,9 @@ public class ScoreManager : MonoBehaviour {
             coins = PlayerPrefs.GetInt("Coins");
         }
  
-        if (scoreText == null || highscoreText == null || coinText == null) return;
- 
-        scoreText.text = score.ToString() + " POINTS";
-        highscoreText.text = "HIGHSCORE: " + highscore.ToString();
-        coinText.text = "COINS: " + coins.ToString();  // Initialize the coin text
+        if (scoreText != null) scoreText.text = score.ToString();
+        if (coinText != null) coinText.text = coins.ToString();
+        if (highscoreText != null) highscoreText.text = "HIGHSCORE: " + highscore.ToString();
     }
  
     void Update()
@@ -47,15 +45,16 @@ public class ScoreManager : MonoBehaviour {
     }
  
     public void AddPoints (int newPoints) {
-        if (scoreText == null || highscoreText == null) return;
+        if (scoreText == null) return;
  
         score += newPoints;
-        scoreText.text = score.ToString() + " POINTS";
+        scoreText.text = score.ToString();
  
         if (score > highscore) {
             highscore = score;
             PlayerPrefs.SetInt("OwnedStatus", highscore);
             PlayerPrefs.Save();
+            if (highscoreText == null) return;
             highscoreText.text = "HIGHSCORE: " + highscore.ToString();
         }
     }
@@ -69,7 +68,7 @@ public class ScoreManager : MonoBehaviour {
         PlayerPrefs.Save();
         Debug.Log(coins);
  
-        coinText.text = "COINS: " + coins.ToString();  // Update the coin text
+        coinText.text = coins.ToString();
     }
 }
  
