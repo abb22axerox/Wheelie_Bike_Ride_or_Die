@@ -80,6 +80,8 @@ public class Stage : MonoBehaviour
         UpdateModelPositions();
         UpdateSelectedPrice();
         UpdateModelAppearances();
+ 
+        OnPurchase();
     }
  
     void Update()
@@ -120,8 +122,6 @@ public class Stage : MonoBehaviour
     void UpdateSelectedPrice()
     {
         SelectedPrice = prices[currentIndex];
-        // Optionally save the current vehicle name here
-        // SaveCurrentVehicleName();
     }
  
     IEnumerator TransitionModels()
@@ -405,5 +405,6 @@ public class Stage : MonoBehaviour
         SaveCurrentVehicleName();
     }
 }
+ 
  
  
