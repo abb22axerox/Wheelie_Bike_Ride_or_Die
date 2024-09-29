@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028373, g: 0.22571398, b: 0.30692294, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2234,7 +2234,6 @@ GameObject:
   - component: {fileID: 1036706145}
   - component: {fileID: 1036706144}
   - component: {fileID: 1036706143}
-  - component: {fileID: 1036706146}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -2318,19 +2317,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036706141}
   m_CullTransparentMesh: 1
---- !u!114 &1036706146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1036706141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43c0e3c34412b7e40aafac6514f18a3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreText: {fileID: 0}
 --- !u!1 &1068928034
 GameObject:
   m_ObjectHideFlags: 0
@@ -4467,10 +4453,14 @@ MonoBehaviour:
     modelScale: {x: 0, y: 0, z: 0}
     engineSounds: []
     maxSpeedSoundValue: 0
-  crashSoundnew:
+  crashSound: {fileID: 8300000, guid: 7cfa93eb1f3f08944b52a66910f6a3b5, type: 3}
+  deathSounds:
   - {fileID: 8300000, guid: 7cfa93eb1f3f08944b52a66910f6a3b5, type: 3}
   - {fileID: 8300000, guid: 53ff62906fdc82148b478de019ca4180, type: 3}
-  crashSound: {fileID: 8300000, guid: 7cfa93eb1f3f08944b52a66910f6a3b5, type: 3}
+  speedUpSound: {fileID: 8300000, guid: fb32d7e5883ef184fb09dd4ed3343f4a, type: 3}
+  slowDownSound: {fileID: 8300000, guid: 330802816a622ab4cb095c5ef244db4e, type: 3}
+  rocketSound: {fileID: 8300000, guid: 7e70c9f0176c0c24991a8949e5f32096, type: 3}
+  truckLaneSound: {fileID: 8300000, guid: 01c67f1834599824a880b36282466c10, type: 3}
   laneChangeCooldown: 0
   laneChangeDuration: 0.3
   startInvulnerabilityTime: 5
