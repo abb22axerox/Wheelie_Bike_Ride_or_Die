@@ -17,13 +17,13 @@ public class Keybind : MonoBehaviour
     {
         // Load saved keys or set default values for each button
         if (button1 != null)
-            button1.text = PlayerPrefs.GetString("CustomKey1", "Press Key");
+            button1.text = PlayerPrefs.GetString("W", "Press Key");
         if (button2 != null)
-            button2.text = PlayerPrefs.GetString("CustomKey2", "Press Key");
+            button2.text = PlayerPrefs.GetString("S", "Press Key");
         if (button3 != null)
-            button3.text = PlayerPrefs.GetString("CustomKey3", "Press Key");
+            button3.text = PlayerPrefs.GetString("A", "Press Key");
         if (button4 != null)
-            button4.text = PlayerPrefs.GetString("CustomKey4", "Press Key");
+            button4.text = PlayerPrefs.GetString("D", "Press Key");
     }
 
     // Update is called once per frame
