@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Audio_Manager : MonoBehaviour
 {
-
     [Header("-------- Audio Source --------")]
     [SerializeField] AudioSource musicSource;
     [SerializeField] AudioSource SFXSource;
@@ -12,11 +11,10 @@ public class Audio_Manager : MonoBehaviour
     public AudioClip death;
     public AudioClip wheelieGas;  
 
-
-private void Start()
-{
-    musicSource.clip = background;
-    musicSource.Play();
-}
-
+    private void Start()
+    {
+        musicSource.clip = background;
+        musicSource.loop = true;  // Enable looping
+        musicSource.Play();
+    }
 }
