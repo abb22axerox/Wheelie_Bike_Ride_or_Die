@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
  
@@ -14,7 +12,7 @@ public class ScoreManager : MonoBehaviour {
  
     [NonSerialized] public int score = 0;
     int highscore = 0;
-    int coins = 0;
+    public int coins = 0;
     float timer = 0;
  
     private void Awake() {
@@ -63,7 +61,7 @@ public class ScoreManager : MonoBehaviour {
         if (coinText == null) return;
  
         AddPoints(5);
-        coins++;
+        coins += newCoins;
         PlayerPrefs.SetInt("Coins", coins);
         PlayerPrefs.Save();
         Debug.Log(coins);
@@ -71,5 +69,7 @@ public class ScoreManager : MonoBehaviour {
         coinText.text = coins.ToString();
     }
 }
+ 
+ 
  
  
