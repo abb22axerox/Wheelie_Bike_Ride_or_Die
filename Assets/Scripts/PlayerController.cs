@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
         RightButton = PlayerPrefs.GetString("RightButton", "RightArrow");
  
         // Load the selected vehicle name from PlayerPrefs
-        vehicleName = PlayerPrefs.GetString("CurrentVehicleName", "DefaultVehicleName");
+        vehicleName = PlayerPrefs.GetString("CurrentVehicleName");
  
         // Get the vehicle settings and model based on the vehicle name
         GetVehicleSettings(vehicleName);

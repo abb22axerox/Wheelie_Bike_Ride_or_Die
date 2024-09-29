@@ -414,7 +414,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 125233621}
   SFXSource: {fileID: 1068928035}
-  background: {fileID: 8300000, guid: dedbf19c1921d9f478b072a2746117a5, type: 3}
+  background: {fileID: 8300000, guid: 82eac742f86cad34eb0f32dafe4be36f, type: 3}
   death: {fileID: 0}
   wheelieGas: {fileID: 0}
 --- !u!4 &163024487
@@ -1934,7 +1934,7 @@ GameObject:
   - component: {fileID: 912300406}
   m_Layer: 0
   m_Name: ScoreManager
-  m_TagString: Untagged
+  m_TagString: ScoreManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4420,16 +4420,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allVehiclesSettings:
   - vehicleName: Free Racing Car
-    baseSpeed: 50
+    baseSpeed: 5
     canWheelie: 0
-    accelerationRate: 20
-    maxSpeed: 100
+    accelerationRate: 100
+    maxSpeed: 50
     modelRotation: {x: 0, y: 270, z: 0}
-    modelPosition: {x: 0, y: 0, z: 0}
+    modelPosition: {x: 0, y: 0, z: -0.7}
     modelScale: {x: 1.1, y: 1.1, z: 1.1}
     engineSounds:
-    - {fileID: 8300000, guid: 322143226ca0f0c48b50fd9b252d2471, type: 3}
-    maxSpeedSoundValue: 50
+    - {fileID: 8300000, guid: c502041826854664683f9914f63427b0, type: 3}
+    - {fileID: 8300000, guid: bb683044c23cd50438d45fe475089c84, type: 3}
+    - {fileID: 8300000, guid: 75fa27e467267c74f91f1f6f4e74ff88, type: 3}
+    - {fileID: 8300000, guid: 30ab19edabbfdea499f3db426001e120, type: 3}
+    - {fileID: 8300000, guid: 22cd46996da3b624bb08935264560d8c, type: 3}
+    - {fileID: 8300000, guid: 132c1515ea005404fb6144c976c99ed6, type: 3}
+    - {fileID: 8300000, guid: e9643d8581d235f45a62997cba851988, type: 3}
+    maxSpeedSoundValue: 80
   - vehicleName: BikeModel
     baseSpeed: 5
     canWheelie: 1
@@ -4439,8 +4445,14 @@ MonoBehaviour:
     modelPosition: {x: 0, y: 0, z: -0.7}
     modelScale: {x: 2, y: 2, z: 2}
     engineSounds:
-    - {fileID: 8300000, guid: 3048985a7798b684d860bddb83bbc5c0, type: 3}
-    maxSpeedSoundValue: 100
+    - {fileID: 8300000, guid: c502041826854664683f9914f63427b0, type: 3}
+    - {fileID: 8300000, guid: bb683044c23cd50438d45fe475089c84, type: 3}
+    - {fileID: 8300000, guid: 75fa27e467267c74f91f1f6f4e74ff88, type: 3}
+    - {fileID: 8300000, guid: 30ab19edabbfdea499f3db426001e120, type: 3}
+    - {fileID: 8300000, guid: 22cd46996da3b624bb08935264560d8c, type: 3}
+    - {fileID: 8300000, guid: 132c1515ea005404fb6144c976c99ed6, type: 3}
+    - {fileID: 8300000, guid: e9643d8581d235f45a62997cba851988, type: 3}
+    maxSpeedSoundValue: 80
   - vehicleName: Prometheus
     baseSpeed: 20
     canWheelie: 0
@@ -4450,24 +4462,21 @@ MonoBehaviour:
     modelPosition: {x: 0, y: -1.1, z: -0.75}
     modelScale: {x: 1.1, y: 1.1, z: 1.1}
     engineSounds:
-    - {fileID: 8300000, guid: 3048985a7798b684d860bddb83bbc5c0, type: 3}
-    maxSpeedSoundValue: 100
-  currentVehicle:
-    vehicleName: BikeModel
-    baseSpeed: 10
-    canWheelie: 1
-    accelerationRate: 10
-    maxSpeed: 20
-    modelRotation: {x: 0, y: 0, z: 0}
-    modelPosition: {x: 0, y: 0, z: 0}
-    modelScale: {x: 1, y: 1, z: 1}
-    engineSounds:
-    - {fileID: 8300000, guid: c502041826854664683f9914f63427b0, type: 3}
     - {fileID: 8300000, guid: 75fa27e467267c74f91f1f6f4e74ff88, type: 3}
     - {fileID: 8300000, guid: 22cd46996da3b624bb08935264560d8c, type: 3}
     - {fileID: 8300000, guid: e9643d8581d235f45a62997cba851988, type: 3}
-    - {fileID: 8300000, guid: aa60e7347d433244fb6223eac9a95b85, type: 3}
-    maxSpeedSoundValue: 20
+    maxSpeedSoundValue: 100
+  currentVehicle:
+    vehicleName: 
+    baseSpeed: 0
+    canWheelie: 0
+    accelerationRate: 0
+    maxSpeed: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    modelPosition: {x: 0, y: 0, z: 0}
+    modelScale: {x: 0, y: 0, z: 0}
+    engineSounds: []
+    maxSpeedSoundValue: 0
   engineAudioSource: {fileID: 0}
   crashSound: {fileID: 8300000, guid: 7cfa93eb1f3f08944b52a66910f6a3b5, type: 3}
   laneChangeCooldown: 0
