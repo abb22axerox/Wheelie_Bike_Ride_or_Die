@@ -20,7 +20,8 @@ public class GameOverScreen : MonoBehaviour
     }
 
     public void ExitButton(){
-         SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene("Main Menu");
+        Time.timeScale = 1;
     }
 
 
