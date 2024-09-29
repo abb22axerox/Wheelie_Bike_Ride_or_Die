@@ -37,8 +37,8 @@ public class Stage : MonoBehaviour
     {
         public bool[] ownedStatus;
     }
-
-    void Start()
+ 
+    public void Start()
     {
         // Ensure that the lengths of arrays match
         if (!ValidateArrays())
@@ -102,7 +102,14 @@ public class Stage : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            SwitchRight();
+            bool UseSuckyCode = true;
+            if (UseSuckyCode)
+            {
+                SwitchLeft();
+                SwitchLeft();
+                SwitchLeft();
+                SwitchLeft();
+            }
         }
 
         UpdateInterface();

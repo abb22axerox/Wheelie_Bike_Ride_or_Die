@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731722, g: 0.13414752, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731713, g: 0.13414736, b: 0.12107852, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1068,7 +1068,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   purchaseButton: {fileID: 497222594}
   playButton: {fileID: 2045480977}
-  resetPlayerDataOnStart: 1
+  resetPlayerDataOnStart: 0
   models:
   - {fileID: 1248598967819147742, guid: c4cad50aa03bbca42938fe318344950b, type: 3}
   - {fileID: 183330, guid: c495e6334bc726c4980c774b41d15ac7, type: 3}
@@ -1092,8 +1092,6 @@ MonoBehaviour:
   centerScale: {x: 2, y: 2, z: 2}
   sideScale: {x: 1, y: 1, z: 1}
   offScreenScale: {x: 0, y: 0, z: 0}
-  purchaseButton: {fileID: 0}
-  playButton: {fileID: 0}
 --- !u!4 &649558075
 Transform:
   m_ObjectHideFlags: 0
@@ -1414,6 +1412,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6665f84e3e1444280ae7101965a428c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  purchaseButton: {fileID: 497222594}
+  playButton: {fileID: 2045480977}
   resetPlayerDataOnStart: 0
   models: []
   prices: []
@@ -1428,8 +1428,6 @@ MonoBehaviour:
   centerScale: {x: 1.5, y: 1.5, z: 1.5}
   sideScale: {x: 1, y: 1, z: 1}
   offScreenScale: {x: 0.5, y: 0.5, z: 0.5}
-  purchaseButton: {fileID: 497222594}
-  playButton: {fileID: 2045480977}
 --- !u!1 &1428508827
 GameObject:
   m_ObjectHideFlags: 0
