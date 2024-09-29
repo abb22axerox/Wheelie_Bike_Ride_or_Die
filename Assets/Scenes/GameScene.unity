@@ -4067,6 +4067,17 @@ MonoBehaviour:
     engineSounds:
     - {fileID: 8300000, guid: 3048985a7798b684d860bddb83bbc5c0, type: 3}
     maxSpeedSoundValue: 100
+  - vehicleName: Prometheus
+    baseSpeed: 20
+    canWheelie: 0
+    accelerationRate: 50
+    maxSpeed: 40
+    modelRotation: {x: 0, y: 270, z: 0}
+    modelPosition: {x: 0, y: -1.1, z: -0.75}
+    modelScale: {x: 1.1, y: 1.1, z: 1.1}
+    engineSounds:
+    - {fileID: 8300000, guid: 3048985a7798b684d860bddb83bbc5c0, type: 3}
+    maxSpeedSoundValue: 100
   currentVehicle:
     vehicleName: BikeModel
     baseSpeed: 10
