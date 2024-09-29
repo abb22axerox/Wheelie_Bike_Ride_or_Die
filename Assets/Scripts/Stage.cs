@@ -5,6 +5,8 @@ using UnityEngine;
  
 public class Stage : MonoBehaviour
 {
+    public GameObject purchaseButton;
+    public GameObject playButton;
     public bool resetPlayerDataOnStart;
     public GameObject[] models;          // Assign via inspector
     public float[] prices;               // Assign via inspector
@@ -95,8 +97,28 @@ public class Stage : MonoBehaviour
         {
             SwitchRight();
         }
+
+        UpdateInterface();
     }
- 
+    
+    void UpdateInterface()
+    {
+        bool hasLook = ownedStatus[currentIndex];  // Check if the current car is owned
+        Debug.Log(hasLook);
+    
+        // Toggle button visibility based on ownership status
+        if (hasLook)
+        {
+            purchaseButton.SetActive(false);
+            playButton.SetActive(true);
+        }
+        else
+        {
+            purchaseButton.SetActive(true);
+            playButton.SetActive(false);
+        }
+    }
+
     void SwitchLeft()
     {
         currentIndex--;
