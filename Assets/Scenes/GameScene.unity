@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028373, g: 0.22571398, b: 0.30692294, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1934,6 +1934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b3e195fbd3b0e642b261b9756a0c1ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadDataOnStart: 1
   scoreText: {fileID: 0}
   highscoreText: {fileID: 0}
   coinText: {fileID: 0}
@@ -4043,12 +4044,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7401921822ec24b00a59f5f376a9c8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allVehiclesSettings:
+  - vehicleName: Free Racing Car
+    baseSpeed: 50
+    canWheelie: 0
+    accelerationRate: 20
+    maxSpeed: 100
+    modelRotation: {x: 0, y: 270, z: 0}
+    modelPosition: {x: 0, y: 0, z: 0}
+    modelScale: {x: 1.1, y: 1.1, z: 1.1}
+    engineSounds:
+    - {fileID: 8300000, guid: 322143226ca0f0c48b50fd9b252d2471, type: 3}
+    maxSpeedSoundValue: 50
+  - vehicleName: BikeModel
+    baseSpeed: 5
+    canWheelie: 1
+    accelerationRate: 100
+    maxSpeed: 50
+    modelRotation: {x: 0, y: 0, z: 0}
+    modelPosition: {x: 0, y: 0, z: -0.7}
+    modelScale: {x: 2, y: 2, z: 2}
+    engineSounds:
+    - {fileID: 8300000, guid: 3048985a7798b684d860bddb83bbc5c0, type: 3}
+    maxSpeedSoundValue: 100
   currentVehicle:
-    vehicleName: MotorBikeYEAH
+    vehicleName: BikeModel
     baseSpeed: 10
     canWheelie: 1
     accelerationRate: 10
     maxSpeed: 20
+    modelRotation: {x: 0, y: 0, z: 0}
+    modelPosition: {x: 0, y: 0, z: 0}
+    modelScale: {x: 1, y: 1, z: 1}
     engineSounds:
     - {fileID: 8300000, guid: c502041826854664683f9914f63427b0, type: 3}
     - {fileID: 8300000, guid: 75fa27e467267c74f91f1f6f4e74ff88, type: 3}
@@ -4090,6 +4117,7 @@ MonoBehaviour:
   spinSpeed: 360
   fallDownSpeed: 1
   distanceTraveled: 0
+  vehicleName: 
 --- !u!65 &2030339491
 BoxCollider:
   m_ObjectHideFlags: 0
