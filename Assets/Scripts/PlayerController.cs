@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Splines;
 using Unity.Mathematics;  // For float3
 using System.Collections.Generic;
+using System;
  
 [System.Serializable]
 public class VehicleSettings
@@ -32,7 +33,8 @@ public class PlayerController : MonoBehaviour
     public VehicleSettings currentVehicle;           // Current vehicle's settings
  
     [Header("Audio Settings")]
-    public AudioSource engineAudioSource;            // AudioSource for engine sounds
+    [NonSerialized] public AudioSource engineAudioSource;            // AudioSource for engine sounds
+    public AudioClip[] crashSoundnew;
     public AudioClip crashSound;                     // Crash sound effect assigned through the Inspector
  
     [Header("Movement Settings")]
