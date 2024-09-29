@@ -14,12 +14,14 @@ public class GameOverScreen : MonoBehaviour
         pointText.text = score.ToString() + " POINTS";
     }
     public void RestartButton(){
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Time.timeScale = 1;
 
     }
 
     public void ExitButton(){
-         SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene("Main Menu");
+        Time.timeScale = 1;
     }
 
 

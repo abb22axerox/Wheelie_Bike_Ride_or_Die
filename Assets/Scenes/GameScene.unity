@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028373, g: 0.22571398, b: 0.30692294, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2802,7 +2802,7 @@ MonoBehaviour:
   m_text: Main Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 107451a698a202447b2f29165fc71d83, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -6493671456844456753, guid: 107451a698a202447b2f29165fc71d83, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2865,7 +2865,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1305928278
@@ -2938,7 +2938,7 @@ MonoBehaviour:
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 107451a698a202447b2f29165fc71d83, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -6493671456844456753, guid: 107451a698a202447b2f29165fc71d83, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3001,7 +3001,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1398635899
@@ -4064,6 +4064,17 @@ MonoBehaviour:
     modelRotation: {x: 0, y: 0, z: 0}
     modelPosition: {x: 0, y: 0, z: -0.7}
     modelScale: {x: 2, y: 2, z: 2}
+    engineSounds:
+    - {fileID: 8300000, guid: 3048985a7798b684d860bddb83bbc5c0, type: 3}
+    maxSpeedSoundValue: 100
+  - vehicleName: Prometheus
+    baseSpeed: 20
+    canWheelie: 0
+    accelerationRate: 50
+    maxSpeed: 40
+    modelRotation: {x: 0, y: 270, z: 0}
+    modelPosition: {x: 0, y: -1.1, z: -0.75}
+    modelScale: {x: 1.1, y: 1.1, z: 1.1}
     engineSounds:
     - {fileID: 8300000, guid: 3048985a7798b684d860bddb83bbc5c0, type: 3}
     maxSpeedSoundValue: 100
