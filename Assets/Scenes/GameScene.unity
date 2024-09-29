@@ -4406,12 +4406,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allVehiclesSettings:
   - vehicleName: Free Racing Car
-    baseSpeed: 5
+    baseSpeed: 30
     canWheelie: 0
     accelerationRate: 100
     maxSpeed: 50
     modelRotation: {x: 0, y: 270, z: 0}
-    modelPosition: {x: 0, y: 0, z: -0.7}
+    modelPosition: {x: 0, y: -1.1, z: -0.75}
     modelScale: {x: 1.1, y: 1.1, z: 1.1}
     engineSounds:
     - {fileID: 8300000, guid: c502041826854664683f9914f63427b0, type: 3}
@@ -4440,7 +4440,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: e9643d8581d235f45a62997cba851988, type: 3}
     maxSpeedSoundValue: 80
   - vehicleName: Prometheus
-    baseSpeed: 20
+    baseSpeed: 30
     canWheelie: 0
     accelerationRate: 50
     maxSpeed: 40
@@ -4448,8 +4448,12 @@ MonoBehaviour:
     modelPosition: {x: 0, y: -1.1, z: -0.75}
     modelScale: {x: 1.1, y: 1.1, z: 1.1}
     engineSounds:
+    - {fileID: 8300000, guid: c502041826854664683f9914f63427b0, type: 3}
+    - {fileID: 8300000, guid: bb683044c23cd50438d45fe475089c84, type: 3}
     - {fileID: 8300000, guid: 75fa27e467267c74f91f1f6f4e74ff88, type: 3}
+    - {fileID: 8300000, guid: 30ab19edabbfdea499f3db426001e120, type: 3}
     - {fileID: 8300000, guid: 22cd46996da3b624bb08935264560d8c, type: 3}
+    - {fileID: 8300000, guid: 132c1515ea005404fb6144c976c99ed6, type: 3}
     - {fileID: 8300000, guid: e9643d8581d235f45a62997cba851988, type: 3}
     maxSpeedSoundValue: 100
   currentVehicle:
