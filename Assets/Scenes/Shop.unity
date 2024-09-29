@@ -138,7 +138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &76739694
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1078,6 +1078,8 @@ MonoBehaviour:
   centerScale: {x: 2, y: 2, z: 2}
   sideScale: {x: 1, y: 1, z: 1}
   offScreenScale: {x: 0, y: 0, z: 0}
+  purchaseButton: {fileID: 0}
+  playButton: {fileID: 0}
 --- !u!4 &649558075
 Transform:
   m_ObjectHideFlags: 0
@@ -1362,6 +1364,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1316470801}
+  - component: {fileID: 1316470802}
   m_Layer: 0
   m_Name: Shop Menu
   m_TagString: Untagged
@@ -1385,6 +1388,34 @@ Transform:
   - {fileID: 1483308965}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1316470802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316470800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6665f84e3e1444280ae7101965a428c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resetPlayerDataOnStart: 0
+  models: []
+  prices: []
+  transitionTime: 0.5
+  darkeningAmount: 0.5
+  ownedStatus: 
+  centerPosition: {x: 0, y: 0, z: 0}
+  leftPosition: {x: -2, y: 0, z: 0}
+  rightPosition: {x: 2, y: 0, z: 0}
+  offScreenLeftPosition: {x: -5, y: 0, z: 0}
+  offScreenRightPosition: {x: 5, y: 0, z: 0}
+  centerScale: {x: 1.5, y: 1.5, z: 1.5}
+  sideScale: {x: 1, y: 1, z: 1}
+  offScreenScale: {x: 0.5, y: 0.5, z: 0.5}
+  purchaseButton: {fileID: 497222594}
+  playButton: {fileID: 2045480977}
 --- !u!1 &1428508827
 GameObject:
   m_ObjectHideFlags: 0
