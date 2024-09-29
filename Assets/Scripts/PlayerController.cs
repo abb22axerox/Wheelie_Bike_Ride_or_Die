@@ -712,24 +712,7 @@ public class PlayerController : MonoBehaviour
             truckLaneAudioSource.Stop();
         }
 
-        // Play the next death sound
-        if (deathSounds != null && deathSounds.Count > 0)
-        {
-            AudioClip deathSound = deathSounds[deathSoundIndex];
-            AudioSource.PlayClipAtPoint(deathSound, transform.position);
-
-            // Update the index for the next death
-            deathSoundIndex = (deathSoundIndex + 1) % deathSounds.Count;
-        }
-        else if (crashSound != null)
-        {
-            // Play the default crash sound if no death sounds are assigned
-            AudioSource.PlayClipAtPoint(crashSound, transform.position);
-        }
-        else
-        {
-            Debug.LogWarning("No death sounds or crash sound assigned.");
-        }
+        AudioSource.PlayClipAtPoint(crashSound, transform.position);
     }
 
     void HandleFallingOver()
