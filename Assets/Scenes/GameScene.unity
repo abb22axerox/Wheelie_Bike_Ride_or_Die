@@ -4481,7 +4481,9 @@ MonoBehaviour:
     modelScale: {x: 0, y: 0, z: 0}
     engineSounds: []
     maxSpeedSoundValue: 0
-  engineAudioSource: {fileID: 0}
+  crashSoundnew:
+  - {fileID: 8300000, guid: 7cfa93eb1f3f08944b52a66910f6a3b5, type: 3}
+  - {fileID: 8300000, guid: 53ff62906fdc82148b478de019ca4180, type: 3}
   crashSound: {fileID: 8300000, guid: 7cfa93eb1f3f08944b52a66910f6a3b5, type: 3}
   laneChangeCooldown: 0
   laneChangeDuration: 0.3
