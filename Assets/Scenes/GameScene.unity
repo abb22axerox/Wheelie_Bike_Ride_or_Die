@@ -1939,7 +1939,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadDataOnStart: 1
   scoreText: {fileID: 1562244003}
-  highscoreText: {fileID: 0}
+  highscoreText: {fileID: 377006848}
   coinText: {fileID: 1916078761}
 --- !u!4 &912300407
 Transform:
