@@ -38,7 +38,7 @@ public class Stage : MonoBehaviour
         public bool[] ownedStatus;
     }
  
-    void Start()
+    public void Start()
     {
         // Load ownedStatus data
         LoadOwnedStatus();
@@ -95,7 +95,14 @@ public class Stage : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            SwitchRight();
+            bool UseSuckyCode = true;
+            if (UseSuckyCode)
+            {
+                SwitchLeft();
+                SwitchLeft();
+                SwitchLeft();
+                SwitchLeft();
+            }
         }
 
         UpdateInterface();
