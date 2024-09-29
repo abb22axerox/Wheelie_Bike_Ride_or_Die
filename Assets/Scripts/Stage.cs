@@ -2,14 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
  
 public class Stage : MonoBehaviour
 {
+    public TMP_Text costText;
+    public ScoreManager scoreManager;
     public GameObject purchaseButton;
     public GameObject playButton;
     public bool resetPlayerDataOnStart;
     public GameObject[] models;          // Assign via inspector
-    public float[] prices;               // Assign via inspector
+    public int[] prices;               // Assign via inspector
     public float transitionTime = 0.5f;  // Time it takes to transition between models
     public float darkeningAmount = 0.5f; // Amount to darken non-center models (0 to 1)
     public bool[] ownedStatus;           // Ownership status of vehicles
@@ -18,7 +21,7 @@ public class Stage : MonoBehaviour
     private List<GameObject> lockSymbols = new List<GameObject>();
     private List<Color> originalColors = new List<Color>();
     private int currentIndex = 0;
-    [NonSerialized] public float SelectedPrice;
+    [NonSerialized] public int SelectedPrice;
  
     // Positions and scales
     public Vector3 centerPosition = Vector3.zero;
@@ -30,7 +33,7 @@ public class Stage : MonoBehaviour
     public Vector3 centerScale = Vector3.one * 1.5f;
     public Vector3 sideScale = Vector3.one;
     public Vector3 offScreenScale = Vector3.one * 0.5f;
-
+ 
     private string LeftButton;
     private string RightButton;
  
@@ -45,7 +48,7 @@ public class Stage : MonoBehaviour
     {
         LeftButton = PlayerPrefs.GetString("LeftButton", "LeftArrow");
         RightButton = PlayerPrefs.GetString("RightButton", "RightArrow");
-
+ 
         // Load ownedStatus data
         LoadOwnedStatus();
  
@@ -110,9 +113,11 @@ public class Stage : MonoBehaviour
                 SwitchLeft();
             }
         }
-
+ 
         UpdateInterface();
         SaveCurrentVehicleName();
+
+        costText.text = "Cost: " + SelectedPrice.ToString() + "";
     }
     
     void UpdateInterface()
@@ -132,7 +137,7 @@ public class Stage : MonoBehaviour
             playButton.SetActive(false);
         }
     }
-
+ 
     void SwitchLeft()
     {
         currentIndex--;
@@ -392,6 +397,8 @@ public class Stage : MonoBehaviour
     // Function to call when a purchase is made
     public void OnPurchase()
     {
+        if (scoreManager.coins < SelectedPrice) return;
+        scoreManager.AddCoin(-SelectedPrice);
         // Set the current vehicle as owned
         ownedStatus[currentIndex] = true;
         // Save the updated ownedStatus array
@@ -441,3 +448,4 @@ public class Stage : MonoBehaviour
         SaveCurrentVehicleName();
     }
 }
+ 
