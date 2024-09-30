@@ -2694,6 +2694,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointText: {fileID: 845607647}
   draggableText: {fileID: 1562244002}
+  slider1: {fileID: 1705562265}
+  slider2: {fileID: 1289701547}
+  slider3: {fileID: 1453415659}
 --- !u!114 &1036706144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5527,6 +5530,9 @@ MonoBehaviour:
   modelPivot: {fileID: 476692129}
   gameOverScreen: {fileID: 1036706143}
   scoreManager: {fileID: 912300406}
+  speedUpBar: {fileID: 1289701548}
+  slowDownBar: {fileID: 1453415660}
+  rocketBar: {fileID: 1705562266}
   fallOverDuration: 2
   fallOverAngle: 90
   spinSpeed: 360
