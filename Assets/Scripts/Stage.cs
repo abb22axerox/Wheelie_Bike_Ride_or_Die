@@ -117,7 +117,7 @@ public class Stage : MonoBehaviour
         UpdateInterface();
         SaveCurrentVehicleName();
 
-        costText.text = "Cost: " + SelectedPrice.ToString() + "";
+        costText.text = "Price:" + SelectedPrice.ToString() + "";
     }
     
     void UpdateInterface()
