@@ -50,7 +50,7 @@ public class ScoreManager : MonoBehaviour {
  
         if (score > highscore) {
             highscore = score;
-            PlayerPrefs.SetInt("OwnedStatus", highscore);
+            PlayerPrefs.SetInt("HighScore", highscore);
             PlayerPrefs.Save();
             if (highscoreText == null) return;
             highscoreText.text = "HIGHSCORE: " + highscore.ToString();

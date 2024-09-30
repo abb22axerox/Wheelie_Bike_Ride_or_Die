@@ -27,6 +27,7 @@ public class Collectable : MonoBehaviour
     private float distanceTraveled = 0f;         // Total distance traveled along the spline
     private float distanceTraveledFromStart = 0f;
     private float splineLength;                  // Total length of the spline
+    private int frameCount = 0;
  
     void Start()
     {
@@ -66,7 +67,7 @@ public class Collectable : MonoBehaviour
  
     void Update()
     {
-        if (spline == null)
+        if (spline == null || ++frameCount%10 == 1)
             return;
  
         // Increase the distance traveled based on speed
