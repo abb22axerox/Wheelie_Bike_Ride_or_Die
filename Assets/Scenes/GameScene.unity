@@ -441,7 +441,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 82c95b0cce7cfee4aa60b20aa713d0e2, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ad30fe9710856464fa118ab8b2caae3d, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -632,11 +632,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3502cadafc32435e847d216c17b4f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 10, z: -10}
+  offset: {x: 0, y: 5, z: -5}
   rotation: {x: 20, y: 0, z: 0}
   smoothingSpeed: 5
   staticCamera: 0
   target: {fileID: 2030339489}
+  player: {fileID: 2030339490}
 --- !u!1 &214243996
 GameObject:
   m_ObjectHideFlags: 0
@@ -4237,7 +4238,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: 0
     m_CustomResolution: -1
     m_Strength: 1
@@ -5434,13 +5435,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 191795254}
   a: 2
-  b: 20
+  b: 10
   allVehiclesSettings:
   - vehicleName: Free Racing Car
     baseSpeed: 20
     canWheelie: 0
-    accelerationRate: 30
-    maxSpeed: 60
+    accelerationRate: 25
+    maxSpeed: 40
     modelRotation: {x: 0, y: 270, z: 0}
     modelPosition: {x: 0, y: -1.1, z: -0.75}
     modelScale: {x: 1.1, y: 1.1, z: 1.1}
@@ -5454,10 +5455,10 @@ MonoBehaviour:
     - {fileID: 8300000, guid: e9643d8581d235f45a62997cba851988, type: 3}
     maxSpeedSoundValue: 60
   - vehicleName: BikeModel
-    baseSpeed: 30
+    baseSpeed: 10
     canWheelie: 1
     accelerationRate: 30
-    maxSpeed: 60
+    maxSpeed: 30
     modelRotation: {x: 0, y: 0, z: 0}
     modelPosition: {x: 0, y: 0, z: -0.7}
     modelScale: {x: 2, y: 2, z: 2}
@@ -5473,8 +5474,25 @@ MonoBehaviour:
   - vehicleName: Prometheus
     baseSpeed: 30
     canWheelie: 0
-    accelerationRate: 40
-    maxSpeed: 200
+    accelerationRate: 30
+    maxSpeed: 50
+    modelRotation: {x: 0, y: 270, z: 0}
+    modelPosition: {x: 0, y: -1.1, z: -0.75}
+    modelScale: {x: 1.1, y: 1.1, z: 1.1}
+    engineSounds:
+    - {fileID: 8300000, guid: c502041826854664683f9914f63427b0, type: 3}
+    - {fileID: 8300000, guid: bb683044c23cd50438d45fe475089c84, type: 3}
+    - {fileID: 8300000, guid: 75fa27e467267c74f91f1f6f4e74ff88, type: 3}
+    - {fileID: 8300000, guid: 30ab19edabbfdea499f3db426001e120, type: 3}
+    - {fileID: 8300000, guid: 22cd46996da3b624bb08935264560d8c, type: 3}
+    - {fileID: 8300000, guid: 132c1515ea005404fb6144c976c99ed6, type: 3}
+    - {fileID: 8300000, guid: e9643d8581d235f45a62997cba851988, type: 3}
+    maxSpeedSoundValue: 100
+  - vehicleName: CityCar
+    baseSpeed: 15
+    canWheelie: 0
+    accelerationRate: 50
+    maxSpeed: 70
     modelRotation: {x: 0, y: 270, z: 0}
     modelPosition: {x: 0, y: -1.1, z: -0.75}
     modelScale: {x: 1.1, y: 1.1, z: 1.1}

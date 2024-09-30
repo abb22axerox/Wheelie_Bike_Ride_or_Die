@@ -63,7 +63,7 @@ public class ScoreManager : MonoBehaviour {
     public void AddCoin(int newCoins) {
         if (coinText == null) return;
  
-        AddPoints(100);
+        AddPoints(50);
         coins += newCoins;
         PlayerPrefs.SetInt("Coins", coins);
         PlayerPrefs.Save();

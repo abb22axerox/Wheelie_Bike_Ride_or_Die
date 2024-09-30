@@ -1429,11 +1429,10 @@ MonoBehaviour:
   - {fileID: 1248598967819147742, guid: c4cad50aa03bbca42938fe318344950b, type: 3}
   - {fileID: 183330, guid: c495e6334bc726c4980c774b41d15ac7, type: 3}
   - {fileID: 642287924342879162, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
-  - {fileID: 1248598967819147742, guid: c4cad50aa03bbca42938fe318344950b, type: 3}
-  - {fileID: 642287924342879162, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
-  prices: 0500000001000000040000000200000003000000
+  - {fileID: 474104336994572571, guid: 0cee1ce78419c4f44b30a4be418fe71f, type: 3}
+  prices: 14000000000000002800000063000000
   transitionTime: 0.5
-  darkeningAmount: 0.5
+  darkeningAmount: 0
   ownedStatus: 0000010100
   centerPosition: {x: 0, y: 0, z: 0}
   leftPosition: {x: -5, y: 0, z: 0}
@@ -1885,7 +1884,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 11.15
+  m_Intensity: 15.4
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

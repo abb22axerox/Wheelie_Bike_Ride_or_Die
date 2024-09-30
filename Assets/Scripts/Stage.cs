@@ -104,14 +104,10 @@ public class Stage : MonoBehaviour
         }
         else if (Input.GetKeyDown(RightButton))
         {
-            bool UseSuckyCode = true;
-            if (UseSuckyCode)
-            {
-                SwitchLeft();
-                SwitchLeft();
-                SwitchLeft();
-                SwitchLeft();
-            }
+            //Crap code
+            SwitchLeft();
+            SwitchLeft();
+            SwitchLeft();
         }
  
         UpdateInterface();
@@ -152,7 +148,7 @@ public class Stage : MonoBehaviour
     void SwitchRight()
     {
         currentIndex++;
-        if (currentIndex >= instantiatedModels.Count)
+        if (currentIndex > instantiatedModels.Count)
         {
             currentIndex = 0;
         }
