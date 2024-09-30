@@ -4410,7 +4410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupSlider: {fileID: 1705562265}
-  drainDuration: 5
+  drainDuration: 5.5
 --- !u!1 &1708874510
 GameObject:
   m_ObjectHideFlags: 0

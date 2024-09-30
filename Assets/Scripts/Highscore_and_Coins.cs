@@ -4,7 +4,9 @@ using TMPro;
  
 public class ScoreManager : MonoBehaviour {
  
-    public static ScoreManager instance;
+    public ScoreManager instance;
+    public PlayerController player;
+    float PointDstThreshold = 5;
     public bool loadDataOnStart;
     public TMP_Text scoreText;
     public TMP_Text highscoreText;
@@ -14,6 +16,7 @@ public class ScoreManager : MonoBehaviour {
     int highscore = 0;
     public int coins = 0;
     float timer = 0;
+    float last = 0;
  
     private void Awake() {
         instance = this;
@@ -33,10 +36,10 @@ public class ScoreManager : MonoBehaviour {
  
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer > 1)
+        timer += Time.deltaTime * player.SPEED;
+        if (timer > PointDstThreshold && Time.deltaTime != 0)
         {
-            timer -= 1.0f;
+            timer = 0;
  
             AddPoints(1);
         }
@@ -60,7 +63,7 @@ public class ScoreManager : MonoBehaviour {
     public void AddCoin(int newCoins) {
         if (coinText == null) return;
  
-        AddPoints(5);
+        AddPoints(100);
         coins += newCoins;
         PlayerPrefs.SetInt("Coins", coins);
         PlayerPrefs.Save();
@@ -69,6 +72,7 @@ public class ScoreManager : MonoBehaviour {
         coinText.text = coins.ToString();
     }
 }
+ 
  
  
  
