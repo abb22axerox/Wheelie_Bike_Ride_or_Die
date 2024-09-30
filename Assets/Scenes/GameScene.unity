@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028373, g: 0.22571398, b: 0.30692294, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2353,8 +2353,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instance: {fileID: 912300406}
   player: {fileID: 2030339490}
-  instance: {fileID: 912300406}
-  player: {fileID: 2030339490}
   loadDataOnStart: 1
   scoreText: {fileID: 1562244003}
   highscoreText: {fileID: 377006848}
@@ -3474,7 +3472,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerupSlider: {fileID: 1289701547}
   drainDuration: 3
-  drainDuration: 3
 --- !u!1 &1305928275
 GameObject:
   m_ObjectHideFlags: 0
@@ -4416,7 +4413,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerupSlider: {fileID: 1705562265}
   drainDuration: 8
-  drainDuration: 8
 --- !u!1 &1708874510
 GameObject:
   m_ObjectHideFlags: 0
@@ -5253,9 +5249,7 @@ MonoBehaviour:
   - prefab: {fileID: 4325591669789988947, guid: a624251ecfb4447b9bb6423543cfe82d, type: 3}
     weight: 1
   - prefab: {fileID: 9050626087183496456, guid: 1d8f25a15a5041047b4c6073b9f5b74b, type: 3}
-    weight: 6
-  - prefab: {fileID: 9050626087183496456, guid: 2c875c5e9a27e794d88df75effd8b7bf, type: 3}
-    weight: 6
+    weight: 20
   signGantryPrefab: {fileID: 6789761841828727552, guid: 713572365ff024071ae8f2e4adc1274c, type: 3}
   roadSettings: {fileID: 400575420}
 --- !u!1 &1966167184
@@ -5439,8 +5433,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 191795254}
-  a: 0.5
-  b: 60
+  a: 2
+  b: 20
   allVehiclesSettings:
   - vehicleName: Free Racing Car
     baseSpeed: 20
@@ -5520,8 +5514,6 @@ MonoBehaviour:
   demandWheelie: 1
   maxTiltAngle: 20
   tiltSmoothTime: 0.05
-  speedUpMultiplier: 1.5
-  speedUpDuration: 3
   speedUpMultiplier: 1.5
   speedUpDuration: 3
   speedUpRampUpTime: 0.2
