@@ -2351,6 +2351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b3e195fbd3b0e642b261b9756a0c1ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instance: {fileID: 912300406}
+  player: {fileID: 2030339490}
   loadDataOnStart: 1
   scoreText: {fileID: 1562244003}
   highscoreText: {fileID: 377006848}
@@ -3469,7 +3471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupSlider: {fileID: 1289701547}
-  drainDuration: 5
+  drainDuration: 3
 --- !u!1 &1305928275
 GameObject:
   m_ObjectHideFlags: 0
@@ -4410,7 +4412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupSlider: {fileID: 1705562265}
-  drainDuration: 5.5
+  drainDuration: 8
 --- !u!1 &1708874510
 GameObject:
   m_ObjectHideFlags: 0
@@ -5203,9 +5205,9 @@ MonoBehaviour:
   spawnDistance: 150
   minSpawnInterval: 10
   maxSpawnInterval: 20
-  BaseSpawnInterval: 30
+  BaseSpawnInterval: 20
   numberOfLinesAhead: 5
-  Difficulty: 0.02
+  Difficulty: 0.015
   minTrucksPerLine: 1
   maxTrucksPerLine: 2
   truckPrefabs:
@@ -5216,19 +5218,19 @@ MonoBehaviour:
   - prefab: {fileID: 2328455228860544303, guid: ddfa4f2c4fcf6114088e23a082c9f042, type: 3}
     weight: 1
   minCollectablesPerLine: 1
-  maxCollectablesPerLine: 3
+  maxCollectablesPerLine: 2
   collectablePrefabs:
   - prefab: {fileID: 9050626087183496456, guid: f1fa10d0f89de467f87ecb8162dee8b8, type: 3}
-    weight: 10
+    weight: 5
   - prefab: {fileID: 9050626087183496456, guid: 8421939bcec404a08a5622ac7130a88a, type: 3}
     weight: 1
   - prefab: {fileID: 9050626087183496456, guid: ef2c5c1d17a284fbca57ba47fc1b8dd5, type: 3}
     weight: 1
   - prefab: {fileID: 9050626087183496456, guid: 45b837da925734eaaa1d162e0817e8bb, type: 3}
     weight: 1
-  minRoadSignsPerLine: 2
-  maxRoadSignsPerLine: 3
-  roadSignSpawnProbability: 0.3
+  minRoadSignsPerLine: 1
+  maxRoadSignsPerLine: 2
+  roadSignSpawnProbability: 0.2
   roadSignPrefabs:
   - prefab: {fileID: 9121392486425833212, guid: 34b7899e492b340d2ba23d3d78a3c89d, type: 3}
     weight: 1
@@ -5434,10 +5436,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allVehiclesSettings:
   - vehicleName: Free Racing Car
-    baseSpeed: 30
+    baseSpeed: 20
     canWheelie: 0
-    accelerationRate: 100
-    maxSpeed: 50
+    accelerationRate: 30
+    maxSpeed: 60
     modelRotation: {x: 0, y: 270, z: 0}
     modelPosition: {x: 0, y: -1.1, z: -0.75}
     modelScale: {x: 1.1, y: 1.1, z: 1.1}
@@ -5449,12 +5451,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 22cd46996da3b624bb08935264560d8c, type: 3}
     - {fileID: 8300000, guid: 132c1515ea005404fb6144c976c99ed6, type: 3}
     - {fileID: 8300000, guid: e9643d8581d235f45a62997cba851988, type: 3}
-    maxSpeedSoundValue: 80
+    maxSpeedSoundValue: 60
   - vehicleName: BikeModel
-    baseSpeed: 5
+    baseSpeed: 30
     canWheelie: 1
-    accelerationRate: 100
-    maxSpeed: 50
+    accelerationRate: 30
+    maxSpeed: 60
     modelRotation: {x: 0, y: 0, z: 0}
     modelPosition: {x: 0, y: 0, z: -0.7}
     modelScale: {x: 2, y: 2, z: 2}
@@ -5466,12 +5468,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 22cd46996da3b624bb08935264560d8c, type: 3}
     - {fileID: 8300000, guid: 132c1515ea005404fb6144c976c99ed6, type: 3}
     - {fileID: 8300000, guid: e9643d8581d235f45a62997cba851988, type: 3}
-    maxSpeedSoundValue: 80
+    maxSpeedSoundValue: 50
   - vehicleName: Prometheus
     baseSpeed: 30
     canWheelie: 0
-    accelerationRate: 50
-    maxSpeed: 40
+    accelerationRate: 40
+    maxSpeed: 200
     modelRotation: {x: 0, y: 270, z: 0}
     modelPosition: {x: 0, y: -1.1, z: -0.75}
     modelScale: {x: 1.1, y: 1.1, z: 1.1}
@@ -5504,25 +5506,25 @@ MonoBehaviour:
   rocketSound: {fileID: 8300000, guid: 7e70c9f0176c0c24991a8949e5f32096, type: 3}
   truckLaneSound: {fileID: 8300000, guid: 01c67f1834599824a880b36282466c10, type: 3}
   laneChangeCooldown: 0
-  laneChangeDuration: 0.3
+  laneChangeDuration: 0.2
   startInvulnerabilityTime: 5
   maxWheelieAngle: 80
   wheelieSmoothTime: 0.5
   demandWheelie: 1
   maxTiltAngle: 20
   tiltSmoothTime: 0.05
-  speedUpMultiplier: 2
-  speedUpDuration: 5
+  speedUpMultiplier: 1.5
+  speedUpDuration: 3
   speedUpRampUpTime: 0.2
   speedUpRampDownTime: 0.2
-  slowDownMultiplier: 0.5
+  slowDownMultiplier: 0.66
   slowDownDuration: 5
   slowDownRampUpTime: 0.2
   slowDownRampDownTime: 0.2
-  rocketHeight: 5
-  rocketDuration: 5
-  rocketRampUpTime: 1
-  rocketRampDownTime: 1
+  rocketHeight: 5.5
+  rocketDuration: 8
+  rocketRampUpTime: 0.5
+  rocketRampDownTime: 0.5
   rocketOscillationAmplitude: 0.5
   rocketOscillationFrequency: 1
   splineContainer: {fileID: 1849874455}
@@ -5535,7 +5537,7 @@ MonoBehaviour:
   rocketBar: {fileID: 1705562266}
   fallOverDuration: 2
   fallOverAngle: 90
-  spinSpeed: 360
+  spinSpeed: 1
   fallDownSpeed: 1
   distanceTraveled: 0
   vehicleName: 
