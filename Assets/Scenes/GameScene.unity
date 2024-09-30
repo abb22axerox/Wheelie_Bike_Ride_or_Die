@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028373, g: 0.22571398, b: 0.30692294, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2353,6 +2353,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instance: {fileID: 912300406}
   player: {fileID: 2030339490}
+  instance: {fileID: 912300406}
+  player: {fileID: 2030339490}
   loadDataOnStart: 1
   scoreText: {fileID: 1562244003}
   highscoreText: {fileID: 377006848}
@@ -3472,6 +3474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerupSlider: {fileID: 1289701547}
   drainDuration: 3
+  drainDuration: 3
 --- !u!1 &1305928275
 GameObject:
   m_ObjectHideFlags: 0
@@ -4413,6 +4416,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerupSlider: {fileID: 1705562265}
   drainDuration: 8
+  drainDuration: 8
 --- !u!1 &1708874510
 GameObject:
   m_ObjectHideFlags: 0
@@ -5203,8 +5207,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnDistance: 150
-  minSpawnInterval: 10
-  maxSpawnInterval: 20
+  minSpawnInterval: 20
+  maxSpawnInterval: 30
   BaseSpawnInterval: 20
   numberOfLinesAhead: 5
   Difficulty: 0.015
@@ -5434,6 +5438,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7401921822ec24b00a59f5f376a9c8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 191795254}
+  a: 0.5
+  b: 60
   allVehiclesSettings:
   - vehicleName: Free Racing Car
     baseSpeed: 20
@@ -5515,6 +5522,8 @@ MonoBehaviour:
   tiltSmoothTime: 0.05
   speedUpMultiplier: 1.5
   speedUpDuration: 3
+  speedUpMultiplier: 1.5
+  speedUpDuration: 3
   speedUpRampUpTime: 0.2
   speedUpRampDownTime: 0.2
   slowDownMultiplier: 0.66
@@ -5523,7 +5532,7 @@ MonoBehaviour:
   slowDownRampDownTime: 0.2
   rocketHeight: 5.5
   rocketDuration: 8
-  rocketRampUpTime: 0.5
+  rocketRampUpTime: 0.3
   rocketRampDownTime: 0.5
   rocketOscillationAmplitude: 0.5
   rocketOscillationFrequency: 1
