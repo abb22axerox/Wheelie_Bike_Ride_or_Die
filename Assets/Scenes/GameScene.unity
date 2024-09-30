@@ -2351,6 +2351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b3e195fbd3b0e642b261b9756a0c1ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instance: {fileID: 912300406}
+  player: {fileID: 2030339490}
   loadDataOnStart: 1
   scoreText: {fileID: 1562244003}
   highscoreText: {fileID: 377006848}
