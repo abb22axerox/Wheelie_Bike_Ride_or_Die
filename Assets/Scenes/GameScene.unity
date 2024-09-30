@@ -5201,9 +5201,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnDistance: 150
-  minSpawnInterval: 20
-  maxSpawnInterval: 30
-  BaseSpawnInterval: 5
+  minSpawnInterval: 10
+  maxSpawnInterval: 20
+  BaseSpawnInterval: 30
   numberOfLinesAhead: 5
   Difficulty: 0.02
   minTrucksPerLine: 1

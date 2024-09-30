@@ -1004,7 +1004,7 @@ MonoBehaviour:
   speed: 10
   loop: 1
   sideOffset: 0
-  despawnDistance: 100
+  despawnDistance: 40
 --- !u!65 &-6948308687113413786
 BoxCollider:
   m_ObjectHideFlags: 0
