@@ -5209,7 +5209,7 @@ MonoBehaviour:
   minTrucksPerLine: 1
   maxTrucksPerLine: 2
   truckPrefabs:
-  - prefab: {fileID: 3958609379848094512, guid: 2f7e5d3ced42e6a41b198aa1f71c0a2c, type: 3}
+  - prefab: {fileID: 7347783130161285131, guid: 54e98495b3f1177429c499f486bd242f, type: 3}
     weight: 1
   - prefab: {fileID: 7347783130161285131, guid: 6db9726c59c4dcc488ec0168c87a3301, type: 3}
     weight: 1
