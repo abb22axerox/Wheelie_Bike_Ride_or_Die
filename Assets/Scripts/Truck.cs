@@ -20,6 +20,8 @@ public class Truck : MonoBehaviour
     private float distanceTraveledFromStart = 0f;
     private float splineLength;                 // Total length of the spline
     private int frameCount = 0;
+        float despawnTime = 7f;
+    float timer = 0.0f;
 
     void Start()
     {
@@ -92,6 +94,7 @@ public class Truck : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(worldTangent);
         }
 
-        if (Mathf.Abs(distanceTraveledFromStart) > despawnDistance) Destroy(gameObject);
+        timer += Time.deltaTime;
+        if (timer > despawnTime) Destroy(gameObject);
     }
 }

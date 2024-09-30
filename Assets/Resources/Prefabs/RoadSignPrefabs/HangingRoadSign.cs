@@ -14,7 +14,7 @@ public class HangingRoadSign : MonoBehaviour
     [NonSerialized] public float sideOffset = 0f;               // Side offset in the XZ-plane
 
     [Header("Despawn Settings")]
-    public float despawnTime = 20.0f;       // Distance behind the player at which the truck will be destroyed
+    float despawnTime = 7.0f;       // Distance behind the player at which the truck will be destroyed
 
     private Spline spline;
     private float distanceTraveled = 0f;        // Total distance traveled along the spline

@@ -76,7 +76,7 @@ MonoBehaviour:
   rotationSpeed: 100
   bobbingAmplitude: 0.4
   bobbingFrequency: 5
-  despawnDistance: 100
+  despawnDistance: 40
 --- !u!54 &-4916403150733179189
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 420eb66f1251540da978d2f6f3a0184b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreManager: {fileID: 0}
 --- !u!1001 &420759524414436828
 PrefabInstance:
   m_ObjectHideFlags: 0
