@@ -12,7 +12,7 @@ public class VehicleSettings
     public float baseSpeed = 10.0f;
     public bool canWheelie = true;          
     public float accelerationRate = 0.5f;      
-    public float maxSpeed = 20.0f;        
+    public float maxSpeed = 20.0f;
  
     [Header("Model Settings")]
     public Vector3 modelRotation = Vector3.zero;
@@ -26,6 +26,9 @@ public class VehicleSettings
  
 public class PlayerController : MonoBehaviour
 {
+    public Camera camera;
+    public float a = 1;
+    public float b = 1;
     [Header("All Vehicles Settings")]
     public VehicleSettings[] allVehiclesSettings;    
  
@@ -282,7 +285,7 @@ public class PlayerController : MonoBehaviour
         HandleWheelieAndSpeed();
  
         // Increase the distance traveled based on current speed
-        distanceTraveled += currentSpeed * (isRocketActive ? 2 : 1) * Time.deltaTime;
+        distanceTraveled += currentSpeed * (isRocketActive ? 1.5f : 1.0f) * Time.deltaTime;
  
         if (distanceTraveled > splineLength)
         {
@@ -548,6 +551,7 @@ public class PlayerController : MonoBehaviour
         // Smoothly adjust current speed towards adjusted target speed
         currentSpeed = Mathf.MoveTowards(currentSpeed, adjustedTargetSpeed, currentVehicle.accelerationRate * Time.deltaTime);
         SPEED = currentSpeed;
+        if (!(demandWheelie && currentVehicle.canWheelie)) camera.fieldOfView = SPEED * a + b;
  
         // Clamp current speed
         float minSpeed = currentVehicle.baseSpeed * currentSpeedMultiplier * currentSlowMultiplier;
