@@ -1429,8 +1429,7 @@ MonoBehaviour:
   - {fileID: 1248598967819147742, guid: c4cad50aa03bbca42938fe318344950b, type: 3}
   - {fileID: 183330, guid: c495e6334bc726c4980c774b41d15ac7, type: 3}
   - {fileID: 642287924342879162, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
-  - {fileID: 474104336994572571, guid: 0cee1ce78419c4f44b30a4be418fe71f, type: 3}
-  prices: 14000000000000002800000063000000
+  prices: 140000000000000063000000
   transitionTime: 0.5
   darkeningAmount: 0
   ownedStatus: 0000010100
@@ -1491,7 +1490,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 210, y: 20}
+  m_AnchoredPosition: {x: 240, y: 20}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &802920287

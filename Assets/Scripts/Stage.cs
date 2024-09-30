@@ -107,7 +107,6 @@ public class Stage : MonoBehaviour
             //Crap code
             SwitchLeft();
             SwitchLeft();
-            SwitchLeft();
         }
  
         UpdateInterface();
