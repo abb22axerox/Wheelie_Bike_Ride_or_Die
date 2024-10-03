@@ -7,13 +7,11 @@ public class Shop_Menu : MonoBehaviour
 {
    public void Next()
    {
-      SceneManager.LoadSceneAsync(2);
+      SceneManager.LoadSceneAsync(2); // Load the next scenE
    }
 
     public void Back()
    {
-      SceneManager.LoadSceneAsync(0);
+      SceneManager.LoadSceneAsync(0); // Load the previous scEne
    }
-
 }
-

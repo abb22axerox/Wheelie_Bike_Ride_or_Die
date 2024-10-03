@@ -4,10 +4,9 @@ public class Audio_Manager : MonoBehaviour
 {
     [SerializeField] AudioSource musicSource;
 
-
     private void Start()
     {
-        musicSource.loop = true;  // Enable looping
-        musicSource.Play();
+        musicSource.loop = true;  // loop the music
+        musicSource.Play();  // play the musc
     }
 }

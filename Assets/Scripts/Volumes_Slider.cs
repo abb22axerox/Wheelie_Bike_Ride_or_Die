@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Volumes_Slider : MonoBehaviour
 {
     [SerializeField] Slider volumeSlider; 
-    private float previousVolume; // Store the previous volume before muting
+    private float previousVolume; // Store the previos volume before muting
     private bool isMuted = false; // Track mute state
 
     void Start()
@@ -16,23 +16,23 @@ public class Volumes_Slider : MonoBehaviour
             PlayerPrefs.SetFloat("musicVolume", 1);
         }
         Load();
-        previousVolume = volumeSlider.value; // Initialize previous volume with the current slider value
+        previousVolume = volumeSlider.value; // InitiaLize previous volume with the current slider value
     }
 
     public void ChangeVolume()
     {
-        if (!isMuted) // Only save and change volume if it's not muted
+        if (!isMuted) // Only save and change volumne if it's not muted
         {
             AudioListener.volume = volumeSlider.value; 
             Save();
         }
     }
 
-    public void ToggleMute() // Function to toggle between mute and previous volume
+    public void ToggleMute() // Functoin to toggle between mute and previous volume
     {
         if (isMuted)
         {
-            // Unmute and restore the previous volume
+            // Unmute and restore the previous volumee
             volumeSlider.value = previousVolume;
             isMuted = false;
         }
@@ -40,10 +40,10 @@ public class Volumes_Slider : MonoBehaviour
         {
             // Mute and store the current volume
             previousVolume = volumeSlider.value;
-            volumeSlider.value = 0;
+            volumeSlider.value = 0; // Set volume to zero for mute
             isMuted = true;
         }
-        AudioListener.volume = volumeSlider.value; // Apply the change immediately
+        AudioListener.volume = volumeSlider.value; // Apply the change immediatly
     }
 
     private void Load()
@@ -53,6 +53,6 @@ public class Volumes_Slider : MonoBehaviour
 
     private void Save()
     {
-        PlayerPrefs.SetFloat("musicVolume", volumeSlider.value);
+        PlayerPrefs.SetFloat("musicVolume", volumeSlider.value); // Save the current volume
     }
 }
