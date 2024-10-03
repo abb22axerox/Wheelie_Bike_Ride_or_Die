@@ -21,9 +21,9 @@ public class Keybind : MonoBehaviour
         if (button2 != null)
             button2.text = PlayerPrefs.GetString("CustomKey2", "s");
         if (button3 != null)
-            button3.text = PlayerPrefs.GetString("CustomKey3", "d");
+            button3.text = PlayerPrefs.GetString("CustomKey3", "a");
         if (button4 != null)
-            button4.text = PlayerPrefs.GetString("CustomKey4", "a");
+            button4.text = PlayerPrefs.GetString("CustomKey4", "d");
  
         PlayerPrefs.SetString("ForwardButton", "w");
         PlayerPrefs.SetString("BackwardButton", "s");
