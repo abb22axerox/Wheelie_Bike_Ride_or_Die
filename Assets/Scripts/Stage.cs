@@ -104,7 +104,7 @@ public class Stage : MonoBehaviour
         }
         else if (Input.GetKeyDown(RightButton))
         {
-            //Crap code
+            //Modified code
             SwitchLeft();
             SwitchLeft();
         }

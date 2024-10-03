@@ -5434,8 +5434,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 191795254}
-  a: 2
-  b: 10
+  a: 1.6
+  b: 20
   allVehiclesSettings:
   - vehicleName: Free Racing Car
     baseSpeed: 20
