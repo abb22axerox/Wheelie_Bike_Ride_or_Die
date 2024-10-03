@@ -1530,11 +1530,9 @@ MonoBehaviour:
   - {fileID: 1248598967819147742, guid: c4cad50aa03bbca42938fe318344950b, type: 3}
   - {fileID: 183330, guid: c495e6334bc726c4980c774b41d15ac7, type: 3}
   - {fileID: 642287924342879162, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
-  - {fileID: 1248598967819147742, guid: c4cad50aa03bbca42938fe318344950b, type: 3}
-  - {fileID: 642287924342879162, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
-  prices: 0500000001000000040000000200000003000000
+  prices: 140000000000000063000000
   transitionTime: 0.5
-  darkeningAmount: 0.5
+  darkeningAmount: 0
   ownedStatus: 0000010100
   centerPosition: {x: 0, y: 0, z: 0}
   leftPosition: {x: -5, y: 0, z: 0}
@@ -1593,7 +1591,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 210, y: 20}
+  m_AnchoredPosition: {x: 240, y: 20}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &802920287
@@ -1986,7 +1984,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 11.15
+  m_Intensity: 15.4
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

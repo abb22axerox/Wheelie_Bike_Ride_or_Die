@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028373, g: 0.22571398, b: 0.30692294, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -441,7 +441,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 82c95b0cce7cfee4aa60b20aa713d0e2, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ad30fe9710856464fa118ab8b2caae3d, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -632,11 +632,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3502cadafc32435e847d216c17b4f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 10, z: -10}
+  offset: {x: 0, y: 5, z: -5}
   rotation: {x: 20, y: 0, z: 0}
   smoothingSpeed: 5
   staticCamera: 0
   target: {fileID: 2030339489}
+  player: {fileID: 2030339490}
 --- !u!1 &214243996
 GameObject:
   m_ObjectHideFlags: 0
@@ -2353,8 +2354,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instance: {fileID: 912300406}
   player: {fileID: 2030339490}
-  instance: {fileID: 912300406}
-  player: {fileID: 2030339490}
   loadDataOnStart: 1
   scoreText: {fileID: 1562244003}
   highscoreText: {fileID: 377006848}
@@ -3474,7 +3473,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerupSlider: {fileID: 1289701547}
   drainDuration: 3
-  drainDuration: 3
 --- !u!1 &1305928275
 GameObject:
   m_ObjectHideFlags: 0
@@ -4240,7 +4238,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: 0
     m_CustomResolution: -1
     m_Strength: 1
@@ -4415,7 +4413,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupSlider: {fileID: 1705562265}
-  drainDuration: 8
   drainDuration: 8
 --- !u!1 &1708874510
 GameObject:
@@ -5253,9 +5250,7 @@ MonoBehaviour:
   - prefab: {fileID: 4325591669789988947, guid: a624251ecfb4447b9bb6423543cfe82d, type: 3}
     weight: 1
   - prefab: {fileID: 9050626087183496456, guid: 1d8f25a15a5041047b4c6073b9f5b74b, type: 3}
-    weight: 6
-  - prefab: {fileID: 9050626087183496456, guid: 2c875c5e9a27e794d88df75effd8b7bf, type: 3}
-    weight: 6
+    weight: 20
   signGantryPrefab: {fileID: 6789761841828727552, guid: 713572365ff024071ae8f2e4adc1274c, type: 3}
   roadSettings: {fileID: 400575420}
 --- !u!1 &1966167184
@@ -5439,14 +5434,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 191795254}
-  a: 0.5
-  b: 60
+  a: 1.6
+  b: 20
   allVehiclesSettings:
   - vehicleName: Free Racing Car
     baseSpeed: 20
     canWheelie: 0
-    accelerationRate: 30
-    maxSpeed: 60
+    accelerationRate: 25
+    maxSpeed: 40
     modelRotation: {x: 0, y: 270, z: 0}
     modelPosition: {x: 0, y: -1.1, z: -0.75}
     modelScale: {x: 1.1, y: 1.1, z: 1.1}
@@ -5460,10 +5455,10 @@ MonoBehaviour:
     - {fileID: 8300000, guid: e9643d8581d235f45a62997cba851988, type: 3}
     maxSpeedSoundValue: 60
   - vehicleName: BikeModel
-    baseSpeed: 30
+    baseSpeed: 10
     canWheelie: 1
     accelerationRate: 30
-    maxSpeed: 60
+    maxSpeed: 30
     modelRotation: {x: 0, y: 0, z: 0}
     modelPosition: {x: 0, y: 0, z: -0.7}
     modelScale: {x: 2, y: 2, z: 2}
@@ -5479,8 +5474,25 @@ MonoBehaviour:
   - vehicleName: Prometheus
     baseSpeed: 30
     canWheelie: 0
-    accelerationRate: 40
-    maxSpeed: 200
+    accelerationRate: 30
+    maxSpeed: 50
+    modelRotation: {x: 0, y: 270, z: 0}
+    modelPosition: {x: 0, y: -1.1, z: -0.75}
+    modelScale: {x: 1.1, y: 1.1, z: 1.1}
+    engineSounds:
+    - {fileID: 8300000, guid: c502041826854664683f9914f63427b0, type: 3}
+    - {fileID: 8300000, guid: bb683044c23cd50438d45fe475089c84, type: 3}
+    - {fileID: 8300000, guid: 75fa27e467267c74f91f1f6f4e74ff88, type: 3}
+    - {fileID: 8300000, guid: 30ab19edabbfdea499f3db426001e120, type: 3}
+    - {fileID: 8300000, guid: 22cd46996da3b624bb08935264560d8c, type: 3}
+    - {fileID: 8300000, guid: 132c1515ea005404fb6144c976c99ed6, type: 3}
+    - {fileID: 8300000, guid: e9643d8581d235f45a62997cba851988, type: 3}
+    maxSpeedSoundValue: 100
+  - vehicleName: CityCar
+    baseSpeed: 15
+    canWheelie: 0
+    accelerationRate: 50
+    maxSpeed: 70
     modelRotation: {x: 0, y: 270, z: 0}
     modelPosition: {x: 0, y: -1.1, z: -0.75}
     modelScale: {x: 1.1, y: 1.1, z: 1.1}
@@ -5520,8 +5532,6 @@ MonoBehaviour:
   demandWheelie: 1
   maxTiltAngle: 20
   tiltSmoothTime: 0.05
-  speedUpMultiplier: 1.5
-  speedUpDuration: 3
   speedUpMultiplier: 1.5
   speedUpDuration: 3
   speedUpRampUpTime: 0.2
