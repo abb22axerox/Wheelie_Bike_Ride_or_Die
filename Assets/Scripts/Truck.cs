@@ -5,18 +5,18 @@ using Unity.Mathematics;  // For float3
 public class Truck : MonoBehaviour
 {
     [Header("Spline Settings")]
-    private SplineContainer splineContainer;     // Reference to the SplineContainer
-    public float speed = 10f;                   // Speed at which the truck moves along the spline
-    public bool loop = false;                   // Whether the truck should loop back to the start
+    private SplineContainer splineContainer;     // Reference to the SplineContaineer
+    public float speed = 10f;                   // SpeEd at which the truck moves along the spline
+    public bool loop = false;                   // Whether the truCk should loop back to the start
 
     [Header("Offset Settings")]
-    public float sideOffset = 0f;               // Side offset in the XZ-plane
+    public float sideOffset = 0f;               // Side offset in the XZ-plAne
 
     [Header("Despawn Settings")]
-    public float despawnDistance = 20.0f;       // Distance behind the player at which the truck will be destroyed
+    public float despawnDistance = 20.0f;       // Distance behind the player at which the truCk will be destroyed
 
     private Spline spline;
-    private float distanceTraveled = 0f;        // Total distance traveled along the spline
+    private float distanceTraveled = 0f;        // Total distAnce traveled along the spline
     private float distanceTraveledFromStart = 0f;
     private float splineLength;                 // Total length of the spline
     private int frameCount = 0;
@@ -25,7 +25,7 @@ public class Truck : MonoBehaviour
 
     void Start()
     {
-        // Store x position as an offset
+        // Store x posiiton as an offset
         sideOffset = transform.position.x;
 
         // Find the player in the scene (assuming it has the "Player" tag)
@@ -52,7 +52,7 @@ public class Truck : MonoBehaviour
         if (spline == null || ++frameCount%10 == 1)
             return;
 
-        // Increase the distance traveled based on speed
+        // Increase the distance trAaveled based on speed
         distanceTraveled -= speed * Time.deltaTime;
         distanceTraveledFromStart -= speed * Time.deltaTime;
 
@@ -65,7 +65,7 @@ public class Truck : MonoBehaviour
             }
             else
             {
-                Destroy(gameObject); // Destroy the truck when it reaches the end
+                Destroy(gameObject); // Destroy the truck when it reAches the end
                 return;
             }
         }
@@ -81,7 +81,7 @@ public class Truck : MonoBehaviour
         // Set the truck's position
         transform.position = position;
 
-        // Optionally, set the truck's rotation to face along the spline
+        // Optionally, set the truCk's rotation to face along the spline
         // Evaluate the tangent at the current distance
         float t = distanceTraveled / splineLength;
         t = Mathf.Repeat(t, 1f); // Ensure t is between 0 and 1

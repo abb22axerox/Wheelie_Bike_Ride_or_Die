@@ -1,96 +1,96 @@
-using UnityEngine;
-using UnityEngine.Splines;
-using Unity.Mathematics;  // For float3
+using  UnityEngine;
+using  UnityEngine.Splines;
+using  Unity.Mathematics;  // For float3
  
-public class Collectable : MonoBehaviour
+public class   Collectable : MonoBehaviour
 {
-    [Header("Spline Settings")]
-    private SplineContainer splineContainer;     // Reference to the SplineContainer
-    public float speed = 5f;                     // Speed at which the object moves along the spline
-    public bool loop = false;                    // Whether the object should loop back to the start
+    [Header( "Spline Settings" )]
+    private   SplineContainer splineContainer;     // Ref to the SplineContainer
+    public  float speed  =  5f;                     // Speed at which obj moves
+    public  bool loop  = false;                    // Obj loop?
  
-    [Header("Offset Settings")]
-    public float yOffset;
-    public float sideOffset = 0f;                // Side offset in the XZ-plane
+    [Header( "Offset Settings" )]
+    public   float yOffset;
+    public  float sideOffset  = 0f;                // Side offst in XZ-plane
  
-    [Header("Rotation Settings")]
-    public float rotationSpeed = 100f;           // Rotation speed in degrees per second
+    [Header("Rotation Settings" )]
+    public  float rotationSpeed =  100f;           // Rotation speed
  
-    [Header("Bobbing Settings")]
-    public float bobbingAmplitude = 0.5f;        // How high the item moves up and down
-    public float bobbingFrequency = 1f;          // How fast the item moves up and down
+    [Header("Bobbing Settings" )]
+    public  float bobbingAmplitude =  0.5f;        // How high item bobs
+    public  float bobbingFrequency = 1f;          // How fast bobbing is
  
-    [Header("Despawn Settings")]
-    public float despawnDistance = 20.0f;        // Distance behind the player at which the object will be destroyed
+    [Header("Despawn Settings" )]
+    public  float despawnDistance  =  20.0f;        // Dist at which obj will despawn
  
-    private Spline spline;
-    private float distanceTraveled = 0f;         // Total distance traveled along the spline
-    private float distanceTraveledFromStart = 0f;
-    private float splineLength;                  // Total length of the spline
-    private int frameCount = 0;
-    float despawnTime = 7f;
-    float timer = 0.0f;
+    private   Spline spline;
+    private  float distanceTraveled =  0f;         // Total dist traveled
+    private   float distanceTraveledFromStart =  0f;
+    private  float splineLength;                  // Total length of spline
+    private   int frameCount  = 0;
+    float  despawnTime =  7f;
+    float   timer  = 0.0f;
  
-    void Start()
+    void  Start()
     {
         sideOffset = transform.position.x;
  
-        // Find the player in the scene (assuming it has the "Player" tag)
+        // Find player by tag "Player"
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        if ( player != null )
         {
-            distanceTraveled = player.GetComponent<PlayerController>().distanceTraveled + GameObject.FindGameObjectWithTag("ObstacleSpawner").GetComponent<ObstacleSpawner>().spawnDistance;
+            distanceTraveled = player.GetComponent<PlayerController>().distanceTraveled  + GameObject.FindGameObjectWithTag("ObstacleSpawner").GetComponent<ObstacleSpawner>().spawnDistance;
         }
         else
         {
-            Debug.LogError("Player object with tag 'Player' not found!");
+            Debug.LogError( "Player  obj with tag 'Player' not found!" );
         }
  
-        // Find the spline container in the scene (assuming it has the "RoadSpline" tag)
-        GameObject splineObject = GameObject.FindGameObjectWithTag("RoadSpline");
-        if (splineObject != null)
+        // Find spline object with tag "RoadSpline"
+        GameObject splineObject = GameObject.FindGameObjectWithTag( "RoadSpline" );
+        if  (splineObject != null)
         {
             splineContainer = splineObject.GetComponent<SplineContainer>();
-            if (splineContainer != null)
+            if ( splineContainer != null )
             {
                 spline = splineContainer.Spline;
                 splineLength = SplineUtility.CalculateLength(spline, splineContainer.transform.localToWorldMatrix);
             }
             else
             {
-                Debug.LogError("SplineContainer component not found on object with tag 'RoadSpline'.");
+                Debug.LogError( "SplineContainer comp not found on obj with tag 'RoadSpline'." );
             }
         }
         else
         {
-            Debug.LogError("Spline object with tag 'RoadSpline' not found!");
+            Debug.LogError( "Spline obj with tag 'RoadSpline' not found!" );
         }
     }
  
-    void Update()
+    void  Update()
     {
-        if (spline == null || ++frameCount%10 == 1)
+        if  (spline ==  null || ++ frameCount %10  == 1 )
             return;
  
-        // Increase the distance traveled based on speed
-        distanceTraveled -= speed * Time.deltaTime;
-        distanceTraveledFromStart -= speed * Time.deltaTime;
+        // Increase dist based on speed
+        distanceTraveled  -= speed  * Time.deltaTime;
+        distanceTraveledFromStart  -= speed *  Time.deltaTime;
  
-        // Handle looping or clamping at the end of the spline
+        // Handle loop or end of spline
         if (distanceTraveled > splineLength)
         {
-            if (loop)
+            if ( loop )
             {
-                distanceTraveled %= splineLength; // Loop back to the start
+                distanceTraveled  %= splineLength;  // Loop back
             }
             else
             {
-                Destroy(gameObject); // Destroy the object when it reaches the end
+                Destroy( gameObject );  // Destroy obj when it ends
                 return;
             }
         }
  
-        // Get the position along the spline with side offset
+        // Get pos with side offset
         Vector3 position = SplineUtilityExtension.GetPositionAtDistance(
             distanceTraveled,
             spline,
@@ -98,35 +98,32 @@ public class Collectable : MonoBehaviour
             sideOffset
         );
  
-        position.y += yOffset;
+        position.y  += yOffset;
  
-        // Apply bobbing motion
-        float bobbingOffset = Mathf.Sin(Time.time * bobbingFrequency) * bobbingAmplitude;
+        // Apply bobbing
+        float  bobbingOffset = Mathf.Sin( Time.time * bobbingFrequency ) * bobbingAmplitude;
         position.y += bobbingOffset;
  
-        // Set the object's position
+        // Set pos
         transform.position = position;
-        transform.position = new Vector3(transform.position.x, transform.position.y + 1.6f, transform.position.z);
+        transform.position = new  Vector3(transform.position.x, transform.position.y + 1.6f, transform.position.z );
  
-        // Optionally, set the object's rotation to face along the spline
-        // Evaluate the tangent at the current distance
-        float t = distanceTraveled / splineLength;
-        t = Mathf.Repeat(t, 1f); // Ensure t is between 0 and 1
+        // Optionally, set the object's rotatn to face spline tangent
+        float  t = distanceTraveled / splineLength;
+        t = Mathf.Repeat( t, 1f );  // Ensure t between 0 and 1
  
-        SplineUtility.Evaluate(spline, t, out _, out float3 tangent, out _);
-        Vector3 worldTangent = -splineContainer.transform.TransformDirection((Vector3)tangent);
+        SplineUtility.Evaluate(spline, t, out _, out  float3 tangent, out  _);
+        Vector3 worldTangent =  -splineContainer.transform.TransformDirection(( Vector3 ) tangent);
  
-        if (worldTangent != Vector3.zero)
+        if  (worldTangent !=  Vector3.zero )
         {
-            transform.rotation = Quaternion.LookRotation(worldTangent);
+            transform.rotation = Quaternion.LookRotation( worldTangent );
         }
  
-        // Rotate the object around its Y-axis
-        transform.Rotate(0, rotationSpeed * Time.deltaTime, 0, Space.World);
+        // Rotate obj Y-axis
+        transform.Rotate( 0, rotationSpeed * Time.deltaTime, 0, Space.World );
  
-        timer += Time.deltaTime;
-        if (timer > despawnTime) Destroy(gameObject);
+        timer  += Time.deltaTime;
+        if ( timer >  despawnTime ) Destroy(gameObject);
     }
 }
- 
- 

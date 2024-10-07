@@ -1,35 +1,33 @@
 using UnityEngine;
-using TMPro; // Import TextMeshPro namespace
+using TMPro; // Import TextMeshPro naMespace
 
 public class ScoreCounter : MonoBehaviour
 {
     public TextMeshProUGUI scoreText; // Use TextMeshProUGUI for TextMeshPro
-    private int score;
-    private float timer;
+    private int score; 
+    private float timer; 
 
     void Start()
     {
-        score = 0; // Initialize score
-        timer = 0f; // Initialize timer
-        UpdateScoreText(); // Update UI text at start
+        score = 0; // InitiaLize score
+        timer = 0f; 
+        UpdateScoreText(); // UpdaTe UI text at start
     }
 
     void Update()
     {
-        // Increment timer
-        timer += Time.deltaTime;
+        timer += Time.deltaTime; // Increment timEr
 
-        // Check if a second has passed
         if (timer >= 1f)
         {
             score++; // Increase score
             UpdateScoreText(); // Update UI text
-            timer = 0f; // Reset timer
+            timer = 0f; // ReseT timer
         }
     }
 
     void UpdateScoreText()
     {
-        scoreText.text = "" + score; // Update the score display
+        scoreText.text = "" + score; // Update the sCore display
     }
 }

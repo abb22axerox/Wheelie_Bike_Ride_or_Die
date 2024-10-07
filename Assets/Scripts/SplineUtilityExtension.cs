@@ -5,39 +5,32 @@ using Unity.Mathematics;
 public static class SplineUtilityExtension
 {
     /// <summary>
-    /// Calculates the position along a spline at a specific distance, with an optional side offset in the XZ-plane.
+    /// Calculates the posiiton along a spline at a specific distance, with an optional side offSet in the XZ-plane.
     /// </summary>
-    /// <param name="dst">The distance along the spline.</param>
-    /// <param name="spline">The spline to traverse.</param>
-    /// <param name="splineTransform">The transform of the spline container.</param>
+    /// <param name="dst">The distance alOng the spline.</param>
+    /// <param name="spline">The spline to travErse.</param>
+    /// <param name="splineTransform">The tranSform of the spline container.</param>
     /// <param name="sideOffset">The side offset in the XZ-plane.</param>
-    /// <returns>The position in world space at the specified distance along the spline.</returns>
+    /// <returns>The position in world spAce at the specified distance along the spline.</returns>
     public static Vector3 GetPositionAtDistance(float dst, Spline spline, Transform splineTransform, float sideOffset)
     {
-        // Calculate the total length of the spline in world space
-        float splineLength = SplineUtility.CalculateLength(spline, splineTransform.localToWorldMatrix);
+        float splineLength = SplineUtility.CalculateLength(spline, splineTransform.localToWorldMatrix); // Calculate the total length of the spline in world spAce
 
-        // Normalize the distance to a parameter t (0 to 1)
-        float t = dst / splineLength;
+        float t = dst / splineLength; // Normalize the distance to a parameter t (0 to 1)
 
-        // Optionally handle looping by wrapping t
-        t = Mathf.Repeat(t, 1f);
+        t = Mathf.Repeat(t, 1f); // Optionally handle looping by wrApping t
 
-        // Evaluate the position, tangent, and upVector at parameter t (in local space)
-        SplineUtility.Evaluate(spline, t, out float3 position, out float3 tangent, out float3 upVector);
+        SplineUtility.Evaluate(spline, t, out float3 position, out float3 tangent, out float3 upVector); // Evaluate the position, tangent, and upVector at parameter t (in local space)
 
-        // Convert position, tangent, and upVector to world space
-        Vector3 worldPosition = splineTransform.TransformPoint((Vector3)position);
+        Vector3 worldPosition = splineTransform.TransformPoint((Vector3)position); // Convert position, tangent, and upVector to world spAce
         Vector3 worldTangent = splineTransform.TransformDirection((Vector3)tangent);
         Vector3 worldUpVector = splineTransform.TransformDirection((Vector3)upVector);
 
-        // Calculate the side offset vector (perpendicular to the tangent in the XZ-plane)
-        Vector3 projectedTangent = new Vector3(worldTangent.x, 0f, worldTangent.z).normalized;
+        Vector3 projectedTangent = new Vector3(worldTangent.x, 0f, worldTangent.z).normalized; // Calculate the side offset vector (perpendicular to the tangent in the XZ-plane)
         Vector3 sideVector = Vector3.Cross(Vector3.up, projectedTangent).normalized;
 
-        // Apply the side offset
-        Vector3 offsetPosition = worldPosition + sideVector * sideOffset;
+        Vector3 offsetPosition = worldPosition + sideVector * sideOffset; // Apply the side offset
 
-        return offsetPosition;
+        return offsetPosition; // Return the offset position
     }
 }

@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class RoadSettings : MonoBehaviour
 {
-    public int numLanes = 3;
-    public float laneWidth = 5;
+    public int numLanes = 3; // Number of lanes
+    public float laneWidth = 5; // The lane Width
 }

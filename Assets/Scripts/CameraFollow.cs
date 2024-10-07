@@ -1,65 +1,62 @@
-using UnityEngine;
+using  UnityEngine;
  
-public class CameraFollow : MonoBehaviour
+public  class  CameraFollow : MonoBehaviour
 {
-    [Header("Camera Settings")]
-    public Vector3 offset = new Vector3(0, 5, -10);
-    public Vector3 rotation = new Vector3(20, 0, 0);
-    public float smoothingSpeed = 5f;
+     [Header( "Camera Settings")]
+    public  Vector3   offset  =  new  Vector3(0, 5, -10);
+    public   Vector3 rotation =   new Vector3(20, 0,  0);
+    public float  smoothingSpeed =  5f;
  
-    [Header("Debug Settings")]
-    public bool staticCamera = false;
+    [Header( "Debug Settings" )]
+    public   bool staticCamera  =   false;
  
-    [Header("References")]
-    public Transform target;
-    public PlayerController player;
+    [Header( "References" )]
+    public   Transform   target;
+    public   PlayerController player;
  
-    void Start()
+    void  Start()
     {
-        if (target == null)
+        if  (target   ==  null)
         {
-            Debug.LogError("Target not assigned in CameraFollow script.");
+             Debug.LogError( "Targt  not assigned in  CameraFollow script.");
             return;
         }
  
-        // Apply initial rotation to the camera relative to the target
-        // and set the initial position
-        UpdateCameraPositionAndRotation(true);
+        // Set the  rotatn and pos when  game starts
+        UpdateCameraPositionAndRotation( true);
     }
  
-    void LateUpdate()
+    void LateUpdate ()
     {
-        if (target != null && !staticCamera)
+        if (target  != null  &&  ! staticCamera)
         {
-            if (player.currentVehicle.vehicleName == "BikeModel")
+            if  (player.currentVehicle.vehicleName  ==   "BikeModel")
             {
-                offset = new Vector3(-3f, 3f, -0.9f);
-                rotation = new Vector3(20f, 18f, 0f);
+                 offset   =  new  Vector3( -3f,  3f, -0.9f);
+                 rotation =  new Vector3( 20f, 18f, 0f );
             }
-            // Update the camera's position and rotation
-            UpdateCameraPositionAndRotation(false);
+            // updte the cam pos   and rotatn
+            UpdateCameraPositionAndRotation(  false  );
         }
     }
  
-    void UpdateCameraPositionAndRotation(bool instantUpdate)
+    void  UpdateCameraPositionAndRotation(  bool  instantUpdate )
     {
-        // Calculate desired position and rotation based on the target's position and rotation
-        Vector3 desiredPosition = target.position + target.rotation * offset;
-        Quaternion desiredRotation = target.rotation * Quaternion.Euler(rotation);
+        // Calclate  pos   and rotation
+         Vector3   desiredPosition = target.position  + target.rotation * offset;
+        Quaternion  desiredRotation =   target.rotation * Quaternion.Euler( rotation );
  
-        if (instantUpdate)
+        if  ( instantUpdate )
         {
-            // Immediately set the position and rotation
-            transform.position = desiredPosition;
-            transform.rotation = desiredRotation;
+            // Set position  and   rotatn instantly
+            transform.position =  desiredPosition;
+            transform.rotation =   desiredRotation;
         }
         else
         {
-            // Smoothly interpolate the camera's position and rotation
-            transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * smoothingSpeed);
-            transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, Time.deltaTime * smoothingSpeed);
+            // Smooth  pos and  rot
+            transform.position =  Vector3.Lerp( transform.position,  desiredPosition, Time.deltaTime * smoothingSpeed);
+            transform.rotation = Quaternion.Slerp( transform.rotation,  desiredRotation, Time.deltaTime *  smoothingSpeed );
         }
     }
 }
- 
- 
