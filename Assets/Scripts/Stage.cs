@@ -140,118 +140,116 @@ public class Stage : MonoBehaviour
         }
     }
  
-    void SwitchLeft()
+   void SwitchLeft()
+{
+    currentIndex--;
+    if (currentIndex < 0)
     {
-        currentIndex--;
-        if (currentIndex < 0)
-        {
-            currentIndex = instantiatedModels.Count - 1;
-        }
-        StartCoroutine(TransitionModels());
-        UpdateSelectedPrice();
+        currentIndex = instantiatedModels.Count - 1;
     }
- 
-    void SwitchRight()
+    StartCoroutine(TransitionModels(() => {
+        UpdateSelectedPrice();
+        UpdateInterface();
+    }));
+}
+
+void SwitchRight()
+{
+    currentIndex++;
+    if (currentIndex >= instantiatedModels.Count)
     {
-        currentIndex++;
-        if (currentIndex > instantiatedModels.Count)
-        {
-            currentIndex = 0;
-        }
-        StartCoroutine(TransitionModels());
-        UpdateSelectedPrice();
+        currentIndex = 0;
     }
- 
+    StartCoroutine(TransitionModels(() => {
+        UpdateSelectedPrice();
+        UpdateInterface();
+    }));
+}
+
     void UpdateSelectedPrice()
     {
         SelectedPrice = prices[currentIndex];
     }
  
-    IEnumerator TransitionModels()
+    IEnumerator TransitionModels(Action onComplete)
+{
+    float elapsedTime = 0f;
+    float duration = transitionTime;
+
+    Vector3[] startPositions = new Vector3[instantiatedModels.Count];
+    Vector3[] endPositions = new Vector3[instantiatedModels.Count];
+
+    Vector3[] startScales = new Vector3[instantiatedModels.Count];
+    Vector3[] endScales = new Vector3[instantiatedModels.Count];
+
+    for (int i = 0; i < instantiatedModels.Count; i++)
     {
-        // Animate the size and position transitions
-        float elapsedTime = 0f;
-        float duration = transitionTime;
- 
-        // Store initial positions and scales
-        Vector3[] startPositions = new Vector3[instantiatedModels.Count];
-        Vector3[] endPositions = new Vector3[instantiatedModels.Count];
- 
-        Vector3[] startScales = new Vector3[instantiatedModels.Count];
-        Vector3[] endScales = new Vector3[instantiatedModels.Count];
- 
-        // Calculate target positions and scales
-        for (int i = 0; i < instantiatedModels.Count; i++)
+        GameObject model = instantiatedModels[i];
+
+        startPositions[i] = model.transform.localPosition;
+        startScales[i] = model.transform.localScale;
+
+        int relativeIndex = (i - currentIndex + instantiatedModels.Count) % instantiatedModels.Count;
+
+        Vector3 targetPosition;
+        Vector3 targetScale;
+
+        if (relativeIndex == 0)
         {
-            GameObject model = instantiatedModels[i];
- 
-            startPositions[i] = model.transform.localPosition;
-            startScales[i] = model.transform.localScale;
- 
-            int relativeIndex = (i - currentIndex + instantiatedModels.Count) % instantiatedModels.Count;
- 
-            Vector3 targetPosition;
-            Vector3 targetScale;
- 
-            if (relativeIndex == 0)
+            targetPosition = centerPosition;
+            targetScale = centerScale;
+        }
+        else if (relativeIndex == 1)
+        {
+            targetPosition = rightPosition;
+            targetScale = sideScale;
+        }
+        else if (relativeIndex == instantiatedModels.Count - 1)
+        {
+            targetPosition = leftPosition;
+            targetScale = sideScale;
+        }
+        else
+        {
+            if (relativeIndex < instantiatedModels.Count / 2)
             {
-                // Center position
-                targetPosition = centerPosition;
-                targetScale = centerScale;
-            }
-            else if (relativeIndex == 1)
-            {
-                // Right position
-                targetPosition = rightPosition;
-                targetScale = sideScale;
-            }
-            else if (relativeIndex == instantiatedModels.Count - 1)
-            {
-                // Left position
-                targetPosition = leftPosition;
-                targetScale = sideScale;
+                targetPosition = offScreenRightPosition;
             }
             else
             {
-                // Offscreen position
-                if (relativeIndex < instantiatedModels.Count / 2)
-                {
-                    targetPosition = offScreenRightPosition;
-                }
-                else
-                {
-                    targetPosition = offScreenLeftPosition;
-                }
-                targetScale = offScreenScale;
+                targetPosition = offScreenLeftPosition;
             }
- 
-            endPositions[i] = targetPosition;
-            endScales[i] = targetScale;
+            targetScale = offScreenScale;
         }
- 
-        // Perform the animation over time
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / duration;
- 
-            for (int i = 0; i < instantiatedModels.Count; i++)
-            {
-                instantiatedModels[i].transform.localPosition = Vector3.Lerp(startPositions[i], endPositions[i], t);
-                instantiatedModels[i].transform.localScale = Vector3.Lerp(startScales[i], endScales[i], t);
-            }
-            yield return null;
-        }
- 
-        // Ensure final positions and scales are set
+
+        endPositions[i] = targetPosition;
+        endScales[i] = targetScale;
+    }
+
+    while (elapsedTime < duration)
+    {
+        elapsedTime += Time.deltaTime;
+        float t = elapsedTime / duration;
+
         for (int i = 0; i < instantiatedModels.Count; i++)
         {
-            instantiatedModels[i].transform.localPosition = endPositions[i];
-            instantiatedModels[i].transform.localScale = endScales[i];
+            instantiatedModels[i].transform.localPosition = Vector3.Lerp(startPositions[i], endPositions[i], t);
+            instantiatedModels[i].transform.localScale = Vector3.Lerp(startScales[i], endScales[i], t);
         }
- 
-        UpdateModelAppearances();
+        yield return null;
     }
+
+    for (int i = 0; i < instantiatedModels.Count; i++)
+    {
+        instantiatedModels[i].transform.localPosition = endPositions[i];
+        instantiatedModels[i].transform.localScale = endScales[i];
+    }
+
+    UpdateModelAppearances();
+
+    onComplete?.Invoke(); // Invoke the callback after the transition is complete
+}
+
  
     void UpdateModelPositions()
     {
