@@ -57,4 +57,3 @@ For support, please contact:
   - Email: [William.Emilsson@hitachigymnasiet.se](mailto:William.Emilsson@hitachigymnasiet.se)
 - **Axel Roxenborg**
   - Email: [Axel.Roxenborg@hitachigymnasiet.se](mailto:Axel.Roxenborg@hitachigymnasiet.se)
-
