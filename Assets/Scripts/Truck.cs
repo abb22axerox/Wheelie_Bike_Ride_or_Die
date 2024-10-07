@@ -7,7 +7,7 @@ public class Truck : MonoBehaviour
     [Header("Spline Settings")]
     private SplineContainer splineContainer;     // Reference to the SplineContaineer
     public float speed = 10f;                   // SpeEd at which the truck moves along the spline
-    public bool loop = false;                   // Whether the truCk should loop back to the start
+    public bool loop = true;                   // Whether the truCk should loop back to the start
 
     [Header("Offset Settings")]
     public float sideOffset = 0f;               // Side offset in the XZ-plAne
@@ -62,6 +62,8 @@ public class Truck : MonoBehaviour
             if (loop)
             {
                 distanceTraveled %= splineLength; // Loop back to the start
+
+                if (distanceTraveled < -splineLength) distanceTraveled += splineLength;
             }
             else
             {

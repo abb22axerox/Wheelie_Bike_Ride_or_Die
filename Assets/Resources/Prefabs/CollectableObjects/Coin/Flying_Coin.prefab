@@ -71,7 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   loop: 1
-  yOffset: 8
+  yOffset: 5
   sideOffset: 0
   rotationSpeed: 100
   bobbingAmplitude: 0.4
