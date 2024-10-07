@@ -6,8 +6,8 @@
 
 **Wheelie Bike: Ride or Die** is an adrenaline-fueled arcade game where you choose between a motorcycle and a car to dodge incoming trucks on a high-speed highway. If you're on a bike, perform continuous wheelies to rack up points and showcase your skills. Collect power-ups like jetpacks, speed boosts, and slow-downs to enhance your ride and survive the chaos.
 
-![Bike Gameplay](BikeGameplayImage.jpg)
-![Car Gameplay](CarGameplayImage.jpg)
+![Bike Gameplay](Images/PlayWithBike.jpg)
+![Car Gameplay](Images/PlayWithCar.jpg)
 
 ## Features
 
@@ -26,7 +26,7 @@
 
 *Controls can be modified in the settings, accessible from the main menu.*
 
-![Changing the controls](ChangeControlsImage.jpg)
+![Changing the controls](Images/Controls.jpg)
 
 - **Gas/Wheelie:** Accelerate your vehicle or perform a wheelie on the bike.
 - **Brake:** Slow down your vehicle.
@@ -35,7 +35,7 @@
 
 ## How to Play
 
-![Selecting a vehicle](VehicleSelectImage.jpg)
+![Selecting a vehicle](Images/Shop.jpg)
 
 1. **Select Your Vehicle:** Choose between a motorcycle (for wheelies) or a car.
 2. **Navigate the Highway:** Use lane switches to avoid trucks.
