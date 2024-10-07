@@ -52,7 +52,7 @@
 For support, please contact:
 
 - **Noah Marklund**
-  - Email: [Noah.marklund@hitachigymnasiet.se](mailto:Noah.marklund@hitachigymnasiet.se)
+  - Email: [Noah.Marklund@hitachigymnasiet.se](mailto:Noah.marklund@hitachigymnasiet.se)
 - **William Emilsson**
   - Email: [William.Emilsson@hitachigymnasiet.se](mailto:William.Emilsson@hitachigymnasiet.se)
 - **Axel Roxenborg**
