@@ -82,6 +82,8 @@ public class   Collectable : MonoBehaviour
             if ( loop )
             {
                 distanceTraveled  %= splineLength;  // Loop back
+
+                if (distanceTraveled < -splineLength) distanceTraveled += splineLength;
             }
             else
             {
