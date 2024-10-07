@@ -1,103 +1,99 @@
 using UnityEngine;
 using TMPro;
 using System;
- 
+
 public class Keybind : MonoBehaviour
 {
-    [Header("Objects")]
-    [SerializeField] private TextMeshProUGUI button1; // Button 1 UI text
-    [SerializeField] private TextMeshProUGUI button2; // Button 2 UI text
-    [SerializeField] private TextMeshProUGUI button3; // Button 3 UI text
-    [SerializeField] private TextMeshProUGUI button4; // Button 4 UI text
- 
-    private TextMeshProUGUI currentButton; // To track which button is being changed
- 
-    // Start is called before the first frame update
+    // These fields are for the button texts, so we can update them in Unity.
+    [SerializeField] private TextMeshProUGUI button1;
+    [SerializeField] private TextMeshProUGUI button2;
+    [SerializeField] private TextMeshProUGUI button3;
+    [SerializeField] private TextMeshProUGUI button4;
+
+    // Keeps track of which button we're currently setting.
+    private TextMeshProUGUI currentButton;
+
     private void Start()
     {
-        // Load saved keys or set default values for each button
+        // Load the saved keybinds or set default values if nothing is saved.
         if (button1 != null)
-            button1.text = PlayerPrefs.GetString("CustomKey1", "w");
+            button1.text = PlayerPrefs.GetString("ForwardButton", "w");  // Default to 'w'
         if (button2 != null)
-            button2.text = PlayerPrefs.GetString("CustomKey2", "s");
+            button2.text = PlayerPrefs.GetString("BackwardButton", "s");  // Default to 's'
         if (button3 != null)
-            button3.text = PlayerPrefs.GetString("CustomKey3", "a");
+            button3.text = PlayerPrefs.GetString("LeftButton", "a");  // Default to 'a'
         if (button4 != null)
-            button4.text = PlayerPrefs.GetString("CustomKey4", "d");
- 
-        PlayerPrefs.SetString("ForwardButton", "w");
-        PlayerPrefs.SetString("BackwardButton", "s");
-        PlayerPrefs.SetString("LeftButton", "a");
-        PlayerPrefs.SetString("RightButton", "d");
+            button4.text = PlayerPrefs.GetString("RightButton", "d");  // Default to 'd'
     }
- 
-    // Update is called once per frame
+
     private void Update()
     {
+        // Check if a button is waiting for a key press (shows "Press Key").
         if (currentButton != null && currentButton.text == "Press Key")
         {
+            // Loop through all possible keys and see if any are pressed.
             foreach (KeyCode keycode in Enum.GetValues(typeof(KeyCode)))
             {
                 if (Input.GetKeyDown(keycode))
                 {
+                    // Set the button text to the pressed key.
                     currentButton.text = keycode.ToString();
- 
-                    // Save the key to the corresponding PlayerPrefs based on which button is being changed
+
+                    // Save the new keybind depending on which button was clicked.
                     if (currentButton == button1)
-                        PlayerPrefs.SetString("ForwardButton", keycode.ToString() == "UpArrow" ? "up" : keycode.ToString().ToLower());
+                        PlayerPrefs.SetString("ForwardButton", keycode.ToString().ToLower());
                     else if (currentButton == button2)
-                        PlayerPrefs.SetString("BackwardButton", keycode.ToString() == "DownArrow" ? "down" : keycode.ToString().ToLower());
+                        PlayerPrefs.SetString("BackwardButton", keycode.ToString().ToLower());
                     else if (currentButton == button3)
-                        PlayerPrefs.SetString("LeftButton", keycode.ToString() == "LeftArrow" ? "left" : keycode.ToString().ToLower());
+                        PlayerPrefs.SetString("LeftButton", keycode.ToString().ToLower());
                     else if (currentButton == button4)
-                        PlayerPrefs.SetString("RightButton", keycode.ToString() == "RightArrow" ? "right" : keycode.ToString().ToLower());
+                        PlayerPrefs.SetString("RightButton", keycode.ToString().ToLower());
+
+                    // Make sure to save the changes.
                     PlayerPrefs.Save();
-                    currentButton = null; // Reset after a key is assigned
+
+                    // Reset currentButton to stop listening for key presses.
+                    currentButton = null;
                     break;
                 }
             }
         }
     }
- 
-    // Method to change the key for button 1
+
+    // Functions to set up new keybindings for each button.
     public void ChangeKey1()
     {
         if (button1 != null)
         {
-            button1.text = "Press Key";
-            currentButton = button1; // Set the current button to button1
+            button1.text = "Press Key";  // Wait for a new key.
+            currentButton = button1;
         }
     }
- 
-    // Method to change the key for button 2
+
     public void ChangeKey2()
     {
         if (button2 != null)
         {
-            button2.text = "Press Key";
-            currentButton = button2; // Set the current button to button2
+            button2.text = "Press Key";  // Wait for a new key.
+            currentButton = button2;
         }
     }
- 
-    // Method to change the key for button 3
+
     public void ChangeKey3()
     {
         if (button3 != null)
         {
-            button3.text = "Press Key";
-            currentButton = button3; // Set the current button to button3
+            button3.text = "Press Key";  // Wait for a new key.
+            currentButton = button3;
         }
     }
- 
-    // Method to change the key for button 4
+
     public void ChangeKey4()
     {
         if (button4 != null)
         {
-            button4.text = "Press Key";
-            currentButton = button4; // Set the current button to button4
+            button4.text = "Press Key";  // Wait for a new key.
+            currentButton = button4;
         }
     }
 }
- 
- 

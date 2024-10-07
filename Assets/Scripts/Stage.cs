@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
  
 public class Stage : MonoBehaviour
@@ -33,6 +34,9 @@ public class Stage : MonoBehaviour
     public Vector3 centerScale = Vector3.one * 1.5f;
     public Vector3 sideScale = Vector3.one;
     public Vector3 offScreenScale = Vector3.one * 0.5f;
+
+    public Button leftScrollButton;
+    public Button rightScrollButton;
  
     private string LeftButton;
     private string RightButton;
@@ -48,6 +52,9 @@ public class Stage : MonoBehaviour
     {
         LeftButton = PlayerPrefs.GetString("LeftButton", "LeftArrow");
         RightButton = PlayerPrefs.GetString("RightButton", "RightArrow");
+
+        leftScrollButton.onClick.AddListener(SwitchLeft);
+        rightScrollButton.onClick.AddListener(SwitchRight);
  
         // Load ownedStatus data
         LoadOwnedStatus();
@@ -57,43 +64,43 @@ public class Stage : MonoBehaviour
  
         // Instantiate all models and add them to the list
         for (int i = 0; i < models.Length; i++)
+    {
+        GameObject model = Instantiate(models[i], transform);
+        instantiatedModels.Add(model);
+
+        // Find the LockSymbol child and store it
+        Transform lockSymbolTransform = model.transform.Find("LockSymbol");
+        if (lockSymbolTransform != null)
         {
-            GameObject model = Instantiate(models[i], transform);
-            instantiatedModels.Add(model);
- 
-            // Find the LockSymbol child and store it
-            Transform lockSymbolTransform = model.transform.Find("LockSymbol");
-            if (lockSymbolTransform != null)
-            {
-                lockSymbols.Add(lockSymbolTransform.gameObject);
-            }
-            else
-            {
-                // If no LockSymbol is found, add null to keep list indices aligned
-                lockSymbols.Add(null);
-            }
- 
-            // Store the original color of the model's material
-            Renderer renderer = model.GetComponent<Renderer>();
-            if (renderer != null)
-            {
-                Material material = renderer.material; // This creates an instance of the material
-                originalColors.Add(material.color);
-            }
-            else
-            {
-                // If no renderer found, add default color
-                originalColors.Add(Color.white);
-            }
+            lockSymbols.Add(lockSymbolTransform.gameObject);
         }
- 
-        // Update models based on the current index
-        UpdateModelPositions();
-        UpdateSelectedPrice();
-        UpdateModelAppearances();
- 
-        OnPurchase();
+        else
+        {
+            // If no LockSymbol is found, add null to keep list indices aligned
+            lockSymbols.Add(null);
+        }
+
+        // Store the original color of the model's material
+        Renderer renderer = model.GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            Material material = renderer.material; // This creates an instance of the material
+            originalColors.Add(material.color);
+        }
+        else
+        {
+            // If no renderer found, add default color
+            originalColors.Add(Color.white);
+        }
     }
+
+    // Update models based on the current index
+    UpdateModelPositions();
+    UpdateSelectedPrice();
+    UpdateModelAppearances();
+
+    OnPurchase();
+}
  
     void Update()
     {
